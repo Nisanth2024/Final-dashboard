@@ -1,20 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/lib/useTranslation";
 import { motion } from "framer-motion";
+import { ArrowRight, Bell, FileText, Users, Clock } from "lucide-react";
 
-export function NotificationPanel({ language, setLanguage }: { language: 'en' | 'es' | 'fr', setLanguage: (lang: 'en' | 'es' | 'fr') => void }) {
+export function NotificationPanel({ language }: { language: 'en' | 'es' | 'fr', setLanguage: (lang: 'en' | 'es' | 'fr') => void }) {
   const t = useTranslation(language);
-  // Placeholder navigation function
-  const goToProFeatures = useCallback(() => {
-    window.open('/pro', '_blank');
-  }, []);
-  const goToCandidates = useCallback(() => {
-    window.location.href = '/candidates';
-  }, []);
-  const goToDashboard = useCallback(() => {
-    window.location.href = '/dashboard';
-  }, []);
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState<null | (() => void)>(null);
@@ -26,12 +19,7 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
       title: t.proMode,
       message: t.allPremium,
       time: 'Just now',
-      icon: (
-        <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <rect x="2" y="7" width="20" height="10" rx="5" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="17" cy="12" r="3" fill="currentColor" />
-        </svg>
-      ),
+      icon: <Bell className="w-4 h-4 text-black" />,
       action: () => window.open('/pro', '_blank'),
       actionLabel: t.proMode,
     },
@@ -39,9 +27,7 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
       title: t.newCandidate,
       message: t.newCandidateDesc,
       time: '5 min ago',
-      icon: (
-        <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
-      ),
+      icon: <Users className="w-4 h-4 text-black" />,
       action: () => window.location.href = '/candidates',
       actionLabel: t.newCandidate,
     },
@@ -49,9 +35,7 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
       title: t.phaseDeadline,
       message: t.phaseDeadlineDesc,
       time: '1 hour ago',
-      icon: (
-        <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V7a8 8 0 1 0-16 0v5c0 6 8 10 8 10z"/></svg>
-      ),
+      icon: <Clock className="w-4 h-4 text-black" />,
       action: () => window.location.href = '/dashboard',
       actionLabel: t.phaseDeadline,
     },
@@ -151,8 +135,51 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
         scale: 1.02,
         transition: { duration: 0.2, ease: 'easeOut' }
       }}
-      className="rounded-2xl p-2 sm:p-4 md:p-1 shadow hover:shadow-md transition-all duration-200 bg-white flex flex-col justify-between min-h-[100px] sm:min-h-[180px] md:min-h-[220px] w-full h-60 max-w-full"
+      className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full"
     >
+      <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full">
+        <CardHeader className="pb-0 px-3 sm:px-2 md:px-3 lg:px-3 xl:px-4">
+          <CardTitle className="text-xs sm:text-sm md:text-sm lg:text-base xl:text-lg font-semibold mb-0 -mt-2">Notifications</CardTitle>
+        </CardHeader>
+        
+        <CardContent className="flex-1 space-y-0 px-2 sm:px-2 md:px-3 lg:px-3 xl:px-4 pt-0 pb-[-20px] -mt-7">
+          {allNotifications.map((notification, index) => (
+            <div key={index} className="flex items-center gap-1.5 p-1 sm:p-1 md:p-1.5 lg:p-2 xl:p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => handleConfirm(notification.action, index === 0 ? 'pro' : index === 1 ? 'candidates' : 'dashboard')}>
+              <div className="flex-shrink-0">
+                {notification.icon}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm xl:text-sm font-medium leading-tight">{notification.title}</p>
+                <p className="text-[8px] sm:text-[9px] md:text-xs lg:text-xs xl:text-xs text-gray-500 truncate">{notification.message}</p>
+              </div>
+              <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4 text-gray-400 flex-shrink-0" />
+            </div>
+          ))}
+        </CardContent>
+        
+        <CardFooter className="pt-0 px-2 sm:px-2 md:px-3 lg:px-3 xl:px-4 pb-1.5 sm:pb-1.5 md:pb-2 lg:pb-2.5 xl:pb-3 -mt-4">
+          <div className="flex items-center md:mt[-20px] w-full">
+            <Button 
+              size="sm" 
+              className="flex-1 bg-black text-white hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm h-6 sm:h-6 md:h-7 lg:h-7 xl:h-8"
+              onClick={() => setAllOpen(true)}
+            >
+              <span className="truncate">See All Notifications</span>
+              <ArrowRight className="ml-1 w-3 h-3 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4" />
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline"
+              className="bg-white text-black border border-gray-200 hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm h-6 sm:h-6 md:h-7 lg:h-7 xl:h-8"
+              onClick={() => setNotesOpen(true)}
+            >
+              <FileText className="w-2.5 h-2.5 mr-1 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4" />
+              <span className="truncate">Notes</span>
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+
       {/* Confirmation Dialog */}
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <DialogContent className="max-w-xs w-full sm:max-w-sm">
@@ -162,13 +189,19 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
           <div className="py-2 text-sm">{confirmMessage}</div>
           <DialogFooter>
             <DialogClose asChild>
-              <button className="bg-gray-200 text-black rounded px-3 py-1 mr-2" type="button">Cancel</button>
+              <Button variant="outline" className="bg-gray-200 text-black">
+                Cancel
+              </Button>
             </DialogClose>
-            <button className="bg-black text-white rounded px-3 py-1" type="button" onClick={handleProceed}>Proceed</button>
+            <Button 
+              className="bg-black text-white hover:bg-emerald-700 hover:text-white"
+              onClick={handleProceed}
+            >
+              Proceed
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-     
      
       {/* See All Notifications Modal */}
       <Dialog open={allOpen} onOpenChange={setAllOpen}>
@@ -188,23 +221,29 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
                     <div className="text-gray-500 text-xs mb-0.5 break-words">{n.message}</div>
                     <div className="text-xs text-gray-400">{n.time}</div>
                   </div>
-                  <button
-                    className="absolute bottom-2 right-2 bg-black text-white text-xs rounded px-2 py-1 hover:bg-emerald-700 transition-colors"
+                  <Button
+                    size="sm"
+                    className="bg-black text-white hover:bg-emerald-700 hover:text-white text-xs"
                     onClick={n.action}
                   >
                     {n.actionLabel}
-                  </button>
+                  </Button>
                 </div>
               ))
             )}
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <button className="bg-black text-white rounded px-3 py-1 mt-2 w-full" type="button">Close</button>
+              <Button 
+                className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full"
+              >
+                Close
+              </Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      
       {/* Notes Modal */}
       <Dialog open={notesOpen} onOpenChange={setNotesOpen}>
         <DialogContent className="max-w-md w-full sm:max-w-lg">
@@ -230,13 +269,13 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
               value={newNote}
               onChange={e => setNewNote(e.target.value)}
             />
-            <button
-              className="bg-black text-white rounded px-3 py-1 text-xs sm:text-sm hover:bg-emerald-700 transition-colors w-full"
+            <Button
+              className="bg-black text-white hover:bg-emerald-700 hover:text-white text-xs sm:text-sm w-full"
               onClick={handleAddNote}
               disabled={!newNote.trim()}
             >
               Save Note
-            </button>
+            </Button>
             <div className="max-h-40 overflow-y-auto space-y-2">
               {notes.filter(n => n.candidateId === selectedCandidate).length === 0 ? (
                 <div className="text-center text-gray-400 py-4">No notes yet for this candidate.</div>
@@ -251,8 +290,8 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
                           onChange={e => setEditText(e.target.value)}
                         />
                         <div className="flex gap-1 mt-1">
-                          <button className="bg-green-600 text-white rounded px-2 py-0.5 text-xs" onClick={() => handleSaveEdit(idx)}>Save</button>
-                          <button className="bg-gray-300 text-black rounded px-2 py-0.5 text-xs" onClick={handleCancelEdit}>Cancel</button>
+                          <Button size="sm" className="bg-green-600 text-white text-xs" onClick={() => handleSaveEdit(idx)}>Save</Button>
+                          <Button size="sm" variant="outline" className="bg-gray-300 text-black text-xs" onClick={handleCancelEdit}>Cancel</Button>
                         </div>
                       </>
                     ) : (
@@ -260,8 +299,8 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
                         <div>{note.text}</div>
                         <div className="text-gray-400 text-[10px] mt-1">{new Date(note.createdAt).toLocaleString()}</div>
                         <div className="absolute top-2 right-2 flex gap-1">
-                          <button className="text-xs text-blue-600 hover:underline" onClick={() => handleEditNote(idx)}>Edit</button>
-                          <button className="text-xs text-red-600 hover:underline" onClick={() => handleDeleteNote(idx)}>Delete</button>
+                          <Button size="sm" variant="ghost" className="text-xs text-blue-600 hover:underline p-0 h-auto" onClick={() => handleEditNote(idx)}>Edit</Button>
+                          <Button size="sm" variant="ghost" className="text-xs text-red-600 hover:underline p-0 h-auto" onClick={() => handleDeleteNote(idx)}>Delete</Button>
                         </div>
                       </>
                     )}
@@ -272,77 +311,15 @@ export function NotificationPanel({ language, setLanguage }: { language: 'en' | 
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <button className="bg-black text-white rounded px-3 py-1 mt-2 w-full" type="button">Close</button>
+              <Button 
+                className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full"
+              >
+                Close
+              </Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {/* Notification Card UI */}
-      <div className="flex flex-col gap-0 sm:gap-0 md:gap-0 p-1 sm:p-0 flex-1 w-full">
-        {/* Notification 1: PRO mode activated */}
-        <button
-          type="button"
-          className="flex items-center gap-0.5 sm:gap-1 bg-white rounded-md p-0.5 sm:p-1 w-full text-left hover:bg-gray-200 focus:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-black transition-all duration-150 cursor-pointer min-h-[20px]"
-          aria-label={t.proMode}
-          onClick={() => handleConfirm(goToProFeatures, 'pro')}
-        >
-          <div className="bg-white rounded-md p-0.5 sm:p-1 flex items-center justify-center flex-shrink-0">
-            <svg className="w-2 h-2 sm:w-3 sm:h-3 text-black sm:text-black md:text-black" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <rect x="2" y="7" width="20" height="10" rx="5" stroke="currentColor" strokeWidth="2"/>
-              <circle cx="17" cy="12" r="3" fill="currentColor" />
-             </svg>
-           </div>
-          <div className="flex-1 min-w-0">
-            <div className="font-bold text-[10px] sm:text-[11px] leading-tight">{t.proMode}</div>
-            <div className="text-gray-500 text-[9px] truncate">{t.allPremium}</div>
-          </div>
-          <svg className="w-3 h-3 text-gray-700 ml-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </button>
-        {/* Notification 2: New Candidate Added */}
-        <button
-          type="button"
-          className="flex items-center gap-0.5 sm:gap-1 bg-white rounded-md p-0.5 sm:p-1 w-full text-left hover:bg-gray-300 focus:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-all duration-150 cursor-pointer min-h-[32px]"
-          aria-label={t.newCandidate}
-          onClick={() => handleConfirm(goToCandidates, 'candidates')}
-        >
-          <div className="bg-white rounded-md p-0.5 flex items-center justify-center flex-shrink-0">
-            <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
-           </div>
-          <div className="flex-1 min-w-0">
-            <div className="font-bold text-[10px] sm:text-[11px] leading-tight">{t.newCandidate}</div>
-            <div className="text-gray-500 text-[9px] truncate">{t.newCandidateDesc}</div>
-          </div>
-          <svg className="w-3 h-3 text-gray-700 ml-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </button>
-        {/* Notification 3: Phase Deadline Soon */}
-        <button
-          type="button"
-          className="flex items-center gap-0.5 sm:gap-1 bg-white rounded-md p-0.5 sm:p-1 w-full text-left hover:bg-gray-200 focus:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-all duration-150 cursor-pointer min-h-[32px]"
-          aria-label={t.phaseDeadline}
-          onClick={() => handleConfirm(goToDashboard, 'dashboard')}
-        >
-          <div className="bg-white rounded-md p-0.5 flex items-center justify-center flex-shrink-0">
-            <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V7a8 8 0 1 0-16 0v5c0 6 8 10 8 10z"/></svg>
-           </div>
-          <div className="flex-1 min-w-0">
-            <div className="font-bold text-[10px] sm:text-[11px] leading-tight">{t.phaseDeadline}</div>
-            <div className="text-gray-500 text-[9px] truncate">{t.phaseDeadlineDesc}</div>
-          </div>
-          <svg className="w-3 h-3 text-gray-700 ml-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </button>
-         {/* Divider */}
-      <div className="border-t border-gray-200 my-2.5"></div>
-        {/* Buttons row at the bottom */}
-        <div className="flex items-center gap-1 mt-4 flex-wrap w-full">
-          <button className="flex-1 flex items-center bg-black text-white rounded-lg py-1 px-2 font-medium text-xs sm:text-xs md:text-xs hover:bg-gray-900 transition-colors min-w-[90px] md:min-w-[80px] h-8 md:h-10" onClick={() => setAllOpen(true)}>
-            {t.seeAllNotifications} <svg className="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-          </button>
-          <button className="flex items-center justify-center bg-white text-black rounded-lg py-1 px-2 font-medium text-xs sm:text-xs md:text-sm border border-gray-200 hover:bg-gray-100 transition-colors min-w-[50px] md:min-w-[80px] h-8 md:h-9" onClick={() => setNotesOpen(true)}>
-            <svg className="w-2 h-2 sm:w-3.5 sm:h-3.5 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 9h8M8 13h6"/></svg>
-            {t.notes}
-          </button>
-        </div>
-      </div>
     </motion.div>
   );
 } 

@@ -1,12 +1,14 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { ChevronLeft, Mail, Phone, Calendar, MapPin, Star, Eye, MessageSquare, Download, Filter as FilterIcon, MoreHorizontal } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { ChevronLeft, Mail, Phone, Calendar, MapPin, Star, Eye, MessageSquare, Download, Filter as FilterIcon, MoreHorizontal, Send } from "lucide-react"
 import { useState } from "react"
 // No need to import Candidate or DialogProps
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription, DialogClose } from "@/components/ui/dialog"
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -480,6 +482,7 @@ export function CandidatesView({
           </CardContent>
         </Card>
       </div>
+      
       {/* Candidates List */}
         <div className="flex flex-col gap-3 w-full">
         {(filteredCandidates && filteredCandidates.length === 0) ? (
@@ -574,19 +577,33 @@ export function CandidatesView({
           ))
         )}
       </div>
+      
       {/* Delete confirmation dialog */}
-      {deleteDialogOpen !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-xs flex flex-col items-center">
-            <div className="font-bold text-lg mb-2">Delete Candidate</div>
-            <div className="text-gray-600 mb-4 text-center">Are you sure you want to delete this candidate?</div>
-            <div className="flex space-x-2">
+      <Dialog open={deleteDialogOpen !== null} onOpenChange={() => setDeleteDialogOpen(null)}>
+        <DialogContent className="max-w-xs">
+          <DialogHeader>
+            <DialogTitle>Delete Candidate</DialogTitle>
+            <DialogDescription>Are you sure you want to delete this candidate?</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
               <Button variant="outline" className="hover:bg-emerald-700" onClick={() => setDeleteDialogOpen(null)}>Cancel</Button>
-              <Button variant="destructive" className="hover:bg-emerald-700" onClick={() => { if (onDeleteCandidate && typeof deleteDialogOpen === 'number') { onDeleteCandidate(deleteDialogOpen); } setDeleteDialogOpen(null); }}>Delete</Button>
-            </div>
-          </div>
-        </div>
-      )}
+            <Button 
+              variant="destructive" 
+              className="bg-red-600 hover:bg-red-700" 
+              onClick={() => { 
+                if (onDeleteCandidate && typeof deleteDialogOpen === 'number') { 
+                  onDeleteCandidate(deleteDialogOpen); 
+                } 
+                setDeleteDialogOpen(null); 
+              }}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Preview Candidate Dialog */}
       {previewCandidate && (
         <Dialog open={!!previewCandidate} onOpenChange={() => setPreviewCandidate(null)}>
           <DialogContent className="max-w-md">
@@ -621,9 +638,18 @@ export function CandidatesView({
                 </div>
               </div>
             )}
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full">
+                  Close
+                </Button>
+              </DialogClose>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       )}
+      
+      {/* Comments Dialog */}
       {commentsCandidate && (
         <Dialog open={!!commentsCandidate} onOpenChange={() => { setCommentsCandidate(null); setNewComment(""); }}>
           <DialogContent className="max-w-md">
@@ -656,18 +682,28 @@ export function CandidatesView({
                 setNewComment("");
               }}
             >
-              <input
+              <Input
                 type="text"
-                className="flex-1 border rounded px-2 py-1 text-sm"
+                className="flex-1"
                 placeholder="Add a comment..."
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
               />
-              <Button type="submit" size="sm" className="px-3 hover:bg-emerald-700">Send</Button>
+              <Button type="submit" size="sm" className="px-3 bg-black text-white hover:bg-emerald-700 hover:text-white">
+                <Send className="w-4 h-4" />
+              </Button>
             </form>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full">
+                  Close
+                </Button>
+              </DialogClose>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       )}
+      
       {/* Filter Panel Dialog */}
       <Dialog open={filterOpen} onOpenChange={setFilterOpen}>
         <DialogContent className="max-w-md">
@@ -677,7 +713,7 @@ export function CandidatesView({
           </DialogHeader>
           <div className="flex flex-col gap-4">
             <div>
-              <div className="font-semibold text-sm mb-2">Status</div>
+              <Label className="font-semibold text-sm mb-2">Status</Label>
               <div className="flex flex-wrap gap-2">
                 {['pending', 'reviewed', 'shortlisted', 'rejected'].map(status => (
                   <label key={status} className="flex items-center gap-2 text-xs capitalize">
@@ -694,7 +730,7 @@ export function CandidatesView({
               </div>
             </div>
             <div>
-              <div className="font-semibold text-sm mb-2">Department</div>
+              <Label className="font-semibold text-sm mb-2">Department</Label>
               <Select value={filterDept} onValueChange={setFilterDept}>
                 <SelectTrigger className="bg-gray-100 text-black h-8 px-2 text-xs flex items-center gap-1 min-w-[120px]">
                   <SelectValue placeholder="Select Department" />
@@ -708,7 +744,7 @@ export function CandidatesView({
             </div>
     </div>
           <DialogFooter>
-            <Button className="bg-black hover:bg-emerald-700 text-xs" onClick={() => setFilterOpen(false)}>Apply</Button>
+            <Button className="bg-black hover:bg-emerald-700 text-white text-xs" onClick={() => setFilterOpen(false)}>Apply</Button>
             <Button variant="ghost" className="text-xs" onClick={() => setFilterOpen(false)}>Cancel</Button>
           </DialogFooter>
         </DialogContent>

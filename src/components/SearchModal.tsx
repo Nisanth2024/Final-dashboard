@@ -10,9 +10,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search } from "lucide-react";
 import { allCandidates, type Candidate } from "./CandidatesView";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 
 interface SearchModalProps {
   open: boolean;

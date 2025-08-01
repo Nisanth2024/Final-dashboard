@@ -7,8 +7,10 @@ import { CandidatesView } from "./components/CandidatesView";
 import { InterviewsView } from "./components/InterviewsView";
 import { allCandidates, type Candidate } from "./components/CandidatesView";
 import { AddPersonModal } from "./components/AddPersonModal";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { HelpCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { HelpCircle, X, Bell, UserPlus, Clock } from "lucide-react";
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -254,17 +256,17 @@ export default function Dashboard() {
           {/* Notification Panel Header */}
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">Notifications</h2>
-            <button 
+            <Button 
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 setIsNotificationOpen(false)
                 setShowAllNotifications(false)
               }}
               className="p-2 hover:bg-gray-100 rounded-lg"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+              <X className="w-5 h-5" />
+            </Button>
           </div>
           {/* Notification Content */}
           <div className={`flex-1 p-4 ${showAllNotifications ? 'overflow-y-auto' : 'overflow-hidden'}`}>
@@ -286,9 +288,7 @@ export default function Dashboard() {
                 <>
                   <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer" onClick={() => setAddPersonModalOpen(true)}>
                     <div className="w-4 h-4 text-green-600 mt-0.5">
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                      </svg>
+                      <UserPlus className="w-4 h-4" />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">New candidate added</p>
@@ -297,9 +297,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50">
                     <div className="w-4 h-4 text-orange-600 mt-0.5">
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM4.19 4.19A4 4 0 004 6v6a4 4 0 004 4h6a4 4 0 004-4V6a4 4 0 00-4-4H8a4 4 0 00-2.81 1.19z" />
-                      </svg>
+                      <Clock className="w-4 h-4" />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Phase deadline soon</p>
@@ -313,18 +311,20 @@ export default function Dashboard() {
           {/* Notification Panel Footer */}
           <div className="p-4 border-t">
             <div className="flex space-x-2">
-              <button 
+              <Button 
                 onClick={handleSeeAllNotifications}
-                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3 rounded-lg transition-colors"
+                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
               >
                 {showAllNotifications ? 'Show less' : 'See all notifications'}
-              </button>
-              <button 
-                className="text-xs py-2 px-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              </Button>
+              <Button 
+                variant="outline"
+                size="sm"
+                className="text-xs py-2 px-3 border border-gray-300 hover:bg-gray-50"
                 onClick={() => setNotesOpen(true)}
               >
                 Notes
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -334,17 +334,17 @@ export default function Dashboard() {
         <div className="hidden md:block fixed top-20 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl border animate-fade-in">
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">Notifications</h2>
-            <button 
+            <Button 
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 setIsNotificationOpen(false)
                 setShowAllNotifications(false)
               }}
               className="p-2 hover:bg-gray-100 rounded-lg"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+              <X className="w-5 h-5" />
+            </Button>
           </div>
           <div className={`flex-1 p-4 ${showAllNotifications ? 'overflow-y-auto' : 'overflow-hidden'}`}>
             <div className="space-y-4">
@@ -364,9 +364,7 @@ export default function Dashboard() {
                 <>
                   <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50">
                     <div className="w-4 h-4 text-green-600 mt-0.5">
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                      </svg>
+                      <UserPlus className="w-4 h-4" />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">New candidate added</p>
@@ -375,9 +373,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50">
                     <div className="w-4 h-4 text-orange-600 mt-0.5">
-                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM4.19 4.19A4 4 0 004 6v6a4 4 0 004 4h6a4 4 0 004-4V6a4 4 0 00-4-4H8a4 4 0 00-2.81 1.19z" />
-                      </svg>
+                      <Clock className="w-4 h-4" />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Phase deadline soon</p>
@@ -390,15 +386,20 @@ export default function Dashboard() {
           </div>
           <div className="p-4 border-t">
             <div className="flex space-x-2">
-              <button 
+              <Button 
                 onClick={handleSeeAllNotifications}
-                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3 rounded-lg transition-colors"
+                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
               >
                 {showAllNotifications ? 'Show less' : 'See all notifications'}
-              </button>
-              <button className="text-xs py-2 px-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+              </Button>
+              <Button 
+                variant="outline"
+                size="sm"
+                className="text-xs py-2 px-3 border border-gray-300 hover:bg-gray-50"
+                onClick={() => setNotesOpen(true)}
+              >
                 Notes
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -421,22 +422,24 @@ export default function Dashboard() {
             Add, view, or edit private notes related to candidates, interview rounds, questions, sections, or interviewers.
           </div>
           <div className="space-y-2 mb-2">
-            <textarea
-              className="w-full border rounded p-2 text-sm"
+            <Textarea
+              className="w-full"
               rows={3}
               placeholder="Add a new note..."
               value={newNote}
               onChange={e => setNewNote(e.target.value)}
             />
-            <button
-              className="bg-black text-white px-3 py-1 rounded hover:bg-emerald-700 text-xs"
+            <Button
+              className="bg-black text-white px-3 py-1 hover:bg-emerald-700 text-xs"
               onClick={() => {
                 if (newNote.trim()) {
                   setNotes([newNote, ...notes]);
                   setNewNote("");
                 }
               }}
-            >Add Note</button>
+            >
+              Add Note
+            </Button>
           </div>
           <div className="max-h-40 overflow-y-auto space-y-2">
             {notes.length === 0 ? (
@@ -445,13 +448,24 @@ export default function Dashboard() {
               notes.map((note, idx) => (
                 <div key={idx} className="bg-gray-100 rounded p-2 text-xs flex justify-between items-center">
                   <span>{note}</span>
-                  <button className="text-red-500 ml-2 text-xs" onClick={() => setNotes(notes.filter((_, i) => i !== idx))}>Delete</button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-red-500 ml-2 text-xs p-0 h-auto" 
+                    onClick={() => setNotes(notes.filter((_, i) => i !== idx))}
+                  >
+                    Delete
+                  </Button>
                 </div>
               ))
             )}
           </div>
           <DialogFooter>
-            <button className="text-xs px-3 py-1 border rounded hover:bg-gray-100" onClick={() => setNotesOpen(false)}>Close</button>
+            <DialogClose asChild>
+              <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-gray-100">
+                Close
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -476,7 +490,11 @@ export default function Dashboard() {
             </ul>
           </div>
           <DialogFooter>
-            <button className="text-xs px-3 py-1 border rounded hover:bg-gray-100" onClick={() => setHelpOpen(false)}>Close</button>
+            <DialogClose asChild>
+              <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-gray-100">
+                Close
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>

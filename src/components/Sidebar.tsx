@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Home, Users, Settings, X, LogOut, Bell, UserPlus } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Home, Users, Settings, X, LogOut, Bell, UserPlus, Upload } from "lucide-react"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { useState } from "react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
 import { useTranslation } from "@/lib/useTranslation"
 import { motion } from "framer-motion"
 
@@ -152,15 +153,15 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                   <DialogTitle>{t.addDepartment}</DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col gap-2">
-                  <input
+                  <Input
                     className="border rounded px-2 py-1 text-sm"
                     placeholder={t.addDepartment}
                     value={newDeptName}
                     onChange={e => setNewDeptName(e.target.value)}
                     autoFocus
                   />
-            <div className="flex items-center gap-2">
-                    <label className="text-xs">{t.color}:</label>
+                  <div className="flex items-center gap-2">
+                    <Label className="text-xs">{t.color}:</Label>
                     <input
                       type="color"
                       value={newDeptColor}
@@ -168,9 +169,10 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                       className="w-6 h-6 p-0 border-none bg-transparent"
                     />
                   </div>
-            </div>
+                </div>
                 <DialogFooter>
                   <Button
+                    className="bg-black text-white hover:bg-emerald-700"
                     onClick={() => {
                       if (newDeptName.trim()) {
                         setDepartments([...departments, { name: newDeptName, color: newDeptColor }]);
@@ -180,7 +182,9 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                       }
                     }}
                     disabled={!newDeptName.trim()}
-                  >{t.add}</Button>
+                  >
+                    {t.add}
+                  </Button>
                   <DialogClose asChild>
                     <Button variant="ghost" className="hover:bg-emerald-700">{t.cancel}</Button>
                   </DialogClose>
@@ -249,34 +253,34 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                 <AvatarFallback className="text-xs">AC</AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium truncate">{user ? user.name : t.userProfile}</p>
-                    <p className="text-xs text-gray-500 truncate">{user ? user.email : "user@example.com"}</p>
-                  </div>
+                <p className="text-xs font-medium truncate">{user ? user.name : t.userProfile}</p>
+                <p className="text-xs text-gray-500 truncate">{user ? user.email : "user@example.com"}</p>
+              </div>
               <Button variant="ghost" size="icon" className="hover:bg-emerald-700" aria-label="Logout" onClick={user ? () => setUser(null) : undefined} disabled={!user}>
-                    <LogOut className="w-5 h-5 text-gray-400" />
-                  </Button>
-                </div>
+                <LogOut className="w-5 h-5 text-gray-400" />
+              </Button>
+            </div>
           </div>
           <Dialog open={profileModalOpen} onOpenChange={setProfileModalOpen}>
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>{user ? 'Edit Profile' : t.login}</DialogTitle>
               </DialogHeader>
-                    <form
+              <form
                 className="space-y-3"
-                      onSubmit={e => {
-                        e.preventDefault();
-                        if (loginName && loginEmail && loginPassword) {
-                          setUser({ name: loginName, email: loginEmail });
-                          setLoginName("");
-                          setLoginEmail("");
-                          setLoginPassword("");
+                onSubmit={e => {
+                  e.preventDefault();
+                  if (loginName && loginEmail && loginPassword) {
+                    setUser({ name: loginName, email: loginEmail });
+                    setLoginName("");
+                    setLoginEmail("");
+                    setLoginPassword("");
                     setProfileModalOpen(false);
-                        }
-                      }}
-                    >
+                  }
+                }}
+              >
                 <div className="flex flex-col items-center gap-2">
-                  <label htmlFor="profile-pic-upload" className="cursor-pointer">
+                  <Label htmlFor="profile-pic-upload" className="cursor-pointer">
                     <Avatar className="w-16 h-16">
                       <AvatarImage src={profilePic || "https://randomuser.me/api/portraits/men/65.jpg"} />
                       <AvatarFallback className="text-xs">{user ? user.name.split(' ').map(n => n[0]).join('') : "AC"}</AvatarFallback>
@@ -295,21 +299,24 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                         }
                       }}
                     />
-                    <span className="block text-xs text-gray-500 mt-1">{'Upload Profile Picture'}</span>
-                  </label>
+                    <span className="block text-xs text-gray-500 mt-1 flex items-center gap-1">
+                      <Upload className="w-3 h-3" />
+                      Upload Profile Picture
+                    </span>
+                  </Label>
                 </div>
-                      <div>
-                        <label className="block text-xs font-medium mb-1">{t.profileName}</label>
+                <div>
+                  <Label className="block text-xs font-medium mb-1">{t.profileName}</Label>
                   <Input type="text" placeholder={t.profileName} className="text-xs" value={user ? user.name : loginName} onChange={e => user ? setUser({ ...user, name: e.target.value }) : setLoginName(e.target.value)} />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium mb-1">{t.email}</label>
+                </div>
+                <div>
+                  <Label className="block text-xs font-medium mb-1">{t.email}</Label>
                   <Input type="email" placeholder={t.email} className="text-xs" value={user ? user.email : loginEmail} onChange={e => user ? setUser({ ...user, email: e.target.value }) : setLoginEmail(e.target.value)} />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium mb-1">{t.password}</label>
-                        <Input type="password" placeholder={t.password} className="text-xs" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
-                      </div>
+                </div>
+                <div>
+                  <Label className="block text-xs font-medium mb-1">{t.password}</Label>
+                  <Input type="password" placeholder={t.password} className="text-xs" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
+                </div>
                 <Button type="submit" className="w-full bg-black text-white hover:bg-emerald-700 text-xs mt-2">{user ? 'Save' : t.login}</Button>
                 <Button
                   className={`w-full text-xs mt-2 ${user ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-gray-300 text-gray-400 cursor-not-allowed'}`}
@@ -325,9 +332,9 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                   }}
                   disabled={!user}
                 >
-                  {'Logout'}
+                  Logout
                 </Button>
-                    </form>
+              </form>
             </DialogContent>
           </Dialog>
         </div>

@@ -1,6 +1,11 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MoreHorizontal, Edit, Trash2 } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Plus, MoreHorizontal, Edit, Trash2, Save, X } from "lucide-react"
 import { useState } from "react"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Fragment } from "react"
@@ -108,8 +113,8 @@ export function InterviewOverview({ language }: { language: 'en' | 'es' | 'fr', 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white transition-colors">
-            <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5" />
-          </Button>
+                <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5" />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem className="text-red-600" onClick={() => setQuestions([])}>
@@ -119,28 +124,32 @@ export function InterviewOverview({ language }: { language: 'en' | 'es' | 'fr', 
           </DropdownMenu>
         </div>
       </div>
-      <Card className="rounded-2xl p-1 md:p-1.5 shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col md:-mt-[-18px]">
+      
+      <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col md:-mt-[-18px]">
         <CardContent className="space-y-2 p-2">
           <div className="space-y-2">
             {/* Previous Background Section */}
             <div>
-              <h3 className="text-base md:text-lg lg:text-xl font-medium mb-1">{t.previousBackground || "Previous Background"}</h3>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base md:text-lg lg:text-xl font-medium">{t.previousBackground || "Previous Background"}</CardTitle>
+              </CardHeader>
+              
               {/* Question Item 1 */}
               <div className="border rounded-lg p-1.5 md:p-2 mb-1 hover:bg-gray-50 transition-colors">
                 {questions.map((q, index) => (
                   <Fragment key={index}>
                     {q.deleted ? (
-                      <div className="text-gray-400 text-xs text-center py-4">{"No question"}</div>
+                      <div className="text-gray-400 text-xs text-center py-4">No question</div>
                     ) : (
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-2">
-                    <div className="w-6 h-6 md:w-7 md:h-7 bg-grey-300 text-black rounded-full flex items-center justify-center text-sm md:text-base font-bold">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start space-x-2">
+                          <Badge className="w-6 h-6 md:w-7 md:h-7 bg-gray-300 text-black rounded-full flex items-center justify-center text-sm md:text-base font-bold">
                             {index + 1}
-                    </div>
-                    <div className="flex-1">
+                          </Badge>
+                          <div className="flex-1">
                             {q.editing ? (
-                              <input
-                                className="font-medium text-sm md:text-base lg:text-lg leading-tight border rounded px-1 py-0.5 w-full"
+                              <Input
+                                className="font-medium text-sm md:text-base lg:text-lg leading-tight"
                                 value={q.prompt}
                                 onChange={e => {
                                   const newQuestions = [...questions];
@@ -162,9 +171,9 @@ export function InterviewOverview({ language }: { language: 'en' | 'es' | 'fr', 
                               </h4>
                             )}
                             <p className="text-xs md:text-sm text-gray-600 mt-1">3min 4Questions</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-1">
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-1">
                           {q.editing ? (
                             <>
                               <Button variant="ghost" size="sm" className="p-1" onClick={() => {
@@ -173,14 +182,14 @@ export function InterviewOverview({ language }: { language: 'en' | 'es' | 'fr', 
                                 newQuestions[index].editing = false;
                                 setQuestions(newQuestions);
                               }}>
-                                {t.save || "Save"}
+                                <Save className="w-4 h-4 md:w-5 md:h-5" />
                               </Button>
                               <Button variant="ghost" size="sm" className="p-1" onClick={() => {
                                 const newQuestions = [...questions];
                                 newQuestions[index].editing = false;
                                 setQuestions(newQuestions);
                               }}>
-                                {t.cancel || "Cancel"}
+                                <X className="w-4 h-4 md:w-5 md:h-5" />
                               </Button>
                             </>
                           ) : (
@@ -189,178 +198,189 @@ export function InterviewOverview({ language }: { language: 'en' | 'es' | 'fr', 
                               newQuestions[index].editing = true;
                               setQuestions(newQuestions);
                             }}>
-                      <Edit className="w-4 h-4 md:w-5 md:h-5 hover:bg-emerald-700 hover:text-white" />
-                    </Button>
+                              <Edit className="w-4 h-4 md:w-5 md:h-5" />
+                            </Button>
                           )}
                           <Button variant="ghost" size="sm" className="p-1 hover:bg-emerald-700 hover:text-white" onClick={() => {
                             const newQuestions = [...questions];
                             newQuestions[index].deleted = true;
                             setQuestions(newQuestions);
                           }}>
-                      <Trash2 className="w-4 h-4 md:w-5 md:h-5 hover:bg-emerald-700 hover:text-white" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="p-1 hover:bg-emerald-700 hover:text-white" onClick={() => alert('More actions coming soon!')}>
-                      <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5" />
-                    </Button>
-                  </div>
-                </div>
+                            <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="p-1 hover:bg-emerald-700 hover:text-white" onClick={() => alert('More actions coming soon!')}>
+                            <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5" />
+                          </Button>
+                        </div>
+                      </div>
                     )}
                   </Fragment>
                 ))}
               </div>
+              
               {/* Question Item 2 - Editable */}
-              <div className="bg-gray-100 rounded-xl p-3 mt-2">
-                {/* Top row: number and Editing */}
-                <div className="flex items-center mb-2">
-                  <div className="w-7 h-7 bg-white text-black rounded-full flex items-center justify-center text-base font-semibold mr-2">2</div>
-                  <div className="font-bold text-lg">Editing</div>
-                </div>
-                {/* Second row: fields */}
-                <div className="flex flex-col gap-y-2 md:flex-row md:items-center md:gap-4 mb-3">
-                  <div className="flex-[2] min-w-0">
-                    <label className="block text-xs font-medium mb-0.5">Prompt</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-md border px-2 py-1 text-sm bg-white"
-                      placeholder="How are JavaScript and jQuery different?"
-                      value={editingPrompt.prompt}
-                      onChange={e => setEditingPrompt(f => ({ ...f, prompt: e.target.value }))}
-                    />
+              <Card className="bg-gray-100 rounded-xl p-3 mt-2">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center mb-2">
+                    <Badge className="w-7 h-7 bg-white text-black rounded-full flex items-center justify-center text-base font-semibold mr-2">2</Badge>
+                    <CardTitle className="text-lg">Editing</CardTitle>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <label className="block text-xs font-medium mb-0.5">Competencies</label>
-                    <select
-                      className="w-full rounded-md border px-2 py-1 text-sm bg-white text-black"
-                      value={editingPrompt.competency}
-                      onChange={e => setEditingPrompt(f => ({ ...f, competency: e.target.value }))}
-                    >
-                      <option>Teambuilding</option>
-                      <option>Technical Skills</option>
-                      <option>Communication</option>
-                    </select>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <label className="block text-xs font-medium mb-0.5">Time</label>
-                    <div className="flex items-center">
-                      <input
+                </CardHeader>
+                
+                <CardContent className="pt-0">
+                  {/* Second row: fields */}
+                  <div className="flex flex-col gap-y-2 md:flex-row md:items-center md:gap-4 mb-3">
+                    <div className="flex-[2] min-w-0">
+                      <Label className="text-xs font-medium mb-0.5">Prompt</Label>
+                      <Input
                         type="text"
-                        className="w-14 rounded-md border px-2 py-1 text-sm bg-white"
-                        placeholder="10"
-                        value={editingPrompt.time}
-                        onChange={e => setEditingPrompt(f => ({ ...f, time: e.target.value }))}
+                        className="w-full rounded-md border px-2 py-1 text-sm bg-white"
+                        placeholder="How are JavaScript and jQuery different?"
+                        value={editingPrompt.prompt}
+                        onChange={e => setEditingPrompt(f => ({ ...f, prompt: e.target.value }))}
                       />
-                      <span className="ml-1 text-gray-500 text-xs">min</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <Label className="text-xs font-medium mb-0.5">Competencies</Label>
+                      <Select value={editingPrompt.competency} onValueChange={(value) => setEditingPrompt(f => ({ ...f, competency: value }))}>
+                        <SelectTrigger className="w-full rounded-md border px-2 py-1 text-sm bg-white text-black">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Teambuilding">Teambuilding</SelectItem>
+                          <SelectItem value="Technical Skills">Technical Skills</SelectItem>
+                          <SelectItem value="Communication">Communication</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <Label className="text-xs font-medium mb-0.5">Time</Label>
+                      <div className="flex items-center">
+                        <Input
+                          type="text"
+                          className="w-14 rounded-md border px-2 py-1 text-sm bg-white"
+                          placeholder="10"
+                          value={editingPrompt.time}
+                          onChange={e => setEditingPrompt(f => ({ ...f, time: e.target.value }))}
+                        />
+                        <span className="ml-1 text-gray-500 text-xs">min</span>
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <Label className="text-xs font-medium mb-0.5">Level</Label>
+                      <Select value={editingPrompt.level} onValueChange={(value) => setEditingPrompt(f => ({ ...f, level: value }))}>
+                        <SelectTrigger className="w-full rounded-md border px-2 py-1 text-sm bg-white">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Pending">Pending</SelectItem>
+                          <SelectItem value="Beginner">Beginner</SelectItem>
+                          <SelectItem value="Intermediate">Intermediate</SelectItem>
+                          <SelectItem value="Advanced">Advanced</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <label className="block text-xs font-medium mb-0.5">Level</label>
-                    <select
-                      className="w-full rounded-md border px-2 py-1 text-sm bg-white"
-                      value={editingPrompt.level}
-                      onChange={e => setEditingPrompt(f => ({ ...f, level: e.target.value }))}
-                    >
-                      <option>Pending</option>
-                      <option>Beginner</option>
-                      <option>Intermediate</option>
-                      <option>Advanced</option>
-                    </select>
-                  </div>
-                </div>
-                {/* Guidelines Heading */}
-                <div className="font-bold text-sm mb-1">Guidelines</div>
-                {/* Guidelines Card */}
-                <div className="bg-white rounded-lg p-3 mb-4">
-                  <div className="font-bold text-sm mb-1">Some of the key features of design are:</div>
-                  <ul className="list-disc pl-5 text-gray-700 space-y-0.5 text-xs">
-                    <li>A line is a visual trace created by any writing tool or the meeting point of two shapes</li>
-                    <li>Size refers to how much visual space one element occupies compared to another</li>
-                  </ul>
-                </div>
-                {/* Buttons */}
-                <div className="flex flex-col md:flex-row gap-2">
-                  <Dialog open={libraryOpen} onOpenChange={setLibraryOpen}>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" className="flex-1 text-sm py-2 hover:bg-emerald-700 hover:text-white" onClick={() => setLibraryOpen(true)}>
-                        Insert From Library
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-lg">
-                      <DialogHeader>
-                        <DialogTitle>Select Questions from Library</DialogTitle>
-                        <DialogDescription>Choose questions to add from the library.</DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-2 max-h-72 overflow-y-auto">
-                        {questionBank.map((q: any, idx: number) => (
-                          <label key={idx} className="flex items-start space-x-2 p-2 border rounded hover:bg-gray-100 cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={selectedLibraryIndexes.includes(idx)}
-                              onChange={e => {
-                                setSelectedLibraryIndexes(sel =>
-                                  e.target.checked
-                                    ? [...sel, idx]
-                                    : sel.filter(i => i !== idx)
-                                );
-                              }}
-                            />
-                            <div>
-                              <div className="font-medium text-sm">{q.prompt}</div>
-                              <div className="text-xs text-gray-500">{q.competency} • {q.time} • {q.level}</div>
-                            </div>
-                          </label>
-                        ))}
-                        {questionBank.length === 0 && (
-                          <div className="text-center text-gray-400 py-8">No questions in library.</div>
-                        )}
-                      </div>
-                      <DialogFooter>
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            // Add selected questions to the list
-                            const toAdd = selectedLibraryIndexes.map(idx => ({
-                              ...questionBank[idx],
-                              answer: '',
-                              answering: false,
-                              editing: false,
-                              deleted: false,
-                            }));
-                            setQuestions(prev => [...prev, ...toAdd]);
-                            setSelectedLibraryIndexes([]);
-                            setLibraryOpen(false);
-                          }}
-                          disabled={selectedLibraryIndexes.length === 0}
-                          className="bg-black text-white hover:bg-emerald-700 hover:text-white"
-                        >
-                          Add Selected
+                  
+                  {/* Guidelines Heading */}
+                  <div className="font-bold text-sm mb-1">Guidelines</div>
+                  
+                  {/* Guidelines Card */}
+                  <Card className="bg-white rounded-lg p-3 mb-4">
+                    <CardContent className="p-0">
+                      <div className="font-bold text-sm mb-1">Some of the key features of design are:</div>
+                      <ul className="list-disc pl-5 text-gray-700 space-y-0.5 text-xs">
+                        <li>A line is a visual trace created by any writing tool or the meeting point of two shapes</li>
+                        <li>Size refers to how much visual space one element occupies compared to another</li>
+                      </ul>
+                    </CardContent>
+                  </Card>
+                  
+                  {/* Buttons */}
+                  <div className="flex flex-col md:flex-row gap-2">
+                    <Dialog open={libraryOpen} onOpenChange={setLibraryOpen}>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" className="flex-1 text-sm py-2 hover:bg-emerald-700 hover:text-white" onClick={() => setLibraryOpen(true)}>
+                          Insert From Library
                         </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                  <Button
-                    className="flex-1 text-sm py-2 bg-black hover:bg-emerald-700 text-white"
-                    onClick={() => {
-                      if (!editingPrompt.prompt.trim()) return;
-                      setQuestions(prev => [
-                        ...prev,
-                        {
-                          prompt: editingPrompt.prompt,
-                          competency: editingPrompt.competency,
-                          time: editingPrompt.time,
-                          level: editingPrompt.level,
-                          editing: false,
-                          deleted: false,
-                          answer: '',
-                          answering: false,
-                        },
-                      ]);
-                      setEditingPrompt({ prompt: '', competency: 'Team Building', time: '10 Min', level: 'Pending' });
-                    }}
-                  >
-                    Create New Prompt
-                  </Button>
-                </div>
-              </div>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-lg">
+                        <DialogHeader>
+                          <DialogTitle>Select Questions from Library</DialogTitle>
+                          <DialogDescription>Choose questions to add from the library.</DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-2 max-h-72 overflow-y-auto">
+                          {questionBank.map((q: any, idx: number) => (
+                            <label key={idx} className="flex items-start space-x-2 p-2 border rounded hover:bg-gray-100 cursor-pointer">
+                              <Checkbox
+                                checked={selectedLibraryIndexes.includes(idx)}
+                                onCheckedChange={(checked) => {
+                                  setSelectedLibraryIndexes(sel =>
+                                    checked
+                                      ? [...sel, idx]
+                                      : sel.filter(i => i !== idx)
+                                  );
+                                }}
+                              />
+                              <div>
+                                <div className="font-medium text-sm">{q.prompt}</div>
+                                <div className="text-xs text-gray-500">{q.competency} • {q.time} • {q.level}</div>
+                              </div>
+                            </label>
+                          ))}
+                          {questionBank.length === 0 && (
+                            <div className="text-center text-gray-400 py-8">No questions in library.</div>
+                          )}
+                        </div>
+                        <DialogFooter>
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              // Add selected questions to the list
+                              const toAdd = selectedLibraryIndexes.map(idx => ({
+                                ...questionBank[idx],
+                                answer: '',
+                                answering: false,
+                                editing: false,
+                                deleted: false,
+                              }));
+                              setQuestions(prev => [...prev, ...toAdd]);
+                              setSelectedLibraryIndexes([]);
+                              setLibraryOpen(false);
+                            }}
+                            disabled={selectedLibraryIndexes.length === 0}
+                            className="bg-black text-white hover:bg-emerald-700 hover:text-white"
+                          >
+                            Add Selected
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                    <Button
+                      className="flex-1 text-sm py-2 bg-black hover:bg-emerald-700 text-white"
+                      onClick={() => {
+                        if (!editingPrompt.prompt.trim()) return;
+                        setQuestions(prev => [
+                          ...prev,
+                          {
+                            prompt: editingPrompt.prompt,
+                            competency: editingPrompt.competency,
+                            time: editingPrompt.time,
+                            level: editingPrompt.level,
+                            editing: false,
+                            deleted: false,
+                            answer: '',
+                            answering: false,
+                          },
+                        ]);
+                        setEditingPrompt({ prompt: '', competency: 'Team Building', time: '10 Min', level: 'Pending' });
+                      }}
+                    >
+                      Create New Prompt
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </CardContent>

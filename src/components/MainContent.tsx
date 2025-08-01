@@ -1,12 +1,14 @@
 import { useState } from "react"
-import { ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus } from "lucide-react"
+import { ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus, ArrowRight, X } from "lucide-react"
 import { InterviewRounds } from "./InterviewRounds"
 import { InterviewOverview } from "./InterviewOverview"
 import { CandidatesView } from "./CandidatesView"
-import { Card } from "./ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription, DialogClose } from "./ui/dialog"
 import { Input } from "./ui/input"
+import { Badge } from "./ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -238,14 +240,26 @@ export function MainContent({ language, setLanguage, departments }: { language: 
         transition={{ duration: 0.3, delay: 0.05 }}
         className="flex-1 flex flex-col gap-1 md:gap-2 mb-10"
       >
-        {/* ROUND Panel and Notification Panel side by side */}
-        <div className="flex flex-col w-full gap-2 md:gap-4 md:flex-col lg:grid lg:grid-cols-[1fr_1fr_1fr] lg:items-stretch lg:h-full">
-          <div className="w-full lg:col-span-2 h-full flex flex-col justify-between">
-            {/* Round 1 Card (first in InterviewRounds) */}
+        {/* ROUND Panel and Notification Panel - Enhanced Responsive Layout */}
+        <div className="flex flex-col w-full gap-2 sm:gap-3 md:gap-4 lg:gap-6 xl:gap-8">
+          {/* Mobile & Tablet: Stacked Layout */}
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:hidden gap-2 sm:gap-3 md:gap-4">
+            <div className="w-full">
           <InterviewRounds onViewCandidates={handleViewCandidates} onViewCandidatesRound2={handleViewCandidatesRound2} language={language} setLanguage={setLanguage} />
+            </div>
+            <div className="w-full">
+              <NotificationPanel language={language} setLanguage={setLanguage} />
+            </div>
           </div>
-          <div className="w-full lg:col-span-1 h-full flex flex-col">
-            <NotificationPanel language={language} setLanguage={setLanguage} />
+          
+          {/* Desktop: Side-by-side Layout with Better Proportions */}
+          <div className="hidden lg:grid lg:grid-cols-[2.2fr_1fr] xl:grid-cols-[2.5fr_1fr] 2xl:grid-cols-[3fr_1fr] gap-4 lg:gap-6 xl:gap-8">
+            <div className="w-full h-full flex flex-col justify-between">
+              <InterviewRounds onViewCandidates={handleViewCandidates} onViewCandidatesRound2={handleViewCandidatesRound2} language={language} setLanguage={setLanguage} />
+            </div>
+            <div className="w-full h-full flex flex-col justify-start">
+              <NotificationPanel language={language} setLanguage={setLanguage} />
+            </div>
           </div>
         </div>
 
@@ -273,7 +287,7 @@ export function MainContent({ language, setLanguage, departments }: { language: 
             className="w-full lg:flex-[1] flex flex-col justify-between min-w-0 mt-1 md:mt-2 lg:mt-0 gap-2 md:gap-3"
             style={{ marginLeft: 0 }}
           >
-            {/* Top Card - responsive height */}
+            {/* Top Card - Assigned Interviewers */}
             <div className="mb-1 md:mb-0" style={{ height: undefined }}>
               <motion.div
                 initial={{ opacity: 0, y: 32, scale: 0.95 }}
@@ -284,32 +298,48 @@ export function MainContent({ language, setLanguage, departments }: { language: 
                   scale: 1.02,
                   transition: { duration: 0.2, ease: 'easeOut' }
                 }}
-                className="bg-white rounded-2xl shadow-md mt-2 lg:mt-0 mb-2 sm:mb-4 md:mb-2 p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[100px]"
               >
-                <div className="flex flex-row items-start justify-between mb-1">
+                <Card className="rounded-2xl shadow-md mt-2 lg:mt-0 mb-2 sm:mb-4 md:mb-2 p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[100px]">
+                  <CardHeader className="pb-2">
+                    <div className="flex flex-row items-start justify-between">
                   <div>
-                    <h3 className="font-semibold text-base md:text-lg leading-tight">{"Assigned Interviewers"}</h3>
-                    <p className="text-gray-500 text-xs md:text-sm mt-0.5">{"Interview panel for this position"}</p>
+                        <CardTitle className="text-base md:text-lg leading-tight">Assigned Interviewers</CardTitle>
+                        <CardDescription className="text-gray-500 text-xs md:text-sm mt-0.5">Interview panel for this position</CardDescription>
                   </div>
-                  <button
+                      <Button
+                        variant="ghost"
+                        size="sm"
                     className="ml-auto p-2 rounded-full hover:bg-gray-200 focus:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 transition-colors"
-                    aria-label={"View all interviewers"}
+                        aria-label="View all interviewers"
                     onClick={() => setShowInterviewersModal(true)}
                   >
-                    <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-gray-700"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-                  </button>
+                        <ArrowRight className="w-5 h-5 text-gray-700" />
+                      </Button>
                 </div>
-                <div className="flex flex-wrap items-center mt-2 gap-1">
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex flex-wrap items-center md:mt-[-20px] mt-0 lg:mt-0">
                   <div className="flex -space-x-3">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User 1" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
-                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User 2" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User 3" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
-                    <div className="bg-emerald-700 text-white text-xs font-medium w-7 h-7 flex items-center justify-center rounded-full ml-0 md:ml-2">+5</div>
+                        <Avatar className="w-7 h-7 border-2 border-white">
+                          <AvatarImage src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe" />
+                          <AvatarFallback>JD</AvatarFallback>
+                        </Avatar>
+                        <Avatar className="w-7 h-7 border-2 border-white">
+                          <AvatarImage src="https://randomuser.me/api/portraits/men/45.jpg" alt="Ryan King" />
+                          <AvatarFallback>RK</AvatarFallback>
+                        </Avatar>
+                        <Avatar className="w-7 h-7 border-2 border-white">
+                          <AvatarImage src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Miller" />
+                          <AvatarFallback>SM</AvatarFallback>
+                        </Avatar>
+                        <Badge className="bg-emerald-700 text-white text-xs font-medium w-7 h-7 flex items-center justify-center rounded-full ml-0 md:ml-2">+5</Badge>
                   </div>
-                  
                 </div>
+                  </CardContent>
+                </Card>
               </motion.div>
             </div>
+            
       {/* Bottom Card - Sections Panel */}
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
@@ -317,13 +347,13 @@ export function MainContent({ language, setLanguage, departments }: { language: 
               transition={{ duration: 0.3, delay: 0.3 }}
               className="flex flex-col gap-1"
             >
-      <Card className="rounded-2xl p-4 shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-1 sm:mt-2 md:mt-0">
-        <div className="flex items-center justify-between mb-0 sm:mb-1 md:mb-0 lg:mb-3 mt-[-10px]">
-                  <span className="font-bold text-lg">{t.section || "Section"}</span>
+              <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-1 sm:mt-2 md:mt-0">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">{t.section || "Section"}</CardTitle>
           <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
             <DialogTrigger asChild>
               <Button
-                variant="ghost"
                 size="sm"
                 className="bg-black text-white hover:bg-emerald-700 hover:text-white rounded-xl px-2 py-1 text-sm font-medium transition-colors"
               >
@@ -334,11 +364,11 @@ export function MainContent({ language, setLanguage, departments }: { language: 
             <DialogContent className="p-6 max-w-xs">
               <DialogHeader>
                         <DialogTitle>{t.addSection}</DialogTitle>
-                        <DialogDescription>{"Add a new section to the interview."}</DialogDescription>
+                          <DialogDescription>Add a new section to the interview.</DialogDescription>
               </DialogHeader>
               <Input
                 className="border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                        placeholder={"Section Name"}
+                          placeholder="Section Name"
                 value={newSection}
                 onChange={e => setNewSection(e.target.value)}
                 autoFocus
@@ -350,19 +380,24 @@ export function MainContent({ language, setLanguage, departments }: { language: 
                   className="flex-1 bg-gray-100 hover:bg-gray-200 text-sm rounded px-3 py-2"
                   onClick={() => setAddDialogOpen(false)}
                   disabled={creating}
-                >{t.cancel}</Button>
+                          >
+                            {t.cancel}
+                          </Button>
                 <Button
-                  variant="default"
                   size="sm"
                   className="flex-1 bg-black text-white hover:bg-emerald-700 text-sm rounded px-3 py-2"
                   onClick={handleCreateSection}
                   disabled={!newSection.trim() || creating}
-                        >{t.create}</Button>
+                          >
+                            {t.create}
+                          </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
-        <div className="flex flex-col gap-0.5 -mt-5">
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex flex-col gap-0.5">
           {sections.map((section, idx) => (
             <div key={idx} className="flex items-center justify-between bg-white rounded-xl border px-2 py-2">
               <div>
@@ -375,7 +410,7 @@ export function MainContent({ language, setLanguage, departments }: { language: 
                     variant="ghost"
                     size="icon"
                     className="text-lg text-gray-400 cursor-pointer"
-                            aria-label={"Section actions"}
+                              aria-label="Section actions"
                   >
                     ⋮
                 </Button>
@@ -392,6 +427,7 @@ export function MainContent({ language, setLanguage, departments }: { language: 
             </div>
           ))}
         </div>
+                </CardContent>
       </Card>
             </motion.div>
           </motion.div>
@@ -399,32 +435,33 @@ export function MainContent({ language, setLanguage, departments }: { language: 
       </motion.div>
 
       {/* Assigned Interviewers Modal */}
-      {showInterviewersModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          role="dialog"
-          aria-modal="true"
-        >
-          {/* Modal Content (no overlay) */}
-          <div
-            className="relative bg-white rounded-2xl shadow-xl p-4 sm:p-6 w-full max-w-xs sm:max-w-md mx-2 transition-opacity duration-300 ease-out opacity-100 scale-100 animate-modalIn border border-gray-200"
-            style={{ animation: 'modalIn 0.3s' }}
-          >
-              <button className="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-500 hover:text-black focus:outline-none focus:ring-2 focus:ring-green-600 rounded-full bg-white" onClick={() => setShowInterviewersModal(false)} aria-label={"Close"}>
-              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
-            </button>
-              <h2 className="text-lg font-bold mb-2">{"Assigned Interviewers"}</h2>
+      <Dialog open={showInterviewersModal} onOpenChange={setShowInterviewersModal}>
+        <DialogContent className="max-w-xs sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Assigned Interviewers</DialogTitle>
+          </DialogHeader>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {interviewers.map((user, idx) => (
                 <div key={idx} className="flex items-center space-x-2">
-                  <img src={user.img} alt={user.name} className="w-7 h-7 rounded-full border-2 border-white object-cover" />
+                <Avatar className="w-7 h-7">
+                  <AvatarImage src={user.img} alt={user.name} />
+                  <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                </Avatar>
                   <span className="font-medium text-xs text-gray-800">{user.name}</span>
                 </div>
               ))}
             </div>
-          </div>
-      </div>
-      )}
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button 
+                className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full"
+              >
+                Close
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   )
 } 

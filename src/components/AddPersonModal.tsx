@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -154,7 +154,7 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
               variant={personType === 'candidate' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setPersonType('candidate')}
-              className="flex-1"
+              className={`flex-1 ${personType === 'candidate' ? 'bg-black text-white hover:bg-emerald-700 hover:text-white' : ''}`}
             >
               Candidate
             </Button>
@@ -162,7 +162,7 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
               variant={personType === 'interviewer' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setPersonType('interviewer')}
-              className="flex-1"
+              className={`flex-1 ${personType === 'interviewer' ? 'bg-black text-white hover:bg-emerald-700 hover:text-white' : ''}`}
             >
               Interviewer
             </Button>
@@ -252,7 +252,7 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
               />
               <DropdownMenu open={showSkillRecommendations} onOpenChange={setShowSkillRecommendations}>
                 <DropdownMenuTrigger asChild>
-                  <Button type="button" size="sm" className="hover:bg-emerald-700" onClick={() => setShowSkillRecommendations(true)}>
+                  <Button type="button" size="sm" className="bg-black text-white hover:bg-emerald-700 hover:text-white" onClick={() => setShowSkillRecommendations(true)}>
                     <Plus className="w-4 h-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -300,14 +300,20 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="outline" className="hover:bg-emerald-700" onClick={() => onOpenChange(false)}>
-              Cancel
-            </Button>
-            <Button className="hover:bg-emerald-700" onClick={handleSubmit} disabled={!name || !email || !phone || !location || !department || !experience}>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline" className="hover:bg-emerald-700">
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button 
+              className="bg-black text-white hover:bg-emerald-700 hover:text-white" 
+              onClick={handleSubmit} 
+              disabled={!name || !email || !phone || !location || !department || !experience}
+            >
               Add Person
             </Button>
-          </div>
+          </DialogFooter>
         </div>
       </DialogContent>
     </Dialog>

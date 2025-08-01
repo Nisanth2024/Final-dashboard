@@ -1,11 +1,14 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Search, UserPlus, Bell, Calendar, ArrowRight, ChevronDown, Menu, MoreHorizontal, HelpCircle, Sun, Moon, Plus } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Badge } from "@/components/ui/badge"
+import { Search, UserPlus, Bell, Calendar, ArrowRight, ChevronDown, Menu, MoreHorizontal, HelpCircle, Sun, Moon, Plus, X, Settings, User } from "lucide-react"
 import { SearchModal } from "./SearchModal"
 import { AddPersonModal } from "./AddPersonModal"
 import { useTranslation } from "@/lib/useTranslation"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 interface HeaderProps {
   onMenuClick: () => void
@@ -84,7 +87,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
           <Button variant="outline" size="sm" className="hidden sm:flex relative p-1 md:p-1 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black flex items-center gap-1" onClick={() => setNotificationOpen((v) => !v)}>
             <span className="relative flex items-center">
               <Bell className="w-3 h-3 md:w-4 md:h-4" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 bg-red-500 rounded-full"></span>
+              <Badge className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 bg-red-500 rounded-full"></Badge>
             </span>
             <span className="hidden sm:inline text-xs font-medium">{t.notification}</span>
           </Button>
@@ -100,12 +103,14 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem className="flex items-center gap-2" onClick={() => window.location.assign('/settings')}>
+                <Settings className="w-4 h-4" />
                 Settings
               </DropdownMenuItem>
               <DropdownMenuItem className="flex items-center gap-2" onClick={() => {
                 const profile = document.getElementById('sidebar-user-profile');
                 if (profile) profile.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }}>
+                <User className="w-4 h-4" />
                 Profile
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -163,17 +168,17 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
         <div className="fixed top-16 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl border animate-fade-in">
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">Notifications</h2>
-            <button 
+            <Button 
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 setNotificationOpen(false);
                 setShowAllNotifications(false);
               }}
               className="p-2 hover:bg-gray-100 rounded-lg"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+              <X className="w-5 h-5" />
+            </Button>
           </div>
           <div className="flex-1 p-4">
             {!showAllNotifications ? (
@@ -194,7 +199,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
               </div>
             ) : (
               <div className="space-y-2 max-h-64 overflow-y-auto">
-                <button className="mb-2 text-xs text-blue-600 hover:underline" onClick={() => setShowAllNotifications(false)}>&larr; Back</button>
+                <Button variant="ghost" size="sm" className="mb-2 text-xs text-blue-600 hover:underline" onClick={() => setShowAllNotifications(false)}>&larr; Back</Button>
                 {notifications.map((n) => (
                   <div key={n.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 border-b last:border-b-0">
                     <div className="w-4 h-4 mt-0.5">
@@ -226,18 +231,20 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
           </div>
           <div className="p-4 border-t">
             <div className="flex space-x-2">
-              <button 
-                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3 rounded-lg transition-colors"
+              <Button 
+                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
                 onClick={() => setShowAllNotifications(true)}
               >
                 See all notifications
-              </button>
-              <button 
-                className="text-xs py-2 px-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              </Button>
+              <Button 
+                variant="outline"
+                size="sm"
+                className="text-xs py-2 px-3 border border-gray-300 hover:bg-gray-50"
                 onClick={() => setNotesOpen(true)}
               >
                 Notes
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -252,22 +259,24 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
             Add, view, or edit private notes related to candidates, interview rounds, questions, sections, or interviewers.
           </div>
           <div className="space-y-2 mb-2">
-            <textarea
-              className="w-full border rounded p-2 text-sm"
+            <Textarea
+              className="w-full"
               rows={3}
               placeholder="Add a new note..."
               value={newNote}
               onChange={e => setNewNote(e.target.value)}
             />
-            <button
-              className="bg-black text-white px-3 py-1 rounded hover:bg-emerald-700 text-xs"
+            <Button
+              className="bg-black text-white px-3 py-1 hover:bg-emerald-700 text-xs"
               onClick={() => {
                 if (newNote.trim()) {
                   setNotes([newNote, ...notes]);
                   setNewNote("");
                 }
               }}
-            >Add Note</button>
+            >
+              Add Note
+            </Button>
           </div>
           <div className="max-h-40 overflow-y-auto space-y-2">
             {notes.length === 0 ? (
@@ -276,13 +285,24 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
               notes.map((note, idx) => (
                 <div key={idx} className="bg-gray-100 rounded p-2 text-xs flex justify-between items-center">
                   <span>{note}</span>
-                  <button className="text-red-500 ml-2 text-xs" onClick={() => setNotes(notes.filter((_, i) => i !== idx))}>Delete</button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-red-500 ml-2 text-xs p-0 h-auto" 
+                    onClick={() => setNotes(notes.filter((_, i) => i !== idx))}
+                  >
+                    Delete
+                  </Button>
                 </div>
               ))
             )}
           </div>
           <DialogFooter>
-            <button className="text-xs px-3 py-1 border rounded hover:bg-gray-100" onClick={() => setNotesOpen(false)}>Close</button>
+            <DialogClose asChild>
+              <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-gray-100">
+                Close
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
