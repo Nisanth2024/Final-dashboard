@@ -444,32 +444,6 @@ export function CandidatesView({
           </Button>
             <h1 className="text-base sm:text-lg md:text-xl font-bold">All Candidates</h1>
           </div>
-          <div className="flex flex-row gap-1 items-center justify-end">
-            <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-              <SelectTrigger className="bg-black text-white hover:bg-emerald-700 h-7 px-2 text-xs flex items-center gap-1 min-w-[120px]">
-                <SelectValue placeholder="Select Department" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="All Departments">All Departments</SelectItem>
-                <SelectItem value="Design Department">Design Department</SelectItem>
-                <SelectItem value="Engineering Department">Engineering Department</SelectItem>
-              </SelectContent>
-            </Select>
-              <Button
-              className="bg-black hover:bg-emerald-700 text-xs h-7 px-2 flex items-center gap-1 min-w-[120px]"
-              onClick={exportCandidatesToCSV}
-            >
-              <Download className="w-4 h-4" />
-              Export
-            </Button>
-            <Button
-              className="bg-black hover:bg-emerald-700 text-xs h-7 px-2 flex items-center gap-1 min-w-[120px]"
-              onClick={() => setFilterOpen(true)}
-            >
-              <FilterIcon className="w-4 h-4" />
-                  Filter
-            </Button>
-          </div>
         </div>
       </div>
 
@@ -732,7 +706,7 @@ export function CandidatesView({
                 </SelectContent>
               </Select>
             </div>
-          </div>
+    </div>
           <DialogFooter>
             <Button className="bg-black hover:bg-emerald-700 text-xs" onClick={() => setFilterOpen(false)}>Apply</Button>
             <Button variant="ghost" className="text-xs" onClick={() => setFilterOpen(false)}>Cancel</Button>

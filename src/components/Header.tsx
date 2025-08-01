@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Search, UserPlus, Bell, Calendar, ArrowRight, ChevronDown, Menu, MoreHorizontal } from "lucide-react"
+import { Search, UserPlus, Bell, Calendar, ArrowRight, ChevronDown, Menu, MoreHorizontal, HelpCircle, Sun, Moon, Plus } from "lucide-react"
 import { SearchModal } from "./SearchModal"
 import { AddPersonModal } from "./AddPersonModal"
 import { useTranslation } from "@/lib/useTranslation"
@@ -50,11 +50,11 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
     { id: 5, title: 'Round 2 scheduled', desc: 'Round 2 for Michael Chen is scheduled for tomorrow', icon: 'round' },
   ];
   return (
-    <header className="flex flex-wrap items-center justify-between p-1 sm:p-1.5 md:p-2 bg-white rounded-t-xl shadow-sm border-b border-gray-200">
+    <header className="flex flex-wrap items-center justify-between p-1 sm:p-1.5 md:p-2 bg-white rounded-t-xl shadow-sm border-b border-gray-200 relative">
       <div className="flex items-center space-x-1.5 md:space-x-3">
         {/* Mobile Menu Button */}
         <Button variant="ghost" size="sm" className="md:hidden p-1 bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300" onClick={onMenuClick}>
-          <Menu className="w-3 h-3 md:w-4 md:h-4" />
+          <Menu className="w-4 h-4 md:w-5 md:h-5" />
         </Button>
         {/* Logo */}
         <img src="dashboard logo.png" alt="Logo" className="w-8 h-8 rounded-lg object-contain bg-gray-100" />
@@ -63,27 +63,25 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
           <Button
             variant="outline"
             size="sm"
-            className="p-1 md:p-2 flex items-center gap-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300"
+            className="p-1 sm:p-1.5 md:p-2 flex items-center gap-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 text-xs sm:text-sm md:text-base"
             onClick={() => setSearchOpen(true)}
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-4 h-4 md:w-5 md:h-5" />
             <span className="hidden sm:inline text-xs font-medium">{t.search}</span>
           </Button>
-          {addPersonButtonVisible && (
-            <Button 
-              variant="outline"
-              size="sm" 
-              className="hidden sm:flex p-1 md:p-2 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300"
-              onClick={() => {
-                setAddPersonOpen(true);
-                setAddPersonButtonVisible(false);
-              }}
-            >
-              <UserPlus className="w-3 h-3 md:w-4 md:h-4" />
-              <span className="hidden sm:inline text-xs font-medium">{t.addPerson}</span>
-            </Button>
-          )}
-          <Button variant="outline" size="sm" className="relative p-1 md:p-2 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black flex items-center gap-1" onClick={() => setNotificationOpen((v) => !v)}>
+          <Button 
+            variant="outline"
+            size="sm" 
+            className="hidden sm:flex p-1 sm:p-1.5 md:p-2 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 text-xs sm:text-sm md:text-base"
+            onClick={() => {
+              setAddPersonOpen(true);
+              setAddPersonButtonVisible(true);
+            }}
+          >
+            <UserPlus className="w-4 h-4 md:w-5 md:h-5" />
+            <span className="hidden sm:inline text-xs font-medium">{t.addPerson}</span>
+          </Button>
+          <Button variant="outline" size="sm" className="hidden sm:flex relative p-1 md:p-1 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black flex items-center gap-1" onClick={() => setNotificationOpen((v) => !v)}>
             <span className="relative flex items-center">
               <Bell className="w-3 h-3 md:w-4 md:h-4" />
               <span className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 bg-red-500 rounded-full"></span>
@@ -92,28 +90,36 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="p-1 md:p-2 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 flex items-center gap-1">
-                <MoreHorizontal className="w-4 h-4" />
+              <Button variant="outline" size="sm" className="hidden sm:flex p-1 md:p-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 items-center gap-0">
+                <div className="flex flex-col space-y-0.5">
+                  <div className="w-1 h-1 bg-current rounded-full"></div>
+                  <div className="w-1 h-1 bg-current rounded-full"></div>
+                  <div className="w-1 h-1 bg-current rounded-full"></div>
+                </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem className="flex items-center gap-2" onClick={() => window.location.assign('/settings')}>
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2" onClick={() => window.location.assign('/profile')}>
+              <DropdownMenuItem className="flex items-center gap-2" onClick={() => {
+                const profile = document.getElementById('sidebar-user-profile');
+                if (profile) profile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }}>
                 Profile
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
-      <div className="flex items-center space-x-1.5 md:space-x-3 flex-wrap mt-1 sm:mt-0">
-        {/* Language Selector - hide on mobile */}
+      {/* Top-right controls - responsive positioning */}
+      <div className="flex items-center space-x-1.5 md:space-x-3 flex-wrap mt-1 sm:mt-0 md:absolute md:right-0 md:top-2">
+        {/* Language Selector - always visible */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="hidden sm:flex items-center space-x-1 p-1 md:p-2 bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black">
+            <Button variant="ghost" size="sm" className="hidden sm:flex items-center space-x-1 p-1 md:p-1 bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black">
               <span className="text-xs md:text-sm">{language === 'en' ? 'En' : language === 'es' ? 'Es' : 'Fr'}</span>
-              <ChevronDown className="w-2.5 md:w-3 h-3" />
+              <ChevronDown className="w-2.5 md:w-2 h-3" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -122,17 +128,17 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
             <DropdownMenuItem onClick={() => setLanguage('fr')} className="hover:bg-emerald-700">French</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        {/* Date - hide on mobile */}
+        {/* Date - always visible */}
         <div className="hidden sm:flex items-center space-x-1 text-xs md:text-sm text-gray-600">
-          <Calendar className="w-3 h-3 md:w-4 md:h-4" />
+          <Calendar className="w-3 h-3 md:w-3 md:h-4" />
           <span>{dateString}</span>
         </div>
-        {/* Create Button with Dropdown */}
+        {/* Create Button with Dropdown - responsive */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors text-xs md:text-sm w-full sm:w-auto py-1.5 md:py-2 px-3 md:px-4 border border-gray-300 justify-center">
+            <Button className="bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors text-xs md:text-sm w-full sm:w-auto py-1.5 md:py-2 px-2 md:px-2 border border-gray-300 justify-center flex items-center">
               <span className="hidden sm:inline">{t.create}</span>
-              <span className="sm:hidden">+</span>
+              <span className="sm:hidden flex items-center"><Plus className="w-5 h-5" /></span>
               <ArrowRight className="hidden sm:block w-3 h-3 md:w-4 md:h-4 ml-1" />
             </Button>
           </DropdownMenuTrigger>

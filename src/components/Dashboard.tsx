@@ -20,12 +20,12 @@ export function Dashboard() {
   return (
     <div className="min-h-screen w-full bg-gray-200 p-0">
       <div className="flex flex-col min-h-screen">
-        <Header 
-          onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} 
-          onNotificationClick={handleNotificationClick}
-          language={language}
-          setLanguage={setLanguage}
-        />
+      <Header 
+        onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+        onNotificationClick={handleNotificationClick}
+        language={language}
+        setLanguage={setLanguage}
+      />
         <div className="flex-1 flex flex-col lg:flex-row">
           {/* Sidebar: Sheet on mobile, static on desktop */}
           <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
@@ -131,6 +131,6 @@ export function Dashboard() {
           onClick={() => setIsNotificationOpen(false)}
         />
       )}
-    </div>
+      </div>
   );
 } 

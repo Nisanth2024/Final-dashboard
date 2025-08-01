@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Home, Users, Settings, X, LogOut } from "lucide-react"
+import { Home, Users, Settings, X, LogOut, Bell, UserPlus } from "lucide-react"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { useState } from "react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { useTranslation } from "@/lib/useTranslation"
+import { motion } from "framer-motion"
 
 interface SidebarProps {
   onClose?: () => void
@@ -16,9 +17,11 @@ interface SidebarProps {
   onShowDashboard?: () => void
   language: 'en' | 'es' | 'fr'
   setLanguage: (lang: 'en' | 'es' | 'fr') => void
+  onAddPerson?: () => void
+  onNotificationClick?: () => void
 }
 
-export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowInterviews, onShowDashboard, language }: SidebarProps) {
+export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowInterviews, onShowDashboard, language, onAddPerson, onNotificationClick }: SidebarProps) {
   const t = useTranslation(language);
   const [proModalOpen, setProModalOpen] = useState(false)
   const [departments, setDepartments] = useState([
@@ -44,7 +47,7 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
       {/* Mobile Header with Close Button */}
       <div className="flex items-center justify-between p-3 lg:hidden flex-shrink-0">
         <h2 className="text-base font-semibold">Menu</h2>
-        <Button variant="ghost" size="sm" className="hover:bg-emerald-700" onClick={onClose}>
+        <Button variant="ghost" size="sm" className="hover:bg-emerald-700 ml-2 sm:ml-0" onClick={onClose}>
           <X className="w-4 h-4" />
         </Button>
       </div>
@@ -55,72 +58,94 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
         <div className="p-4 flex-1 flex flex-col">
           <h2 className="text-sm font-semibold mb-2 mt-[-14px]">{t.round}</h2>
           
-          <nav className="space-y-0.5">
-            <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white" onClick={() => { onShowDashboard && onShowDashboard(); onClose && onClose(); }}>
-              <Home className="w-4 h-4 mr-2" />
-              {t.dashboard}
-            </Button>
-            <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white" onClick={() => { onShowInterviews && onShowInterviews(); onClose && onClose(); }}>
-              <Users className="w-4 h-4 mr-2" />
-              {t.interviews}
-            </Button>
-            <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white" onClick={() => { onShowAllCandidates && onShowAllCandidates(); onClose && onClose(); }}>
-              <Users className="w-4 h-4 mr-2" />
-              {t.candidates}
-            </Button>
-            <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-              <DialogTrigger asChild>
-                <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white" onClick={() => setSettingsOpen(true)}>
-              <Settings className="w-4 h-4 mr-2" />
-              {t.settings}
-            </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-lg">
-                <DialogHeader>
-                  <DialogTitle>{t.settings}</DialogTitle>
-                  <DialogDescription>{t.settings} - {t.departments}</DialogDescription>
-                </DialogHeader>
-                <Tabs defaultValue="interview" className="mt-2">
-                  <TabsList className="mb-2">
-                    <TabsTrigger value="interview">{t.interviewOverview}</TabsTrigger>
-                    <TabsTrigger value="account">{t.userProfile}</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="interview">
-                    <div className="space-y-2">
-                      <div className="font-semibold text-sm">{t.interviewOverview}</div>
-                      <div className="text-xs text-gray-600">{t.guidelines} (Coming soon)</div>
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="account">
-                    <div className="space-y-2">
-                      <div className="font-semibold text-sm">{t.userProfile}</div>
-                      <div className="text-xs text-gray-600">{t.email}, {t.password} (Coming soon)</div>
-                    </div>
-                  </TabsContent>
-                </Tabs>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button variant="outline" className="hover:bg-emerald-700">{t.cancel}</Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </nav>
+          <motion.nav className="space-y-0.5" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}>
+            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
+              <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal" onClick={() => { onShowDashboard && onShowDashboard(); onClose && onClose(); }}>
+                <Home className="w-4 h-4 mr-2" />
+                {t.dashboard}
+              </Button>
+            </motion.div>
+            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
+              <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal" onClick={() => { onShowInterviews && onShowInterviews(); onClose && onClose(); }}>
+                <Users className="w-4 h-4 mr-2" />
+                {t.interviews}
+              </Button>
+            </motion.div>
+            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
+              <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal" onClick={() => { onShowAllCandidates && onShowAllCandidates(); onClose && onClose(); }}>
+                <Users className="w-4 h-4 mr-2" />
+                {t.candidates}
+              </Button>
+            </motion.div>
+            {/* Mobile-only notification button */}
+            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }} className="sm:hidden">
+              <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal" onClick={() => { onNotificationClick && onNotificationClick(); onClose && onClose(); }}>
+                <Bell className="w-4 h-4 mr-2" />
+                {t.notification}
+              </Button>
+            </motion.div>
+            {/* Mobile-only add person button */}
+            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }} className="sm:hidden">
+              <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal" onClick={() => { onAddPerson && onAddPerson(); onClose && onClose(); }}>
+                <UserPlus className="w-4 h-4 mr-2" />
+                {t.addPerson}
+              </Button>
+            </motion.div>
+            <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
+              <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
+                <DialogTrigger asChild>
+                  <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal" onClick={() => setSettingsOpen(true)}>
+                    <Settings className="w-4 h-4 mr-2" />
+                    {t.settings}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-lg">
+                  <DialogHeader>
+                    <DialogTitle>{t.settings}</DialogTitle>
+                    <DialogDescription>{t.settings} - {t.departments}</DialogDescription>
+                  </DialogHeader>
+                  <Tabs defaultValue="interview" className="mt-2">
+                    <TabsList className="mb-2">
+                      <TabsTrigger value="interview">{t.interviewOverview}</TabsTrigger>
+                      <TabsTrigger value="account">{t.userProfile}</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="interview">
+                      <div className="space-y-2">
+                        <div className="font-semibold text-sm">{t.interviewOverview}</div>
+                        <div className="text-xs text-gray-600">{t.guidelines} (Coming soon)</div>
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="account">
+                      <div className="space-y-2">
+                        <div className="font-semibold text-sm">{t.userProfile}</div>
+                        <div className="text-xs text-gray-600">{t.email}, {t.password} (Coming soon)</div>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant="outline" className="hover:bg-emerald-700">{t.cancel}</Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </motion.div>
+          </motion.nav>
         {/* Departments Section */}
         <div className="mt-4">
-            <div className="flex items-center mb-3">
-              <h2 className="text-sm font-semibold text-black flex items-center">{t.departments}
-                <span className="cursor-pointer text-gray-400 hover:text-gray-600 text-base font-bold select-none ml-0" onClick={() => setAddDeptOpen(true)}>+</span>
-              </h2>
+          <div className="flex items-center mb-3">
+            <h2 className="text-sm font-normal text-black flex items-center">{t.departments}
+              <span className="cursor-pointer text-gray-400 hover:text-gray-600 text-base font-bold select-none ml-1" onClick={() => setAddDeptOpen(true)}>+</span>
+            </h2>
           </div>
-          <div className="flex flex-col gap-3 ml-8">
-              {departments.map((dept, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded inline-block" style={{ backgroundColor: dept.color }}></span>
-                  <span className="text-xs font-semibold text-black">{dept.name}</span>
-                </div>
-              ))}
-            </div>
+          <motion.div className="flex flex-col gap-3 ml-8" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}>
+            {departments.map((dept, idx) => (
+              <motion.div key={idx} className="flex items-center gap-2" variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
+                <span className="w-3 h-3 rounded inline-block" style={{ backgroundColor: dept.color }}></span>
+                <span className="text-sm font-normal text-black">{dept.name}</span>
+              </motion.div>
+            ))}
+          </motion.div>
             <Dialog open={addDeptOpen} onOpenChange={setAddDeptOpen}>
               <DialogContent>
                 <DialogHeader>
@@ -224,32 +249,32 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                 <AvatarFallback className="text-xs">AC</AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium truncate">{user ? user.name : t.userProfile}</p>
-                <p className="text-xs text-gray-500 truncate">{user ? user.email : "user@example.com"}</p>
-              </div>
+                    <p className="text-xs font-medium truncate">{user ? user.name : t.userProfile}</p>
+                    <p className="text-xs text-gray-500 truncate">{user ? user.email : "user@example.com"}</p>
+                  </div>
               <Button variant="ghost" size="icon" className="hover:bg-emerald-700" aria-label="Logout" onClick={user ? () => setUser(null) : undefined} disabled={!user}>
-                <LogOut className="w-5 h-5 text-gray-400" />
-              </Button>
-            </div>
+                    <LogOut className="w-5 h-5 text-gray-400" />
+                  </Button>
+                </div>
           </div>
           <Dialog open={profileModalOpen} onOpenChange={setProfileModalOpen}>
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>{user ? 'Edit Profile' : t.login}</DialogTitle>
               </DialogHeader>
-              <form
+                    <form
                 className="space-y-3"
-                onSubmit={e => {
-                  e.preventDefault();
-                  if (loginName && loginEmail && loginPassword) {
-                    setUser({ name: loginName, email: loginEmail });
-                    setLoginName("");
-                    setLoginEmail("");
-                    setLoginPassword("");
+                      onSubmit={e => {
+                        e.preventDefault();
+                        if (loginName && loginEmail && loginPassword) {
+                          setUser({ name: loginName, email: loginEmail });
+                          setLoginName("");
+                          setLoginEmail("");
+                          setLoginPassword("");
                     setProfileModalOpen(false);
-                  }
-                }}
-              >
+                        }
+                      }}
+                    >
                 <div className="flex flex-col items-center gap-2">
                   <label htmlFor="profile-pic-upload" className="cursor-pointer">
                     <Avatar className="w-16 h-16">
@@ -273,18 +298,18 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                     <span className="block text-xs text-gray-500 mt-1">{'Upload Profile Picture'}</span>
                   </label>
                 </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1">{t.profileName}</label>
+                      <div>
+                        <label className="block text-xs font-medium mb-1">{t.profileName}</label>
                   <Input type="text" placeholder={t.profileName} className="text-xs" value={user ? user.name : loginName} onChange={e => user ? setUser({ ...user, name: e.target.value }) : setLoginName(e.target.value)} />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1">{t.email}</label>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium mb-1">{t.email}</label>
                   <Input type="email" placeholder={t.email} className="text-xs" value={user ? user.email : loginEmail} onChange={e => user ? setUser({ ...user, email: e.target.value }) : setLoginEmail(e.target.value)} />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1">{t.password}</label>
-                  <Input type="password" placeholder={t.password} className="text-xs" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
-                </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium mb-1">{t.password}</label>
+                        <Input type="password" placeholder={t.password} className="text-xs" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
+                      </div>
                 <Button type="submit" className="w-full bg-black text-white hover:bg-emerald-700 text-xs mt-2">{user ? 'Save' : t.login}</Button>
                 <Button
                   className={`w-full text-xs mt-2 ${user ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-gray-300 text-gray-400 cursor-not-allowed'}`}
@@ -302,7 +327,7 @@ export function Sidebar({ onClose, className = "", onShowAllCandidates, onShowIn
                 >
                   {'Logout'}
                 </Button>
-              </form>
+                    </form>
             </DialogContent>
           </Dialog>
         </div>

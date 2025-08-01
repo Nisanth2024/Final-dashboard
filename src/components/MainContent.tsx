@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ChevronRight, ChevronDown, Download, Filter as FilterIcon } from "lucide-react"
+import { ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus } from "lucide-react"
 import { InterviewRounds } from "./InterviewRounds"
 import { InterviewOverview } from "./InterviewOverview"
 import { CandidatesView } from "./CandidatesView"
@@ -15,6 +15,7 @@ import {
 } from "./ui/dropdown-menu"
 import { useTranslation } from "@/lib/useTranslation"
 import { motion } from "framer-motion"
+import { NotificationPanel } from "./NotificationPanel"
 
 const interviewers = [
   { name: "John Doe", img: "https://randomuser.me/api/portraits/men/32.jpg" },
@@ -119,7 +120,7 @@ export function MainContent({ language, setLanguage, departments }: { language: 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 24 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="flex-1 p-1 sm:p-2 md:p-3 lg:p-4 bg-gray-200 overflow-x-auto flex flex-col pt-4 pb-9 scroll-pt-16"
+      className="flex-1 p-1 sm:p-2 md:p-3 lg:p-4 bg-gray-200 overflow-x-hidden flex flex-col pt-4 pb-9 scroll-pt-16 min-w-0"
     >
       {/* Breadcrumbs and Page Title */}
       
@@ -128,15 +129,15 @@ export function MainContent({ language, setLanguage, departments }: { language: 
           <div className="flex flex-wrap items-center space-x-1 md:space-x-2 text-xs md:text-sm text-gray-600 mb-2">
             <span>{t.candidates}</span>
             <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
-            <span className="hidden sm:inline">{t.candidatesTitle || "Candidates"}</span>
-            <span className="sm:hidden">{t.candidatesTitle || "Candidates"}</span>
+            <span className="hidden sm:inline">Junior FrontEnd Developer</span>
+            <span className="sm:hidden">Junior FrontEnd Developer</span>
             <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
             <span className="text-black">{t.round} 3</span>
           </div>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full gap-2 md:gap-0">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full gap-0 md:gap-2">
             <h2 className="text-lg md:text-xl lg:text-2xl font-bold">{t.round}</h2>
             {/* All Departments, Export, Filter buttons at top right */}
-            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto md:flex-wrap md:w-full md:space-x-2 md:gap-y-2 lg:flex-nowrap lg:w-auto lg:space-x-2">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto md:flex-wrap md:w-full md:space-x-0 md:gap-y-2 lg:flex-nowrap lg:w-auto lg:space-x-2">
               <div className="relative">
                 <Button
                   variant="outline"
@@ -237,29 +238,30 @@ export function MainContent({ language, setLanguage, departments }: { language: 
         transition={{ duration: 0.3, delay: 0.05 }}
         className="flex-1 flex flex-col gap-1 md:gap-2 mb-10"
       >
-        {/* ROUND Panel - Full width, no right panel */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.05 }}
-          className="w-full"
-        >
+        {/* ROUND Panel and Notification Panel side by side */}
+        <div className="flex flex-col w-full gap-2 md:gap-4 md:flex-col lg:grid lg:grid-cols-[1fr_1fr_1fr] lg:items-stretch lg:h-full">
+          <div className="w-full lg:col-span-2 h-full flex flex-col justify-between">
+            {/* Round 1 Card (first in InterviewRounds) */}
           <InterviewRounds onViewCandidates={handleViewCandidates} onViewCandidatesRound2={handleViewCandidatesRound2} language={language} setLanguage={setLanguage} />
-        </motion.div>
+          </div>
+          <div className="w-full lg:col-span-1 h-full flex flex-col">
+            <NotificationPanel language={language} setLanguage={setLanguage} />
+          </div>
+        </div>
 
         {/* Previous Background Card and Right Side Stack - responsive layout */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3, delay: 0.1 }}
-          className="flex flex-col md:flex-row gap-1 md:gap-2 items-stretch"
+          className="flex flex-col lg:flex-row gap-1 md:gap-2 items-stretch"
         >
-          {/* Previous Background Card - responsive width */}
+          {/* Previous Background Card - full width on iPad, responsive on desktop */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.15 }}
-            className="w-full md:flex-[2] min-w-0 h-full flex flex-col md:mt-0"
+            className="w-full lg:flex-[2] min-w-0 h-full flex flex-col md:mt-0"
           >
             <InterviewOverview language={language} setLanguage={setLanguage} />
           </motion.div>
@@ -268,16 +270,21 @@ export function MainContent({ language, setLanguage, departments }: { language: 
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.2 }}
-            className="w-full md:flex-[1] flex flex-col justify-between min-w-0 mt-1 md:mt-2"
+            className="w-full lg:flex-[1] flex flex-col justify-between min-w-0 mt-1 md:mt-2 lg:mt-0 gap-2 md:gap-3"
             style={{ marginLeft: 0 }}
           >
             {/* Top Card - responsive height */}
             <div className="mb-1 md:mb-0" style={{ height: undefined }}>
               <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.25, ease: 'easeOut' }}
-                className="bg-white rounded-2xl shadow-md mt-11 mb-6 md:mb-2 p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[100px]"
+                initial={{ opacity: 0, y: 32, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' }}
+                whileHover={{ 
+                  y: -4, 
+                  scale: 1.02,
+                  transition: { duration: 0.2, ease: 'easeOut' }
+                }}
+                className="bg-white rounded-2xl shadow-md mt-2 lg:mt-0 mb-2 sm:mb-4 md:mb-2 p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[100px]"
               >
                 <div className="flex flex-row items-start justify-between mb-1">
                   <div>
@@ -310,8 +317,8 @@ export function MainContent({ language, setLanguage, departments }: { language: 
               transition={{ duration: 0.3, delay: 0.3 }}
               className="flex flex-col gap-1"
             >
-      <Card className="rounded-lg p-4 shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-4 md:mt-0">
-        <div className="flex items-center justify-between mb-1 -mt-2">
+      <Card className="rounded-2xl p-4 shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-1 sm:mt-2 md:mt-0">
+        <div className="flex items-center justify-between mb-0 sm:mb-1 md:mb-0 lg:mb-3 mt-[-10px]">
                   <span className="font-bold text-lg">{t.section || "Section"}</span>
           <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
             <DialogTrigger asChild>
@@ -320,7 +327,8 @@ export function MainContent({ language, setLanguage, departments }: { language: 
                 size="sm"
                 className="bg-black text-white hover:bg-emerald-700 hover:text-white rounded-xl px-2 py-1 text-sm font-medium transition-colors"
               >
-                 {t.addSection}
+                 <span className="hidden sm:inline md:inline">{t.addSection}</span>
+                 <span className="inline-flex sm:hidden md:hidden"><Plus className="w-4 h-4" /></span>
               </Button>
             </DialogTrigger>
             <DialogContent className="p-6 max-w-xs">

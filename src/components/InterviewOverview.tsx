@@ -80,7 +80,7 @@ export function InterviewOverview({ language }: { language: 'en' | 'es' | 'fr', 
   return (
     <div>
       {/* Header outside the card */}
-      <div className="flex flex-row items-center justify-between gap-x-2 mb-1 mt-6 md:mt-0">
+      <div className="flex flex-row items-center justify-between gap-x-2 mb-1 mt-6 md:mt-0 lg:mt-[-50px]">
         <h2 className="text-lg md:text-xl lg:text-2xl font-bold">{t.interviewOverview || "Interview Overview"}</h2>
         <div className="flex flex-row gap-x-2">
           <Button
@@ -119,7 +119,7 @@ export function InterviewOverview({ language }: { language: 'en' | 'es' | 'fr', 
           </DropdownMenu>
         </div>
       </div>
-      <Card className="rounded-lg p-1 md:p-1.5 shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col md:-mt-[-18px]">
+      <Card className="rounded-2xl p-1 md:p-1.5 shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col md:-mt-[-18px]">
         <CardContent className="space-y-2 p-2">
           <div className="space-y-2">
             {/* Previous Background Section */}
