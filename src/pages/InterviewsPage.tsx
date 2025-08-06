@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
-import { InterviewsView } from "../components/InterviewsView";
 import { AddPersonModal } from "../components/AddPersonModal";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { HelpCircle, X, UserPlus, Clock, Calendar, Users, Filter, Plus, Edit, Eye, CheckCircle, AlertCircle, Star, MapPin, Phone, Mail, ExternalLink, Download, Upload, Settings, MoreHorizontal, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { allCandidates, type Candidate } from "../components/CandidatesView";
+import { allCandidates, type Candidate } from "./CandidatesPage";
 
 export default function InterviewsPage() {
   const navigate = useNavigate();
@@ -347,6 +346,100 @@ export default function InterviewsPage() {
     }
   ]);
 
+  // Simple interview creation state (from InterviewsView)
+  const [createOpen, setCreateOpen] = useState(false);
+  const [interviewTitle, setInterviewTitle] = useState("");
+  const [interviewDate, setInterviewDate] = useState("");
+  const [interviewTime, setInterviewTime] = useState("");
+  const [selectedInterviewer, setSelectedInterviewer] = useState("");
+  const [selectedCandidate, setSelectedCandidate] = useState("");
+  const [roundType, setRoundType] = useState("");
+  const [duration, setDuration] = useState("");
+  const [instructions, setInstructions] = useState("");
+
+  // Simple interview type (from InterviewsView)
+  type SimpleInterview = {
+    title: string;
+    date: string;
+    time: string;
+    interviewers: string[];
+    candidates: string[];
+    roundType: string;
+    duration: string;
+    instructions: string;
+  };
+
+  const [simpleInterviews, setSimpleInterviews] = useState<SimpleInterview[]>([]);
+
+  // Default simple interviews (from InterviewsView)
+  const defaultSimpleInterviews: SimpleInterview[] = [
+    {
+      title: "Frontend Developer - Technical Round",
+      date: "2025-08-01",
+      time: "10:00",
+      interviewers: ["John Doe", "Sarah Miller"],
+      candidates: ["Sarah Johnson", "Michael Chen"],
+      roundType: "Technical",
+      duration: "45 min",
+      instructions: "Bring your laptop and portfolio."
+    },
+    {
+      title: "Backend Developer - Screening",
+      date: "2025-08-02",
+      time: "14:00",
+      interviewers: ["Ryan King", "Alex Lee"],
+      candidates: ["Emily Rodriguez", "David Kim"],
+      roundType: "Screening",
+      duration: "30 min",
+      instructions: "Prepare for algorithm questions."
+    },
+    {
+      title: "UI/UX Designer - HR Round",
+      date: "2025-08-03",
+      time: "11:30",
+      interviewers: ["Priya Patel"],
+      candidates: ["Lisa Thompson"],
+      roundType: "HR",
+      duration: "20 min",
+      instructions: "Discuss your design process."
+    }
+  ];
+
+  // Initialize simple interviews
+  useEffect(() => {
+    setSimpleInterviews(defaultSimpleInterviews);
+  }, []);
+
+  // Simple interview handlers (from InterviewsView)
+  const handleEditSimpleInterview = (index: number) => {
+    const interviewToEdit = simpleInterviews[index];
+    setInterviewTitle(interviewToEdit.title);
+    setInterviewDate(interviewToEdit.date);
+    setInterviewTime(interviewToEdit.time);
+    setSelectedInterviewer(interviewToEdit.interviewers[0] || "");
+    setSelectedCandidate(interviewToEdit.candidates[0] || "");
+    setRoundType(interviewToEdit.roundType);
+    setDuration(interviewToEdit.duration);
+    setInstructions(interviewToEdit.instructions);
+    setCreateOpen(true);
+  };
+
+    const handleDeleteSimpleInterview = (index: number) => {
+    setSimpleInterviews(prev => prev.filter((_, i) => i !== index));
+  };
+
+  // Simple interviewers data (from InterviewsView)
+  const simpleInterviewers = [
+    { name: "John Doe", img: "https://randomuser.me/api/portraits/men/32.jpg" },
+    { name: "Ryan King", img: "https://randomuser.me/api/portraits/men/45.jpg" },
+    { name: "Sarah Miller", img: "https://randomuser.me/api/portraits/women/44.jpg" },
+    { name: "Priya Patel", img: "https://randomuser.me/api/portraits/women/68.jpg" },
+    { name: "Alex Lee", img: "https://randomuser.me/api/portraits/men/51.jpg" },
+    { name: "Maria Garcia", img: "https://randomuser.me/api/portraits/women/65.jpg" },
+    { name: "David Kim", img: "https://randomuser.me/api/portraits/men/23.jpg" },
+    { name: "Emily Chen", img: "https://randomuser.me/api/portraits/women/12.jpg" },
+  ];
+  
   // State for modals and UI
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
   const [interviewDetailsModalOpen, setInterviewDetailsModalOpen] = useState(false);
@@ -533,6 +626,14 @@ export default function InterviewsPage() {
                       >
                         <Plus className="w-4 h-4 lg:mr-2" />
                         <span className="hidden lg:inline">Schedule Interview</span>
+                      </Button>
+                      <Button 
+                        onClick={() => setCreateOpen(true)} 
+                        variant="outline"
+                        className="border-black text-black hover:bg-emerald-700 hover:text-white"
+                      >
+                        <Plus className="w-4 h-4 lg:mr-2" />
+                        <span className="hidden lg:inline">Quick Create</span>
                       </Button>
                     </div>
                   </div>
@@ -1582,6 +1683,171 @@ export default function InterviewsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Simple Interview Creation Modal (from InterviewsView) */}
+      <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create Interview</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Input
+              placeholder="Interview Title (e.g., Junior Frontend Developer - Round 1)"
+              value={interviewTitle}
+              onChange={e => setInterviewTitle(e.target.value)}
+              required
+            />
+            <div className="grid grid-cols-2 gap-2">
+              <Input
+                type="date"
+                placeholder="Date"
+                value={interviewDate}
+                onChange={e => setInterviewDate(e.target.value)}
+                required
+              />
+              <Input
+                type="time"
+                placeholder="Time"
+                value={interviewTime}
+                onChange={e => setInterviewTime(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="block text-xs font-medium mb-1">Interviewers</Label>
+              <Select value={selectedInterviewer} onValueChange={setSelectedInterviewer}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select interviewer" />
+                </SelectTrigger>
+                <SelectContent>
+                  {simpleInterviewers.map((user) => (
+                    <SelectItem key={user.name} value={user.name}>{user.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label className="block text-xs font-medium mb-1">Candidates</Label>
+              <Select value={selectedCandidate} onValueChange={setSelectedCandidate}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select candidate" />
+                </SelectTrigger>
+                <SelectContent>
+                  {allCandidates.map((c) => (
+                    <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label className="block text-xs font-medium mb-1">Round Type</Label>
+              <Select value={roundType} onValueChange={setRoundType}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select round type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Screening">Screening</SelectItem>
+                  <SelectItem value="Technical">Technical</SelectItem>
+                  <SelectItem value="HR">HR</SelectItem>
+                  <SelectItem value="Final">Final</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Input
+              placeholder="Duration (e.g., 30 min)"
+              value={duration}
+              onChange={e => setDuration(e.target.value)}
+              required
+            />
+            <Textarea
+              placeholder="Instructions (optional guidelines or documents)"
+              value={instructions}
+              onChange={e => setInstructions(e.target.value)}
+            />
+          </div>
+          <DialogFooter>
+            <Button onClick={() => {
+              setSimpleInterviews(prev => [
+                ...prev,
+                {
+                  title: interviewTitle,
+                  date: interviewDate,
+                  time: interviewTime,
+                  interviewers: selectedInterviewer ? [selectedInterviewer] : [],
+                  candidates: selectedCandidate ? [selectedCandidate] : [],
+                  roundType,
+                  duration,
+                  instructions,
+                }
+              ]);
+              setCreateOpen(false);
+              setInterviewTitle("");
+              setInterviewDate("");
+              setInterviewTime("");
+              setSelectedInterviewer("");
+              setSelectedCandidate("");
+              setRoundType("");
+              setDuration("");
+              setInstructions("");
+            }} className="hover:bg-emerald-700">
+              Create
+            </Button>
+            <DialogClose asChild>
+              <Button variant="ghost" className="hover:bg-emerald-700">
+                Cancel
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Simple Interviews List Section */}
+      <div className="mt-8">
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="w-5 h-5 text-emerald-700" />
+              Simple Interviews
+            </CardTitle>
+            <CardDescription>
+              Quick interview creation and management
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {simpleInterviews.length === 0 ? (
+                <div className="text-gray-500 text-center py-8">No simple interviews created yet.</div>
+              ) : (
+                simpleInterviews.map((iv, idx) => (
+                  <Card key={idx} className="bg-white rounded-lg shadow border border-gray-200 p-4 flex flex-col gap-1 w-full max-w-full">
+                    <CardContent className="p-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div className="font-semibold text-base sm:text-lg truncate text-gray-700">{iv.title}</div>
+                        <div className="flex gap-1">
+                          <Button size="sm" variant="outline" className="text-xs px-2 py-1 bg-black text-white hover:bg-emerald-700 border-none" onClick={() => handleEditSimpleInterview(idx)}>
+                            Edit
+                          </Button>
+                          <Button size="sm" variant="destructive" className="text-xs px-2 py-1 text-red-600 bg-red-100 border-none" onClick={() => handleDeleteSimpleInterview(idx)}>
+                            Delete
+                          </Button>
+                        </div>
+                      </div>
+                      {/* Details */}
+                      <div className="text-xs text-gray-700 mt-2 space-y-1">
+                        <div>Date: <span className="text-emerald-700">{iv.date} {iv.time}</span></div>
+                        <div>Round: <span className="text-emerald-700">{iv.roundType}</span> • <span className="text-emerald-700">{iv.duration}</span></div>
+                        <div>Interviewers: <span className="text-gray-600">{iv.interviewers.join(", ")}</span></div>
+                        <div>Candidates: <span className="text-gray-600">{iv.candidates.join(", ")}</span></div>
+                        {iv.instructions && <div className="text-gray-500">Instructions: {iv.instructions}</div>}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 } 

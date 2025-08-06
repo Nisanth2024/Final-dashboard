@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label"
 import { Flex } from "@/components/ui/flex"
 import { Stack } from "@/components/ui/stack"
 import { Typography } from "@/components/ui/typography"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Home, Users, Settings, X, LogOut, Bell, UserPlus, Upload } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { useState } from "react"
@@ -70,19 +72,21 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
   };
 
   return (
-    <aside className={`w-50 max-w-full bg-gray-200 flex flex-col h-screen overflow-hidden transition-transform duration-300 ease-in-out fixed z-40 inset-y-0 left-0 lg:static lg:translate-x-0 lg:top-[80px] lg:h-[calc(100vh-70px)] text-sm ${className}` + (typeof window !== 'undefined' && window.innerWidth < 1024 ? ' translate-x-0' : '')}>
+    <Card className={`w-50 max-w-full bg-gray-200 flex flex-col h-screen overflow-hidden transition-transform duration-300 ease-in-out fixed z-40 inset-y-0 left-0 lg:static lg:translate-x-0 lg:top-[80px] lg:h-[calc(100vh-70px)] text-sm ${className}` + (typeof window !== 'undefined' && window.innerWidth < 1024 ? ' translate-x-0' : '')}>
       {/* Mobile Header with Close Button */}
-      <Flex align="center" justify="between" className="p-3 lg:hidden flex-shrink-0">
-        <Typography variant="h2" size="base" weight="semibold" className="text-base font-semibold">Menu</Typography>
-        <Button variant="ghost" size="sm" className="hover:bg-emerald-700 ml-2 sm:ml-0" onClick={onClose}>
-          <X className="w-4 h-4" />
-        </Button>
-      </Flex>
+      <CardHeader className="p-3 lg:hidden flex-shrink-0">
+        <Flex align="center" justify="between">
+          <Typography variant="h2" size="base" weight="semibold" className="text-base font-semibold">Menu</Typography>
+          <Button variant="ghost" size="sm" className="hover:bg-emerald-700 ml-2 sm:ml-0" onClick={onClose}>
+            <X className="w-4 h-4" />
+          </Button>
+        </Flex>
+      </CardHeader>
 
       {/* Content Area - No scroll */}
-      <div className="flex-1 flex flex-col">
+      <CardContent className="flex-1 flex flex-col p-0">
         {/* Navigation and Departments */}
-        <div className="p-4 flex-1 flex flex-col">
+        <Stack spacing={4} className="p-4 flex-1">
           <Typography variant="h2" size="sm" weight="semibold" className="text-sm font-semibold mb-2 mt-[-14px]">{t.round}</Typography>
           
           <motion.nav className="space-y-0.5" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}>
@@ -153,8 +157,10 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </Button>
             </motion.div>
           </motion.nav>
+        </Stack>
+        
         {/* Departments Section */}
-        <div className="mt-4">
+        <Stack spacing={4} className="mt-4">
           <Flex align="center" className="mb-3">
             <Typography variant="h2" size="sm" weight="normal" className="text-sm font-normal text-black flex items-center">
               {t.departments}
@@ -217,13 +223,14 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          </div>
-        </div>
+          </Stack>
+        </CardContent>
+        
         {/* Group PRO card and user profile at the bottom */}
-        <div className="mt-auto">
+        <div className="mt-auto p-0">
           {/* Compact PRO Mode Card */}
-          <div className="p-1 md:p-0.5 max-w-[200px] ml-2">
-            <div className="rounded-lg overflow-hidden shadow-sm">
+          <Card className="p-1 md:p-0.5 max-w-[200px] ml-2">
+            <CardContent className="p-0">
               {/* Abstract Background Section */}
               <div className="h-8 md:h-6 bg-gradient-to-r from-teal-300 via-rose-200 to-orange-300 relative">
                 {/* Abstract shapes */}
@@ -232,20 +239,22 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                 <div className="absolute bottom-1 left-1/2 w-4 h-1 bg-rose-300/50 rounded-full transform -translate-x-1/2"></div>
               </div>
               {/* Content Section */}
-              <div className="bg-white p-1 text-center">
+              <CardContent className="bg-white p-1 text-center">
                 <Typography variant="h3" size="xs" weight="bold" className="font-bold text-xs mb-0.5">{t.proModeTitle}</Typography>
                 <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-600 mb-1 leading-tight">{t.proModeDesc}</Typography>
                 {/* Compact Discount Card */}
-                <div className="bg-green-50 border border-green-200 rounded p-0.5 mb-1 flex items-center justify-center space-x-1">
-                  <div className="relative">
-                    <div className="w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center text-[10px]">🎉</div>
-                    <Badge className="absolute -top-0.5 -right-0.5 bg-black text-white text-[10px] px-0.5 py-0">Pro</Badge>
-                  </div>
-                  <div className="text-left">
-                    <Typography variant="p" size="xs" weight="bold" className="font-bold text-[10px]">{t.discount}</Typography>
-                    <Typography variant="p" size="xs" color="muted" className="text-[10px] text-gray-600">{t.forFirstMonth}</Typography>
-                  </div>
-                </div>
+                <Card className="bg-green-50 border border-green-200 rounded p-0.5 mb-1">
+                  <CardContent className="flex items-center justify-center space-x-1 p-0">
+                    <div className="relative">
+                      <div className="w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center text-[10px]">🎉</div>
+                      <Badge className="absolute -top-0.5 -right-0.5 bg-black text-white text-[10px] px-0.5 py-0">Pro</Badge>
+                    </div>
+                    <div className="text-left">
+                      <Typography variant="p" size="xs" weight="bold" className="font-bold text-[10px]">{t.discount}</Typography>
+                      <Typography variant="p" size="xs" color="muted" className="text-[10px] text-gray-600">{t.forFirstMonth}</Typography>
+                    </div>
+                  </CardContent>
+                </Card>
                 {/* Call to Action Button */}
                 <Button className="w-full bg-black text-white hover:bg-emerald-700 text-xs h-7 md:h-6" onClick={() => setProModalOpen(true)}>
                   <Typography variant="span" size="xs">{t.explorePro}</Typography>
@@ -256,13 +265,13 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                       <DialogTitle>{t.proModeTitle}</DialogTitle>
                       <DialogDescription>{t.proModeDesc}</DialogDescription>
                     </DialogHeader>
-                    <div className="my-4 space-y-2">
+                    <CardContent className="my-4 space-y-2">
                       <ul className="list-disc pl-5 text-sm text-gray-700">
                         <li>{t.allPremium}</li>
                         <li>{t.proModeDesc}</li>
                         <li>{t.discount} {t.forFirstMonth}</li>
                       </ul>
-                    </div>
+                    </CardContent>
                     <DialogFooter>
                       <DialogClose asChild>
                         <Button className="bg-black text-white hover:bg-emerald-700 text-xs h-8 w-full mt-2">
@@ -272,25 +281,27 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
-              </div>
-            </div>
-          </div>
+              </CardContent>
+            </CardContent>
+          </Card>
           {/* User Profile - Fixed at bottom */}
-          <div className="p-2 bg-gray-200 flex-shrink-0 max-w-[200px] ml-0 cursor-pointer" onClick={() => setProfileModalOpen(true)}>
-            <Flex align="center" gap={2} className="hover:bg-emerald-700 rounded p-1 transition-colors">
-              <Avatar className="w-6 h-6">
-                <AvatarImage src={profilePic || "https://randomuser.me/api/portraits/men/65.jpg"} />
-                <AvatarFallback className="text-xs">AC</AvatarFallback>
-              </Avatar>
-              <Stack spacing={1} className="flex-1 min-w-0">
-                <Typography variant="p" size="xs" weight="medium" className="text-xs font-medium truncate">{user ? user.name : t.userProfile}</Typography>
-                <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500 truncate">{user ? user.email : "user@example.com"}</Typography>
-              </Stack>
-              <Button variant="ghost" size="icon" className="hover:bg-emerald-700" aria-label="Logout" onClick={user ? () => setUser(null) : undefined} disabled={!user}>
-                <LogOut className="w-5 h-5 text-gray-400" />
-              </Button>
-            </Flex>
-          </div>
+          <Card className="p-2 bg-gray-200 flex-shrink-0 max-w-[200px] ml-0 cursor-pointer" onClick={() => setProfileModalOpen(true)}>
+            <CardContent className="p-0">
+              <Flex align="center" gap={2} className="hover:bg-emerald-700 rounded p-1 transition-colors">
+                <Avatar className="w-6 h-6">
+                  <AvatarImage src={profilePic || "https://randomuser.me/api/portraits/men/65.jpg"} />
+                  <AvatarFallback className="text-xs">AC</AvatarFallback>
+                </Avatar>
+                <Stack spacing={1} className="flex-1 min-w-0">
+                  <Typography variant="p" size="xs" weight="medium" className="text-xs font-medium truncate">{user ? user.name : t.userProfile}</Typography>
+                  <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500 truncate">{user ? user.email : "user@example.com"}</Typography>
+                </Stack>
+                <Button variant="ghost" size="icon" className="hover:bg-emerald-700" aria-label="Logout" onClick={user ? () => setUser(null) : undefined} disabled={!user}>
+                  <LogOut className="w-5 h-5 text-gray-400" />
+                </Button>
+              </Flex>
+            </CardContent>
+          </Card>
           <Dialog open={profileModalOpen} onOpenChange={setProfileModalOpen}>
             <DialogContent className="max-w-md">
               <DialogHeader>
@@ -370,7 +381,6 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
             </DialogContent>
           </Dialog>
         </div>
-      </div>
-    </aside>
+      </Card>
   )
 } 

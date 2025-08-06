@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Flex } from "@/components/ui/flex"
 import { Stack } from "@/components/ui/stack"
 import { Typography } from "@/components/ui/typography"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, UserPlus, Bell, Calendar, ArrowRight, ChevronDown, Menu, Plus, X, Settings, User } from "lucide-react"
 import { SearchModal } from "./SearchModal"
 import { AddPersonModal } from "./AddPersonModal"
@@ -55,7 +57,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
     { id: 5, title: 'Round 2 scheduled', desc: 'Round 2 for Michael Chen is scheduled for tomorrow', icon: 'round' },
   ];
   return (
-    <header className="flex flex-wrap items-center justify-between p-1 sm:p-1.5 md:p-2 bg-white rounded-t-xl shadow-sm border-b border-gray-200 relative">
+    <Card className="flex flex-wrap items-left justify-between p-1 sm:p-1.5 md:p-2 bg-white rounded-t-xl shadow-sm border-b border-gray-200 relative">
       <Flex align="center" gap={3} className="space-x-1.5 md:space-x-3">
         {/* Mobile Menu Button */}
         <Button variant="ghost" size="sm" className="md:hidden p-1 bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300" onClick={onMenuClick}>
@@ -181,22 +183,24 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
       />
       {/* Notification Dropdown/Modal */}
       {notificationOpen && (
-        <div className="fixed top-16 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl border animate-fade-in">
-          <Flex align="center" justify="between" className="p-4 border-b">
-            <Typography variant="h2" size="lg" weight="semibold" className="text-lg font-semibold">Notifications</Typography>
-            <Button 
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setNotificationOpen(false);
-                setShowAllNotifications(false);
-              }}
-              className="p-2 hover:bg-emerald-700 rounded-lg"
-            >
-              <X className="w-5 h-5" />
-            </Button>
-          </Flex>
-          <div className="flex-1 p-4">
+        <Card className="fixed top-16 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl border animate-fade-in">
+          <CardHeader className="p-4 border-b">
+            <Flex align="center" justify="between">
+              <Typography variant="h2" size="lg" weight="semibold" className="text-lg font-semibold">Notifications</Typography>
+              <Button 
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setNotificationOpen(false);
+                  setShowAllNotifications(false);
+                }}
+                className="p-2 hover:bg-emerald-700 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </Button>
+            </Flex>
+          </CardHeader>
+          <CardContent className="flex-1 p-4">
             {!showAllNotifications ? (
               <Stack spacing={4}>
                 {/* Show only the first notification as a summary */}
@@ -214,40 +218,42 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
                 </Flex>
               </Stack>
             ) : (
-              <Stack spacing={2} className="max-h-64 overflow-y-auto">
-                <Button variant="ghost" size="sm" className="mb-2 text-xs text-blue-600 hover:underline" onClick={() => setShowAllNotifications(false)}>
-                  <Typography variant="span" size="xs">&larr; Back</Typography>
-                </Button>
-                {notifications.map((n) => (
-                  <Flex key={n.id} align="start" gap={3} className="p-3 rounded-lg hover:bg-emerald-700 border-b last:border-b-0">
-                    <div className="w-4 h-4 mt-0.5">
-                      {/* Simple icon logic for demo */}
-                      {n.icon === 'pro' && (
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                      )}
-                      {n.icon === 'candidate' && (
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
-                      )}
-                      {n.icon === 'deadline' && (
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM4.19 4.19A4 4 0 004 6v6a4 4 0 004 4h6a4 4 0 004-4V6a4 4 0 00-4-4H8a4 4 0 00-2.81 1.19z" /></svg>
-                      )}
-                      {n.icon === 'feedback' && (
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 20l.8-4A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                      )}
-                      {n.icon === 'round' && (
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6l4 2" /></svg>
-                      )}
-                    </div>
-                    <Stack spacing={1} className="flex-1">
-                      <Typography variant="p" size="sm" weight="medium">{n.title}</Typography>
-                      <Typography variant="p" size="xs" color="muted">{n.desc}</Typography>
-                    </Stack>
-                  </Flex>
-                ))}
-              </Stack>
+              <ScrollArea className="max-h-64">
+                <Stack spacing={2}>
+                  <Button variant="ghost" size="sm" className="mb-2 text-xs text-blue-600 hover:underline" onClick={() => setShowAllNotifications(false)}>
+                    <Typography variant="span" size="xs">&larr; Back</Typography>
+                  </Button>
+                  {notifications.map((n) => (
+                    <Flex key={n.id} align="start" gap={3} className="p-3 rounded-lg hover:bg-emerald-700 border-b last:border-b-0">
+                      <div className="w-4 h-4 mt-0.5">
+                        {/* Simple icon logic for demo */}
+                        {n.icon === 'pro' && (
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        )}
+                        {n.icon === 'candidate' && (
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                        )}
+                        {n.icon === 'deadline' && (
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM4.19 4.19A4 4 0 004 6v6a4 4 0 004 4h6a4 4 0 004-4V6a4 4 0 00-4-4H8a4 4 0 00-2.81 1.19z" /></svg>
+                        )}
+                        {n.icon === 'feedback' && (
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 20l.8-4A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                        )}
+                        {n.icon === 'round' && (
+                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6l4 2" /></svg>
+                        )}
+                      </div>
+                      <Stack spacing={1} className="flex-1">
+                        <Typography variant="p" size="sm" weight="medium">{n.title}</Typography>
+                        <Typography variant="p" size="xs" color="muted">{n.desc}</Typography>
+                      </Stack>
+                    </Flex>
+                  ))}
+                </Stack>
+              </ScrollArea>
             )}
-          </div>
-          <div className="p-4 border-t">
+          </CardContent>
+          <CardContent className="p-4 border-t">
             <Flex gap={2}>
               <Button 
                 className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
@@ -264,8 +270,8 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
                 <Typography variant="span" size="xs">Notes</Typography>
               </Button>
             </Flex>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
       {/* Notes Modal */}
       <Dialog open={notesOpen} onOpenChange={setNotesOpen}>
@@ -296,25 +302,27 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
               <Typography variant="span" size="xs">Add Note</Typography>
             </Button>
           </Stack>
-          <Stack spacing={2} className="max-h-40 overflow-y-auto">
-            {notes.length === 0 ? (
-              <Typography variant="p" size="xs" color="muted" align="center" className="text-gray-400 text-xs text-center">No notes yet.</Typography>
-            ) : (
-              notes.map((note, idx) => (
-                <Flex key={idx} align="center" justify="between" className="bg-gray-100 rounded p-2 text-xs">
-                  <Typography variant="span" size="xs">{note}</Typography>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-red-500 ml-2 text-xs p-0 h-auto" 
-                    onClick={() => setNotes(notes.filter((_, i) => i !== idx))}
-                  >
-                    <Typography variant="span" size="xs">Delete</Typography>
-                  </Button>
-                </Flex>
-              ))
-            )}
-          </Stack>
+          <ScrollArea className="max-h-40">
+            <Stack spacing={2}>
+              {notes.length === 0 ? (
+                <Typography variant="p" size="xs" color="muted" align="center" className="text-gray-400 text-xs text-center">No notes yet.</Typography>
+              ) : (
+                notes.map((note, idx) => (
+                  <Flex key={idx} align="center" justify="between" className="bg-gray-100 rounded p-2 text-xs">
+                    <Typography variant="span" size="xs">{note}</Typography>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="text-red-500 ml-2 text-xs p-0 h-auto" 
+                      onClick={() => setNotes(notes.filter((_, i) => i !== idx))}
+                    >
+                      <Typography variant="span" size="xs">Delete</Typography>
+                    </Button>
+                  </Flex>
+                ))
+              )}
+            </Stack>
+          </ScrollArea>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-emerald-700">
@@ -324,6 +332,6 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </header>
+    </Card>
   )
 } 

@@ -1,8 +1,8 @@
-import { useState } from "react"
+
 import { ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus, ArrowRight, X } from "lucide-react"
 
 
-import { CandidatesView } from "./CandidatesView"
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Button } from "./ui/button"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription, DialogClose } from "./ui/dialog"
@@ -28,42 +28,10 @@ import { motion } from "framer-motion"
 
 export function MainContent({ language, setLanguage, departments, Round1Card, Round2Card, NotificationPanel }: { language: 'en' | 'es' | 'fr', setLanguage: (lang: 'en' | 'es' | 'fr') => void, departments: { name: string, color: string }[], setDepartments: (depts: { name: string, color: string }[]) => void, Round1Card: React.ComponentType<{ onViewCandidates: () => void }>, Round2Card: React.ComponentType<{ onViewCandidatesRound2: () => void }>, NotificationPanel: React.ComponentType<{ language: 'en' | 'es' | 'fr', setLanguage: (lang: 'en' | 'es' | 'fr') => void }> }) {
   const t = useTranslation(language);
-  const [currentView, setCurrentView] = useState<'dashboard' | 'candidates'>('dashboard')
-  const [currentCandidatesRound, setCurrentCandidatesRound] = useState<1 | 2>(1)
 
 
 
 
-
-  const handleViewCandidates = () => {
-    setCurrentCandidatesRound(1)
-    setCurrentView('candidates')
-  }
-
-  const handleViewCandidatesRound2 = () => {
-    setCurrentCandidatesRound(2)
-    setCurrentView('candidates')
-  }
-
-  const handleBackToDashboard = () => {
-    setCurrentView('dashboard')
-  }
-
-
-
-  if (currentView === 'candidates') {
-    return (
-      <div className="flex-1 p-1 sm:p-2 md:p-3 lg:p-4 bg-gray-200 overflow-hidden flex flex-col">
-        <CandidatesView
-          onBack={handleBackToDashboard}
-          round={currentCandidatesRound}
-          language={language}
-          setLanguage={setLanguage}
-          departments={departments}
-        />
-      </div>
-    )
-  }
 
   return (
     <motion.div
@@ -86,44 +54,56 @@ export function MainContent({ language, setLanguage, departments, Round1Card, Ro
         <Stack spacing={4} className="flex flex-col w-full gap-4 sm:gap-4 md:gap-4 lg:gap-6 xl:gap-8">
           {/* Mobile & Tablet: Stacked Layout */}
           <Grid cols={1} gap={4} className="grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:hidden gap-4 sm:gap-4 md:gap-4">
-        <div className="w-full">
-          <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-4 xl:gap-3 2xl:gap-2 animate-in fade-in slide-in-from-bottom-4">
-            <Round1Card onViewCandidates={handleViewCandidates} />
-            <Round2Card onViewCandidatesRound2={handleViewCandidatesRound2} />
-          </Grid>
-        </div>
-            <div className="w-full">
-              <NotificationPanel language={language} setLanguage={setLanguage} />
-            </div>
+        <Card className="w-full">
+          <CardContent className="p-0">
+            <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-4 xl:gap-3 2xl:gap-2 animate-in fade-in slide-in-from-bottom-4">
+              <Round1Card onViewCandidates={() => {}} />
+              <Round2Card onViewCandidatesRound2={() => {}} />
+            </Grid>
+          </CardContent>
+        </Card>
+            <Card className="w-full">
+              <CardContent className="p-0">
+                <NotificationPanel language={language} setLanguage={setLanguage} />
+              </CardContent>
+            </Card>
           </Grid>
           
           {/* Nest Hub & iPad Pro: Special Stacked Layout */}
           <Grid cols={2} gap={6} className="hidden lg:grid lg:grid-cols-1 xl:hidden 2xl:grid-cols-[2.2fr_1fr] gap-4 lg:gap-6 xl:gap-8">
-            <div className="w-full h-full flex flex-col justify-between">
-              <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-4 xl:gap-3 2xl:gap-2 animate-in fade-in slide-in-from-bottom-4">
-                <Round1Card onViewCandidates={handleViewCandidates} />
-                <Round2Card onViewCandidatesRound2={handleViewCandidatesRound2} />
-              </Grid>
-            </div>
-            <div className="w-full h-full flex flex-col justify-start items-start">
-              <NotificationPanel language={language} setLanguage={setLanguage} />
-            </div>
+            <Card className="w-full h-full flex flex-col justify-between">
+              <CardContent className="p-0">
+                <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-4 xl:gap-3 2xl:gap-2 animate-in fade-in slide-in-from-bottom-4">
+                  <Round1Card onViewCandidates={() => {}} />
+                  <Round2Card onViewCandidatesRound2={() => {}} />
+                </Grid>
+              </CardContent>
+            </Card>
+            <Card className="w-full h-full flex flex-col justify-start items-start">
+              <CardContent className="p-0">
+                <NotificationPanel language={language} setLanguage={setLanguage} />
+              </CardContent>
+            </Card>
           </Grid>
 
           {/* Nest Hub Max: Special Layout - Swapped Positions */}
           <Grid cols={2} gap={0} className="hidden xl:grid xl:grid-cols-[2.3fr_1.1fr] 2xl:hidden gap-0 lg:gap-0 xl:gap-0">
            
             {/* Right Side: Interview Rounds (moved from left) */}
-            <div className="w-full h-full flex flex-col justify-between items-start">
-              <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-4 xl:gap-3 2xl:gap-2 animate-in fade-in slide-in-from-bottom-4">
-                <Round1Card onViewCandidates={handleViewCandidates} />
-                <Round2Card onViewCandidatesRound2={handleViewCandidatesRound2} />
-              </Grid>
-            </div>
+            <Card className="w-full h-full flex flex-col justify-between items-start">
+              <CardContent className="p-0">
+                <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-4 xl:gap-3 2xl:gap-2 animate-in fade-in slide-in-from-bottom-4">
+                  <Round1Card onViewCandidates={() => {}} />
+                  <Round2Card onViewCandidatesRound2={() => {}} />
+                </Grid>
+              </CardContent>
+            </Card>
              {/* Left Side: Notification Panel (moved from right) */}
-             <div className="w-full h-full flex flex-col justify-start items-start">
-              <NotificationPanel language={language} setLanguage={setLanguage} />
-            </div>
+             <Card className="w-full h-full flex flex-col justify-start items-start">
+              <CardContent className="p-0">
+                <NotificationPanel language={language} setLanguage={setLanguage} />
+              </CardContent>
+            </Card>
           </Grid>
           
           {/* Desktop (2XL): Swapped Layout - Notification Panel on Left, Rounds on Right */}
@@ -131,17 +111,21 @@ export function MainContent({ language, setLanguage, departments, Round1Card, Ro
            
             
             {/* Right Side: Interview Rounds */}
-            <div className="w-full h-full flex flex-col justify-between">
-              <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-4 xl:gap-3 2xl:gap-2 animate-in fade-in slide-in-from-bottom-4">
-                <Round1Card onViewCandidates={handleViewCandidates} />
-                <Round2Card onViewCandidatesRound2={handleViewCandidatesRound2} />
-              </Grid>
-            </div>
+            <Card className="w-full h-full flex flex-col justify-between">
+              <CardContent className="p-0">
+                <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:gap-4 xl:gap-3 2xl:gap-2 animate-in fade-in slide-in-from-bottom-4">
+                  <Round1Card onViewCandidates={() => {}} />
+                  <Round2Card onViewCandidatesRound2={() => {}} />
+                </Grid>
+              </CardContent>
+            </Card>
 
              {/* Left Side: Notification Panel */}
-             <div className="w-full h-full flex flex-col justify-start">
-              <NotificationPanel language={language} setLanguage={setLanguage} />
-            </div>
+             <Card className="w-full h-full flex flex-col justify-start">
+              <CardContent className="p-0">
+                <NotificationPanel language={language} setLanguage={setLanguage} />
+              </CardContent>
+            </Card>
           </Grid>
         </Stack>
       </motion.div>

@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { HelpCircle, X, UserPlus, Clock, Eye, ArrowRight, Users, Bell, FileText, ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus, MoreHorizontal, Edit, Trash2, Save } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { allCandidates, type Candidate } from "../components/CandidatesView";
+import { allCandidates, type Candidate } from "./CandidatesPage";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Grid } from "@/components/ui/grid";
 import { Flex } from "@/components/ui/flex";
@@ -455,9 +455,9 @@ export default function DashboardPage() {
           y: -4, 
           scale: 1.02,
           transition: { duration: 0.2, ease: 'easeOut' }
-        }}
-        className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full"
+        }}className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full"
       >
+        
         <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full rounded-2xl shadow-md hover:shadow-md transition-all duration-200 hover:scale-[1.01]">
           <CardHeader className="pb-0 px-3 sm:px-2 md:px-3 lg:px-3 xl:px-4 2xl:px-2">
             <Typography 

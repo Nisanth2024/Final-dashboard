@@ -6,6 +6,11 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Stack } from "@/components/ui/stack"
+import { Flex } from "@/components/ui/flex"
+import { Grid } from "@/components/ui/grid"
+import { Typography } from "@/components/ui/typography"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { X, Plus } from "lucide-react"
 
 interface AddPersonModalProps {
@@ -147,16 +152,16 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
           <DialogDescription>{personType === 'candidate' ? 'Fill in the details to add a new candidate.' : 'Fill in the details to add a new interviewer.'}</DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-4">
+        <Stack spacing={4}>
           {/* Person Type Selection */}
-          <div className="flex space-x-2">
+          <Flex gap={2}>
             <Button
               variant={personType === 'candidate' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setPersonType('candidate')}
               className={`flex-1 ${personType === 'candidate' ? 'bg-black text-white hover:bg-emerald-700 hover:text-white' : ''}`}
             >
-              Candidate
+              <Typography variant="span" size="sm">Candidate</Typography>
             </Button>
             <Button
               variant={personType === 'interviewer' ? 'default' : 'outline'}
@@ -164,13 +169,13 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
               onClick={() => setPersonType('interviewer')}
               className={`flex-1 ${personType === 'interviewer' ? 'bg-black text-white hover:bg-emerald-700 hover:text-white' : ''}`}
             >
-              Interviewer
+              <Typography variant="span" size="sm">Interviewer</Typography>
             </Button>
-          </div>
+          </Flex>
 
           {/* Basic Information */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+          <Grid cols={2} gap={4}>
+            <Stack spacing={2}>
               <Label htmlFor="name">Full Name *</Label>
               <Input
                 id="name"
@@ -178,8 +183,8 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter full name"
               />
-            </div>
-            <div className="space-y-2">
+            </Stack>
+            <Stack spacing={2}>
               <Label htmlFor="email">Email Address *</Label>
               <Input
                 id="email"
@@ -188,11 +193,11 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter email address"
               />
-            </div>
-          </div>
+            </Stack>
+          </Grid>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+          <Grid cols={2} gap={4}>
+            <Stack spacing={2}>
               <Label htmlFor="phone">Phone Number *</Label>
               <Input
                 id="phone"
@@ -200,8 +205,8 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Enter phone number"
               />
-            </div>
-            <div className="space-y-2">
+            </Stack>
+            <Stack spacing={2}>
               <Label htmlFor="location">Location *</Label>
               <Input
                 id="location"
@@ -209,11 +214,11 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Enter location"
               />
-            </div>
-          </div>
+            </Stack>
+          </Grid>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+          <Grid cols={2} gap={4}>
+            <Stack spacing={2}>
               <Label htmlFor="department">Department *</Label>
               <Select value={department} onValueChange={setDepartment}>
                 <SelectTrigger>
@@ -227,8 +232,8 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                   <SelectItem value="HR Department">HR Department</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-2">
+            </Stack>
+            <Stack spacing={2}>
               <Label htmlFor="experience">Experience *</Label>
               <Input
                 id="experience"
@@ -236,13 +241,13 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                 onChange={(e) => setExperience(e.target.value)}
                 placeholder="Enter experience"
               />
-            </div>
-          </div>
+            </Stack>
+          </Grid>
 
           {/* Skills Section */}
-          <div className="space-y-2">
+          <Stack spacing={2}>
             <Label>Skills</Label>
-            <div className="flex space-x-2">
+            <Flex gap={2}>
               <Input
                 value={newSkill}
                 onChange={(e) => setNewSkill(e.target.value)}
@@ -256,35 +261,37 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                     <Plus className="w-4 h-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64 max-h-60 overflow-y-auto">
-                  <div className="p-2">
-                    <div className="text-xs font-medium text-gray-500 mb-2">Recommended Skills</div>
-                    <div className="grid grid-cols-1 gap-1">
-                      {getRecommendedSkills()
-                        .filter(skill => !skills.includes(skill))
-                        .slice(0, 20)
-                        .map((skill) => (
-                          <DropdownMenuItem
-                            key={skill}
-                            onClick={() => handleAddRecommendedSkill(skill)}
-                            className="text-sm cursor-pointer hover:bg-emerald-700"
-                          >
-                            {skill}
-                          </DropdownMenuItem>
-                        ))}
-                    </div>
-                    {getRecommendedSkills().filter(skill => !skills.includes(skill)).length === 0 && (
-                      <div className="text-xs text-gray-400 p-2">All recommended skills added</div>
-                    )}
-                  </div>
+                <DropdownMenuContent align="end" className="w-64">
+                  <ScrollArea className="max-h-60">
+                    <Stack spacing={2} className="p-2">
+                      <Typography variant="p" size="xs" color="muted" className="text-xs font-medium text-gray-500 mb-2">Recommended Skills</Typography>
+                      <Grid cols={1} gap={1}>
+                        {getRecommendedSkills()
+                          .filter(skill => !skills.includes(skill))
+                          .slice(0, 20)
+                          .map((skill) => (
+                            <DropdownMenuItem
+                              key={skill}
+                              onClick={() => handleAddRecommendedSkill(skill)}
+                              className="text-sm cursor-pointer hover:bg-emerald-700"
+                            >
+                              <Typography variant="span" size="sm">{skill}</Typography>
+                            </DropdownMenuItem>
+                          ))}
+                      </Grid>
+                      {getRecommendedSkills().filter(skill => !skills.includes(skill)).length === 0 && (
+                        <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-400 p-2">All recommended skills added</Typography>
+                      )}
+                    </Stack>
+                  </ScrollArea>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </div>
+            </Flex>
             {skills.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
+              <Flex gap={2} className="flex flex-wrap gap-2 mt-2">
                 {skills.map((skill, index) => (
                   <Badge key={index} variant="secondary" className="flex items-center gap-1">
-                    {skill}
+                    <Typography variant="span" size="xs">{skill}</Typography>
                     <X
                       className="w-3 h-3 cursor-pointer hover:text-red-500 transition-colors"
                       onClick={(e) => {
@@ -295,15 +302,15 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                     />
                   </Badge>
                 ))}
-              </div>
+              </Flex>
             )}
-          </div>
+          </Stack>
 
           {/* Action Buttons */}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline" className="hover:bg-emerald-700">
-                Cancel
+                <Typography variant="span" size="sm">Cancel</Typography>
               </Button>
             </DialogClose>
             <Button 
@@ -311,10 +318,10 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
               onClick={handleSubmit} 
               disabled={!name || !email || !phone || !location || !department || !experience}
             >
-              Add Person
+              <Typography variant="span" size="sm">Add Person</Typography>
             </Button>
           </DialogFooter>
-        </div>
+        </Stack>
       </DialogContent>
     </Dialog>
   )

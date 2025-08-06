@@ -2,14 +2,37 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
-import SettingsComponent from "../components/SettingsPage";
 import { AddPersonModal } from "../components/AddPersonModal";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { HelpCircle, X, UserPlus, Clock } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Progress } from "@/components/ui/progress";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Grid } from "@/components/ui/grid";
+import { Flex } from "@/components/ui/flex";
+import { Stack } from "@/components/ui/stack";
+import { Typography } from "@/components/ui/typography";
+import { useTranslation } from "@/lib/useTranslation";
+import { 
+  ArrowLeft, Settings, User, Users, Workflow, CreditCard, HelpCircle, Plus, Edit, Trash2, 
+  Eye, EyeOff, Shield, Calendar, Zap, Bell, Lock, Key, FileText, 
+  BarChart3, CreditCard as CreditCardIcon, AlertTriangle, CheckCircle, XCircle, 
+  MoreHorizontal, Star, Crown, TrendingUp, Activity, Database, Globe, Moon, Sun
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { allCandidates, type Candidate } from "../components/CandidatesView";
+import { allCandidates, type Candidate } from "./CandidatesPage";
 
 export default function SettingsPage() {
   const navigate = useNavigate();
@@ -30,17 +53,71 @@ export default function SettingsPage() {
   // Add state for CandidatesView filter and dropdown
   const [] = useState(false);
   const [] = useState(false);
-  // Handlers for dropdown and select
-  // Export handler (already implemented in CandidatesView, so just a no-op here)
 
-  // Toggle sidebar open/close
-  const handleMenuClick = () => setIsSidebarOpen((open) => !open)
+  // Language and translation
+  const t = useTranslation(language);
 
-  // Toggle notification panel open/close
-  const handleNotificationClick = () => setIsNotificationOpen((open) => !open)
+  // General settings state
+  const [isLoading, setIsLoading] = useState(false);
+  const [dateFormat, setDateFormat] = useState('YYYY-MM-DD');
+  const [timeZone, setTimeZone] = useState('UTC');
+  const [dashboardLayout, setDashboardLayout] = useState('compact');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('light');
+  const [autoSave, setAutoSave] = useState(true);
+  const [emailNotifications, setEmailNotifications] = useState(true);
+  const [pushNotifications, setPushNotifications] = useState(false);
 
-  // Toggle between showing one or all notifications
-  const handleSeeAllNotifications = () => setShowAllNotifications(!showAllNotifications)
+  // Profile settings state
+  const [profileName, setProfileName] = useState('John Doe');
+  const [profileEmail, setProfileEmail] = useState('john.doe@example.com');
+  const [profileAvatar, setProfileAvatar] = useState('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face');
+  const [password, setPassword] = useState('••••••••');
+  const [twoFAEnabled, setTwoFAEnabled] = useState(false);
+
+  // Team & Roles
+  const [teamMembers, setTeamMembers] = useState([
+    { id: 1, name: 'Admin User', role: 'admin', email: 'admin@example.com', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face', status: 'active' },
+    { id: 2, name: 'Reviewer User', role: 'reviewer', email: 'reviewer@example.com', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face', status: 'active' }
+  ]);
+  const [newMemberName, setNewMemberName] = useState('');
+  const [newMemberEmail, setNewMemberEmail] = useState('');
+  const [newMemberRole, setNewMemberRole] = useState('reviewer');
+
+  // Workflow
+  const [interviewStages, setInterviewStages] = useState([
+    { id: 1, name: 'Round 1', description: 'Initial screening', active: true },
+    { id: 2, name: 'Editing', description: 'Content review', active: true }
+  ]);
+  const [newStage, setNewStage] = useState('');
+  const [newStageDescription, setNewStageDescription] = useState('');
+  const [promptTemplates, setPromptTemplates] = useState([
+    { id: 1, name: 'Default Template', description: 'Standard interview questions', active: true }
+  ]);
+  const [newPrompt, setNewPrompt] = useState('');
+  const [evaluationCriteria, setEvaluationCriteria] = useState('Competencies, Duration');
+
+  // Subscription
+  const [plan, setPlan] = useState('PRO');
+  const [usageLimit, setUsageLimit] = useState(100);
+  const [currentUsage] = useState(45);
+
+  // Integrations
+  const [] = useState('Google');
+  const [] = useState('••••••••••••••••');
+  const [] = useState(false);
+
+  // Dialog state for modals
+  const [profileDialogOpen, setProfileDialogOpen] = useState(false);
+  const [teamDialogOpen, setTeamDialogOpen] = useState(false);
+  const [workflowDialogOpen, setWorkflowDialogOpen] = useState(false);
+  const [securityDialogOpen, setSecurityDialogOpen] = useState(false);
+  const [planComparisonOpen, setPlanComparisonOpen] = useState(false);
+  const [billingHistoryOpen, setBillingHistoryOpen] = useState(false);
+  const [usageAnalyticsOpen, setUsageAnalyticsOpen] = useState(false);
+  const [settingsExportOpen, setSettingsExportOpen] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState<number | null>(null);
 
   // Navigation handlers
   const handleShowAllCandidates = () => {
@@ -52,11 +129,15 @@ export default function SettingsPage() {
   const handleShowDashboard = () => {
     navigate('/dashboard');
   }
-  const handleBackToDashboard = () => {
-    navigate('/dashboard');
-  }
 
-  // Department filter handler
+  // Toggle sidebar open/close
+  const handleMenuClick = () => setIsSidebarOpen((open) => !open)
+
+  // Toggle notification panel open/close
+  const handleNotificationClick = () => setIsNotificationOpen((open) => !open)
+
+  // Toggle between showing one or all notifications
+  const handleSeeAllNotifications = () => setShowAllNotifications(!showAllNotifications)
 
   // Add person handler
   const handleAddPerson = (person: {
@@ -90,6 +171,9 @@ export default function SettingsPage() {
       const updatedCandidates = [...candidates, newCandidate]
       setCandidates(updatedCandidates)
       
+      // Navigate to candidates view to show the new candidate
+      navigate('/candidates');
+      
       // Set department filter to match the new candidate's department
       setDepartmentFilter(person.department as 'All' | 'Design Department' | 'Engineering Department')
       
@@ -101,15 +185,55 @@ export default function SettingsPage() {
     }
   }
 
-  // Delete candidate handler
+  const handleAddTeamMember = () => {
+    if (newMemberName && newMemberEmail) {
+      const newMember = {
+        id: Date.now(),
+        name: newMemberName,
+        email: newMemberEmail,
+        role: newMemberRole,
+        avatar: `https://images.unsplash.com/photo-${Math.floor(Math.random() * 1000)}?w=150&h=150&fit=crop&crop=face`,
+        status: 'active' as const
+      };
+      setTeamMembers([...teamMembers, newMember]);
+      setNewMemberName('');
+      setNewMemberEmail('');
+      setNewMemberRole('reviewer');
+    }
+  };
 
-  // Add a ref to control AddPersonModal from outside Header
-  const [addPersonModalOpen, setAddPersonModalOpen] = useState(false);
-  const [notesOpen, setNotesOpen] = useState(false);
-  const [notes, setNotes] = useState<string[]>([]);
-  const [newNote, setNewNote] = useState("");
-  const [] = useState(false);
-  const [helpOpen, setHelpOpen] = useState(false);
+  const handleAddStage = () => {
+    if (newStage && newStageDescription) {
+      const newStageObj = {
+        id: Date.now(),
+        name: newStage,
+        description: newStageDescription,
+        active: true
+      };
+      setInterviewStages([...interviewStages, newStageObj]);
+      setNewStage('');
+      setNewStageDescription('');
+    }
+  };
+
+  const handleRemoveTeamMember = (id: number) => {
+    setConfirmDeleteOpen(id);
+  };
+
+  const confirmDeleteMember = () => {
+    if (confirmDeleteOpen) {
+      setTeamMembers(teamMembers.filter(member => member.id !== confirmDeleteOpen));
+      setConfirmDeleteOpen(null);
+    }
+  };
+
+  const handleSaveSettings = async () => {
+    setIsLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setIsLoading(false);
+    // Show success message or handle response
+  };
 
   return (
     <div className="w-full h-screen bg-gray-200">
@@ -123,7 +247,7 @@ export default function SettingsPage() {
             if (type === 'interview') {
               navigate('/interviews');
             } else if (type === 'candidate') {
-              setAddPersonModalOpen(true);
+              // Handle candidate creation
             }
           }}
           language={language}
@@ -139,7 +263,7 @@ export default function SettingsPage() {
           onShowDashboard={handleShowDashboard}
           language={language}
           setLanguage={setLanguage}
-          onAddPerson={() => setAddPersonModalOpen(true)}
+          onAddPerson={() => {}}
           onNotificationClick={handleNotificationClick}
         />
       </div>
@@ -147,7 +271,7 @@ export default function SettingsPage() {
       {isSidebarOpen && (
         <div className="fixed inset-0 z-[9999] flex md:hidden">
           <div className={`relative w-64 h-full z-50 bg-gray-200 transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-            <Sidebar className="rounded-xl h-full bg-gray-200" onClose={() => setIsSidebarOpen(false)} onShowAllCandidates={handleShowAllCandidates} onShowInterviews={handleShowInterviews} onShowDashboard={handleShowDashboard} language={language} setLanguage={setLanguage} onAddPerson={() => setAddPersonModalOpen(true)} onNotificationClick={handleNotificationClick} />
+            <Sidebar className="rounded-xl h-full bg-gray-200" onClose={() => setIsSidebarOpen(false)} onShowAllCandidates={handleShowAllCandidates} onShowInterviews={handleShowInterviews} onShowDashboard={handleShowDashboard} language={language} setLanguage={setLanguage} onAddPerson={() => {}} onNotificationClick={handleNotificationClick} />
           </div>
           <div className="flex-1 h-full bg-black/30 z-40" onClick={() => setIsSidebarOpen(false)}></div>
         </div>
@@ -164,286 +288,175 @@ export default function SettingsPage() {
                 exit={{ opacity: 0, y: 24 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <SettingsComponent onBack={handleBackToDashboard} />
+                <Card className="max-w-6xl mx-auto p-4 w-full lg:pl-0 bg-gray-200 min-h-screen">
+                  <CardContent className="p-0">
+                    {/* Header */}
+                    <Flex align="center" gap={3} className="mb-6">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="w-10 h-10 p-0 text-black hover:bg-emerald-700 hover:text-white"
+                        aria-label="Back"
+                        onClick={() => navigate('/dashboard')}
+                      >
+                        <ArrowLeft className="w-5 h-5" />
+                      </Button>
+                      <Flex align="center" gap={2}>
+                        <Settings className="w-6 h-6 text-emerald-700" />
+                        <Typography variant="h1" size="2xl" weight="bold" className="text-2xl md:text-3xl font-bold text-gray-800">
+                          {t.settings}
+                        </Typography>
+                      </Flex>
+                    </Flex>
+
+                    {/* Mobile Sheet for small screens */}
+                    <div className="lg:hidden mb-4">
+                      <Sheet>
+                        <SheetTrigger asChild>
+                          <Button variant="outline" className="w-full">
+                            <Settings className="w-4 h-4 mr-2" />
+                            <Typography variant="span" size="sm">Settings Menu</Typography>
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left">
+                          <SheetHeader>
+                            <SheetTitle>Settings</SheetTitle>
+                            <SheetDescription>
+                              Configure your application settings
+                            </SheetDescription>
+                          </SheetHeader>
+                          <Stack spacing={2} className="mt-4 space-y-2">
+                            <Button variant="ghost" className="w-full justify-start" onClick={() => (document.querySelector('[data-value="general"]') as HTMLButtonElement)?.click()}>
+                              <Settings className="w-4 h-4 mr-2" />
+                              <Typography variant="span" size="sm">General</Typography>
+                            </Button>
+                            <Button variant="ghost" className="w-full justify-start" onClick={() => (document.querySelector('[data-value="profile"]') as HTMLButtonElement)?.click()}>
+                              <User className="w-4 h-4 mr-2" />
+                              <Typography variant="span" size="sm">Profile</Typography>
+                            </Button>
+                            <Button variant="ghost" className="w-full justify-start" onClick={() => (document.querySelector('[data-value="team"]') as HTMLButtonElement)?.click()}>
+                              <Users className="w-4 h-4 mr-2" />
+                              <Typography variant="span" size="sm">Team & Roles</Typography>
+                            </Button>
+                            <Button variant="ghost" className="w-full justify-start" onClick={() => (document.querySelector('[data-value="workflow"]') as HTMLButtonElement)?.click()}>
+                              <Workflow className="w-4 h-4 mr-2" />
+                              <Typography variant="span" size="sm">Workflow</Typography>
+                            </Button>
+                            <Button variant="ghost" className="w-full justify-start" onClick={() => (document.querySelector('[data-value="subscription"]') as HTMLButtonElement)?.click()}>
+                              <CreditCard className="w-4 h-4 mr-2" />
+                              <Typography variant="span" size="sm">Subscription</Typography>
+                            </Button>
+                          </Stack>
+                        </SheetContent>
+                      </Sheet>
+                    </div>
+
+                    <Tabs defaultValue="general" className="w-full">
+                      {/* Desktop Tabs */}
+                      <TabsList className="hidden lg:flex mb-6 bg-white rounded-lg shadow border border-gray-200 p-1 h-auto">
+                        <TabsTrigger value="general" className="flex items-center gap-2 data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-4 py-2 rounded-md">
+                          <Settings className="w-4 h-4" />
+                          <Typography variant="span" size="sm" className="hidden sm:inline">General</Typography>
+                        </TabsTrigger>
+                        <TabsTrigger value="profile" className="flex items-center gap-2 data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-4 py-2 rounded-md">
+                          <User className="w-4 h-4" />
+                          <Typography variant="span" size="sm" className="hidden sm:inline">Profile</Typography>
+                        </TabsTrigger>
+                        <TabsTrigger value="team" className="flex items-center gap-2 data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-4 py-2 rounded-md">
+                          <Users className="w-4 h-4" />
+                          <Typography variant="span" size="sm" className="hidden sm:inline">Team & Roles</Typography>
+                        </TabsTrigger>
+                        <TabsTrigger value="workflow" className="flex items-center gap-2 data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-4 py-2 rounded-md">
+                          <Workflow className="w-4 h-4" />
+                          <Typography variant="span" size="sm" className="hidden sm:inline">Workflow</Typography>
+                        </TabsTrigger>
+                        <TabsTrigger value="subscription" className="flex items-center gap-2 data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-4 py-2 rounded-md">
+                          <CreditCard className="w-4 h-4" />
+                          <Typography variant="span" size="sm" className="hidden sm:inline">Subscription</Typography>
+                        </TabsTrigger>
+                      </TabsList>
+
+                      {/* Mobile Tabs */}
+                      <TabsList className="lg:hidden mb-4 flex flex-wrap gap-1 bg-white rounded-lg shadow border border-gray-200 p-2">
+                        <TabsTrigger value="general" className="text-xs data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-2 py-1 rounded">
+                          <Typography variant="span" size="xs">General</Typography>
+                        </TabsTrigger>
+                        <TabsTrigger value="profile" className="text-xs data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-2 py-1 rounded">
+                          <Typography variant="span" size="xs">Profile</Typography>
+                        </TabsTrigger>
+                        <TabsTrigger value="team" className="text-xs data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-2 py-1 rounded">
+                          <Typography variant="span" size="xs">Team</Typography>
+                        </TabsTrigger>
+                        <TabsTrigger value="workflow" className="text-xs data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-2 py-1 rounded">
+                          <Typography variant="span" size="xs">Workflow</Typography>
+                        </TabsTrigger>
+                        <TabsTrigger value="subscription" className="text-xs data-[state=active]:bg-emerald-700 data-[state=active]:text-white px-2 py-1 rounded">
+                          <Typography variant="span" size="xs">Billing</Typography>
+                        </TabsTrigger>
+                      </TabsList>
+
+                      <ScrollArea className="h-[calc(100vh-200px)]">
+                        <TabsContent value="general" className="space-y-4">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                          >
+                            <Card>
+                              <CardHeader>
+                                <Flex align="center" gap={2}>
+                                  <Settings className="w-5 h-5 text-emerald-700" />
+                                  <Typography variant="h3" size="lg" weight="semibold">
+                                    General Application Settings
+                                  </Typography>
+                                </Flex>
+                                <Typography variant="p" size="sm" color="muted">
+                                  Configure basic application preferences and appearance
+                                </Typography>
+                              </CardHeader>
+                              <CardContent className="space-y-6">
+                                <Grid cols={2} gap={4} className="grid-cols-1 md:grid-cols-2 gap-4">
+                                  <Stack spacing={2}>
+                                    <Label htmlFor="dateFormat">Date Format</Label>
+                                    <Select value={dateFormat} onValueChange={setDateFormat}>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select format" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
+                                        <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
+                                        <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </Stack>
+                                  <Stack spacing={2}>
+                                    <Label htmlFor="timeZone">Time Zone</Label>
+                                    <Select value={timeZone} onValueChange={setTimeZone}>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder="Select timezone" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="UTC">UTC</SelectItem>
+                                        <SelectItem value="EST">EST</SelectItem>
+                                        <SelectItem value="PST">PST</SelectItem>
+                                        <SelectItem value="GMT">GMT</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </Stack>
+                                </Grid>
+                              </CardContent>
+                            </Card>
+                          </motion.div>
+                        </TabsContent>
+                      </ScrollArea>
+                    </Tabs>
+                  </CardContent>
+                </Card>
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
       </div>
-      {/* Notification Panel - slides in from right on mobile, dropdown/modal on desktop */}
-      {/* Mobile Notification Panel */}
-      {isNotificationOpen && (
-        <div className={`md:hidden fixed inset-y-0 right-0 z-[9999] transform transition-transform duration-300 ease-in-out ${isNotificationOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="w-80 h-full bg-white shadow-lg flex flex-col">
-            {/* Notification Panel Header */}
-            <div className="flex items-center justify-between p-4 border-b">
-              <h2 className="text-lg font-semibold">Notifications</h2>
-              <div>
-                <Button 
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setIsNotificationOpen(false)
-                    setShowAllNotifications(false)
-                  }}
-                  className="p-2 hover:bg-emerald-700 rounded-lg"
-                >
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-            </div>
-            {/* Notification Content */}
-            <div className={`flex-1 p-4 ${showAllNotifications ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-              <div className="space-y-4">
-                {/* Always show the first notification */}
-                <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-emerald-700">
-                  <div className="w-4 h-4 text-black mt-0.5">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">PRO mode activated</p>
-                    <p className="text-xs text-gray-600">All premium features are now available for your account</p>
-                  </div>
-                </div>
-                {showAllNotifications && (
-                  <>
-                    <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-emerald-700 cursor-pointer" onClick={() => setAddPersonModalOpen(true)}>
-                      <div className="w-4 h-4 text-green-600 mt-0.5">
-                        <UserPlus className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">New candidate added</p>
-                        <p className="text-xs text-gray-600">Alex Johnson has entered the Technical Review phase</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-emerald-700">
-                      <div className="w-4 h-4 text-orange-600 mt-0.5">
-                        <Clock className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Phase deadline soon</p>
-                        <p className="text-xs text-gray-600">Initial Review Phase 3 ends in 2 days</p>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-            {/* Notification Panel Footer */}
-            <div className="p-4 border-t">
-              <div className="flex space-x-2">
-                <div>
-                  <Button 
-                    onClick={handleSeeAllNotifications}
-                    className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
-                  >
-                    {showAllNotifications ? 'Show less' : 'See all notifications'}
-                  </Button>
-                </div>
-                <div>
-                  <Button 
-                    variant="outline"
-                    size="sm"
-                    className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700"
-                    onClick={() => setNotesOpen(true)}
-                  >
-                    Notes
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {/* Desktop Notification Dropdown/Modal */}
-      {isNotificationOpen && (
-        <div className="hidden md:block fixed top-20 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl border">
-          <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-lg font-semibold">Notifications</h2>
-            <div>
-              <Button 
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setIsNotificationOpen(false)
-                  setShowAllNotifications(false)
-                }}
-                className="p-2 hover:bg-emerald-700 rounded-lg"
-              >
-                <X className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
-          <div className={`flex-1 p-4 ${showAllNotifications ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-emerald-700">
-                <div className="w-4 h-4 text-black mt-0.5">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">PRO mode activated</p>
-                  <p className="text-xs text-gray-600">All premium features are now available for your account</p>
-                </div>
-              </div>
-              {showAllNotifications && (
-                <>
-                  <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-emerald-700">
-                    <div className="w-4 h-4 text-green-600 mt-0.5">
-                      <UserPlus className="w-4 h-4" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">New candidate added</p>
-                      <p className="text-xs text-gray-600">Alex Johnson has entered the Technical Review phase</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-emerald-700">
-                    <div className="w-4 h-4 text-orange-600 mt-0.5">
-                      <Clock className="w-4 h-4" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">Phase deadline soon</p>
-                      <p className="text-xs text-gray-600">Initial Review Phase 3 ends in 2 days</p>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-          <div className="p-4 border-t">
-            <div className="flex space-x-2">
-              <div>
-                <Button 
-                  onClick={handleSeeAllNotifications}
-                  className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
-                >
-                  {showAllNotifications ? 'Show less' : 'See all notifications'}
-                </Button>
-              </div>
-              <div>
-                <Button 
-                  variant="outline"
-                  size="sm"
-                  className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700"
-                  onClick={() => setNotesOpen(true)}
-                >
-                  Notes
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {/* AddPersonModal for notification redirect */}
-      <AddPersonModal 
-        open={addPersonModalOpen}
-        onOpenChange={setAddPersonModalOpen}
-        onAddPerson={handleAddPerson}
-        language={language}
-        setLanguage={setLanguage}
-      />
-      {/* Notes Modal */}
-      <Dialog open={notesOpen} onOpenChange={setNotesOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Notes</DialogTitle>
-          </DialogHeader>
-          <div className="mb-2 text-sm text-gray-600">
-            Add, view, or edit private notes related to candidates, interview rounds, questions, sections, or interviewers.
-          </div>
-          <div className="space-y-2 mb-2">
-            <Textarea
-              className="w-full"
-              rows={3}
-              placeholder="Add a new note..."
-              value={newNote}
-              onChange={e => setNewNote(e.target.value)}
-            />
-            <div>
-              <Button
-                className="bg-black text-white px-3 py-1 hover:bg-emerald-700 text-xs"
-                onClick={() => {
-                  if (newNote.trim()) {
-                    setNotes([newNote, ...notes]);
-                    setNewNote("");
-                  }
-                }}
-              >
-                Add Note
-              </Button>
-            </div>
-          </div>
-          <div className="max-h-40 overflow-y-auto space-y-2">
-            {notes.length === 0 ? (
-              <div className="text-gray-400 text-xs text-center">No notes yet.</div>
-            ) : (
-              notes.map((note, idx) => (
-                <div 
-                  key={idx} 
-                  className="bg-gray-100 rounded p-2 text-xs flex justify-between items-center"
-                >
-                  <span>{note}</span>
-                  <div>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="text-red-500 ml-2 text-xs p-0 h-auto" 
-                      onClick={() => setNotes(notes.filter((_, i) => i !== idx))}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <div>
-                <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-emerald-700">
-                  Close
-                </Button>
-              </div>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      {/* Help & Support Modal */}
-      <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Help & Support</DialogTitle>
-          </DialogHeader>
-          <div className="mb-2 text-sm text-gray-600 flex items-center gap-2">
-            <HelpCircle className="w-5 h-5 text-blue-500" />
-            Welcome to the Help Center! How can we assist you?
-          </div>
-          <div className="mb-2 text-xs text-gray-500">This is a placeholder for chat support or help articles. You can integrate a real chat widget or FAQ here.</div>
-          <div className="bg-gray-100 rounded p-3 text-xs text-gray-700 mb-2">
-            <strong>Common Topics:</strong>
-            <ul className="list-disc pl-5 mt-1">
-              <li>How to add a candidate</li>
-              <li>How to schedule an interview</li>
-              <li>How to use the dashboard</li>
-              <li>Contact support</li>
-            </ul>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <div>
-                <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-emerald-700">
-                  Close
-                </Button>
-              </div>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
-  )
+  );
 } 
