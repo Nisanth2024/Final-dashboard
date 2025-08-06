@@ -4,7 +4,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ChevronLeft, Mail, Phone, Calendar, MapPin, Star, Eye, MessageSquare, Download, Filter as FilterIcon, MoreHorizontal, Send } from "lucide-react"
+import { Grid } from "@/components/ui/grid"
+import { Flex } from "@/components/ui/flex"
+import { Stack } from "@/components/ui/stack"
+import { Typography } from "@/components/ui/typography"
+import { ArrowLeft, Mail, Phone, Calendar, MapPin, Star, Eye, MessageSquare, Download, Filter as FilterIcon, MoreHorizontal, Send } from "lucide-react"
 import { useState } from "react"
 // No need to import Candidate or DialogProps
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
@@ -27,8 +31,8 @@ export type Candidate = {
   department: 'Design Department' | 'Engineering Department'
 }
 
-// 20 random candidates, mixed departments
-export const allCandidates: Candidate[] = [
+// Round 1 candidates (10 candidates)
+export const round1Candidates: Candidate[] = [
   {
     id: 1,
     name: "Sarah Johnson",
@@ -101,237 +105,252 @@ export const allCandidates: Candidate[] = [
   },
   {
     id: 6,
-    name: "James Wilson",
-    email: "james.wilson@email.com",
+    name: "Alex Martinez",
+    email: "alex.martinez@email.com",
     phone: "+1 (555) 678-9012",
     location: "Chicago, IL",
     avatar: "https://randomuser.me/api/portraits/men/6.jpg",
-    status: "rejected",
-    rating: 3.8,
+    status: "reviewed",
+    rating: 4.3,
     appliedDate: "June 17, 2025",
     experience: "4 years",
-    skills: ["Svelte", "Go", "Kubernetes", "Redis"],
-    department: "Design Department"
+    skills: ["React", "JavaScript", "CSS", "HTML"],
+    department: "Engineering Department"
   },
   {
     id: 7,
-    name: "Maria Garcia",
-    email: "maria.garcia@email.com",
+    name: "Jessica Wang",
+    email: "jessica.wang@email.com",
     phone: "+1 (555) 789-0123",
-    location: "Miami, FL",
+    location: "Los Angeles, CA",
     avatar: "https://randomuser.me/api/portraits/women/7.jpg",
-    status: "pending",
-    rating: 4.3,
+    status: "shortlisted",
+    rating: 4.7,
     appliedDate: "June 18, 2025",
-    experience: "5 years",
-    skills: ["React", "Express.js", "MongoDB", "Socket.io"],
-    department: "Engineering Department"
+    experience: "6 years",
+    skills: ["Vue.js", "TypeScript", "Tailwind CSS", "Vite"],
+    department: "Design Department"
   },
   {
     id: 8,
     name: "Robert Taylor",
     email: "robert.taylor@email.com",
     phone: "+1 (555) 890-1234",
-    location: "Denver, CO",
+    location: "Miami, FL",
     avatar: "https://randomuser.me/api/portraits/men/8.jpg",
-    status: "reviewed",
-    rating: 4.7,
+    status: "pending",
+    rating: 4.1,
     appliedDate: "June 19, 2025",
-    experience: "9 years",
-    skills: ["Vue.js", "Laravel", "MySQL", "Docker"],
-    department: "Design Department"
+    experience: "2 years",
+    skills: ["JavaScript", "React", "Node.js", "Express"],
+    department: "Engineering Department"
   },
   {
     id: 9,
-    name: "Priya Singh",
-    email: "priya.singh@email.com",
-    phone: "+91 98765 43210",
-    location: "Bangalore, India",
-    avatar: "https://randomuser.me/api/portraits/women/10.jpg",
-    status: "pending",
-    rating: 4.1,
+    name: "Amanda Lee",
+    email: "amanda.lee@email.com",
+    phone: "+1 (555) 901-2345",
+    location: "Denver, CO",
+    avatar: "https://randomuser.me/api/portraits/women/9.jpg",
+    status: "reviewed",
+    rating: 4.4,
     appliedDate: "June 20, 2025",
-    experience: "4 years",
-    skills: ["React", "Redux", "TypeScript", "Jest"],
+    experience: "5 years",
+    skills: ["Angular", "TypeScript", "RxJS", "Material UI"],
     department: "Engineering Department"
   },
   {
     id: 10,
-    name: "John Smith",
-    email: "john.smith@email.com",
-    phone: "+1 (555) 111-2222",
-    location: "London, UK",
-    avatar: "https://randomuser.me/api/portraits/men/11.jpg",
-    status: "reviewed",
-    rating: 4.4,
+    name: "Kevin Brown",
+    email: "kevin.brown@email.com",
+    phone: "+1 (555) 012-3456",
+    location: "Portland, OR",
+    avatar: "https://randomuser.me/api/portraits/men/10.jpg",
+    status: "shortlisted",
+    rating: 4.6,
     appliedDate: "June 21, 2025",
-    experience: "6 years",
-    skills: ["Angular", "RxJS", "NgRx", "Jasmine"],
-    department: "Design Department"
-  },
+    experience: "7 years",
+    skills: ["React", "Redux", "TypeScript", "Jest"],
+    department: "Engineering Department"
+  }
+];
+
+// Round 2 candidates (10 different candidates)
+export const round2Candidates: Candidate[] = [
   {
     id: 11,
-    name: "Anna Müller",
-    email: "anna.mueller@email.com",
-    phone: "+49 1234 567890",
-    location: "Berlin, Germany",
-    avatar: "https://randomuser.me/api/portraits/women/12.jpg",
-    status: "shortlisted",
-    rating: 4.7,
+    name: "Maria Garcia",
+    email: "maria.garcia@email.com",
+    phone: "+1 (555) 111-2222",
+    location: "Phoenix, AZ",
+    avatar: "https://randomuser.me/api/portraits/women/11.jpg",
+    status: "reviewed",
+    rating: 4.8,
     appliedDate: "June 22, 2025",
-    experience: "5 years",
-    skills: ["Vue.js", "Pinia", "TypeScript", "Cypress"],
-    department: "Engineering Department"
+    experience: "6 years",
+    skills: ["Vue.js", "JavaScript", "CSS3", "Webpack"],
+    department: "Design Department"
   },
   {
     id: 12,
-    name: "Carlos Lopez",
-    email: "carlos.lopez@email.com",
-    phone: "+34 600 123 456",
-    location: "Madrid, Spain",
-    avatar: "https://randomuser.me/api/portraits/men/13.jpg",
-    status: "rejected",
-    rating: 3.9,
-    appliedDate: "June 23, 2025",
-    experience: "3 years",
-    skills: ["Svelte", "Node.js", "MongoDB", "Express.js"],
-    department: "Design Department"
-  },
-  {
-    id: 13,
-    name: "Olivia Brown",
-    email: "olivia.brown@email.com",
+    name: "James Wilson",
+    email: "james.wilson@email.com",
     phone: "+1 (555) 222-3333",
-    location: "Toronto, Canada",
-    avatar: "https://randomuser.me/api/portraits/women/14.jpg",
-    status: "pending",
-    rating: 4.0,
-    appliedDate: "June 24, 2025",
-    experience: "2 years",
-    skills: ["Figma", "Sketch", "Illustrator", "Photoshop"],
-    department: "Design Department"
-  },
-  {
-    id: 14,
-    name: "Ethan Lee",
-    email: "ethan.lee@email.com",
-    phone: "+1 (555) 333-4444",
-    location: "Los Angeles, CA",
-    avatar: "https://randomuser.me/api/portraits/men/15.jpg",
-    status: "reviewed",
-    rating: 4.2,
-    appliedDate: "June 25, 2025",
-    experience: "5 years",
-    skills: ["React", "TypeScript", "Node.js", "AWS"],
+    location: "Nashville, TN",
+    avatar: "https://randomuser.me/api/portraits/men/12.jpg",
+    status: "shortlisted",
+    rating: 4.9,
+    appliedDate: "June 23, 2025",
+    experience: "8 years",
+    skills: ["React", "TypeScript", "Next.js", "GraphQL"],
     department: "Engineering Department"
   },
   {
-    id: 15,
-    name: "Sophia Martinez",
-    email: "sophia.martinez@email.com",
+    id: 13,
+    name: "Sophia Davis",
+    email: "sophia.davis@email.com",
+    phone: "+1 (555) 333-4444",
+    location: "Las Vegas, NV",
+    avatar: "https://randomuser.me/api/portraits/women/13.jpg",
+    status: "pending",
+    rating: 4.3,
+    appliedDate: "June 24, 2025",
+    experience: "3 years",
+    skills: ["Angular", "JavaScript", "Bootstrap", "Firebase"],
+    department: "Engineering Department"
+  },
+  {
+    id: 14,
+    name: "Daniel Anderson",
+    email: "daniel.anderson@email.com",
     phone: "+1 (555) 444-5555",
-    location: "Mexico City, Mexico",
-    avatar: "https://randomuser.me/api/portraits/women/16.jpg",
-    status: "shortlisted",
-    rating: 4.6,
-    appliedDate: "June 26, 2025",
-    experience: "6 years",
-    skills: ["UX", "UI", "Wireframing", "Prototyping"],
+    location: "Orlando, FL",
+    avatar: "https://randomuser.me/api/portraits/men/14.jpg",
+    status: "reviewed",
+    rating: 4.5,
+    appliedDate: "June 25, 2025",
+    experience: "5 years",
+    skills: ["React Native", "JavaScript", "Expo", "Firebase"],
     department: "Design Department"
   },
   {
-    id: 16,
-    name: "William Evans",
-    email: "william.evans@email.com",
+    id: 15,
+    name: "Olivia Thomas",
+    email: "olivia.thomas@email.com",
     phone: "+1 (555) 555-6666",
-    location: "Sydney, Australia",
-    avatar: "https://randomuser.me/api/portraits/men/17.jpg",
-    status: "pending",
-    rating: 4.3,
-    appliedDate: "June 27, 2025",
+    location: "San Diego, CA",
+    avatar: "https://randomuser.me/api/portraits/women/15.jpg",
+    status: "shortlisted",
+    rating: 4.7,
+    appliedDate: "June 26, 2025",
     experience: "7 years",
-    skills: ["JavaScript", "HTML", "CSS", "Sass"],
+    skills: ["Vue.js", "TypeScript", "Nuxt.js", "Tailwind CSS"],
+    department: "Engineering Department"
+  },
+  {
+    id: 16,
+    name: "Christopher Moore",
+    email: "christopher.moore@email.com",
+    phone: "+1 (555) 666-7777",
+    location: "Dallas, TX",
+    avatar: "https://randomuser.me/api/portraits/men/16.jpg",
+    status: "reviewed",
+    rating: 4.2,
+    appliedDate: "June 27, 2025",
+    experience: "4 years",
+    skills: ["React", "JavaScript", "Redux", "Material UI"],
     department: "Engineering Department"
   },
   {
     id: 17,
-    name: "Chloe Kim",
-    email: "chloe.kim@email.com",
-    phone: "+1 (555) 666-7777",
-    location: "Seoul, South Korea",
-    avatar: "https://randomuser.me/api/portraits/women/18.jpg",
-    status: "reviewed",
-    rating: 4.5,
+    name: "Emma Jackson",
+    email: "emma.jackson@email.com",
+    phone: "+1 (555) 777-8888",
+    location: "Houston, TX",
+    avatar: "https://randomuser.me/api/portraits/women/17.jpg",
+    status: "pending",
+    rating: 4.4,
     appliedDate: "June 28, 2025",
-    experience: "4 years",
-    skills: ["Branding", "Typography", "Color Theory", "Logo Design"],
+    experience: "6 years",
+    skills: ["Angular", "TypeScript", "RxJS", "Bootstrap"],
     department: "Design Department"
   },
   {
     id: 18,
-    name: "Benjamin Scott",
-    email: "benjamin.scott@email.com",
-    phone: "+1 (555) 777-8888",
-    location: "Dublin, Ireland",
-    avatar: "https://randomuser.me/api/portraits/men/19.jpg",
+    name: "Andrew White",
+    email: "andrew.white@email.com",
+    phone: "+1 (555) 888-9999",
+    location: "Atlanta, GA",
+    avatar: "https://randomuser.me/api/portraits/men/18.jpg",
     status: "shortlisted",
-    rating: 4.8,
+    rating: 4.6,
     appliedDate: "June 29, 2025",
-    experience: "8 years",
-    skills: ["React", "TypeScript", "Node.js", "AWS"],
+    experience: "5 years",
+    skills: ["React", "TypeScript", "Next.js", "Prisma"],
     department: "Engineering Department"
   },
   {
     id: 19,
-    name: "Grace Lee",
-    email: "grace.lee@email.com",
-    phone: "+1 (555) 888-9999",
-    location: "Singapore",
-    avatar: "https://randomuser.me/api/portraits/women/20.jpg",
-    status: "pending",
-    rating: 4.1,
+    name: "Isabella Clark",
+    email: "isabella.clark@email.com",
+    phone: "+1 (555) 999-0000",
+    location: "Philadelphia, PA",
+    avatar: "https://randomuser.me/api/portraits/women/19.jpg",
+    status: "reviewed",
+    rating: 4.8,
     appliedDate: "June 30, 2025",
-    experience: "3 years",
-    skills: ["UI Design", "Photoshop", "Illustrator", "Figma"],
-    department: "Design Department"
+    experience: "7 years",
+    skills: ["Vue.js", "JavaScript", "Vite", "Pinia"],
+    department: "Engineering Department"
   },
   {
     id: 20,
-    name: "Lucas Brown",
-    email: "lucas.brown@email.com",
-    phone: "+1 (555) 999-0000",
-    location: "Paris, France",
-    avatar: "https://randomuser.me/api/portraits/men/21.jpg",
-    status: "reviewed",
-    rating: 4.7,
+    name: "Ryan Lewis",
+    email: "ryan.lewis@email.com",
+    phone: "+1 (555) 000-1111",
+    location: "Detroit, MI",
+    avatar: "https://randomuser.me/api/portraits/men/20.jpg",
+    status: "shortlisted",
+    rating: 4.9,
     appliedDate: "July 1, 2025",
-    experience: "9 years",
-    skills: ["React", "TypeScript", "Node.js", "AWS"],
-    department: "Engineering Department"
+    experience: "8 years",
+    skills: ["React", "TypeScript", "Redux Toolkit", "Jest"],
+    department: "Design Department"
   }
-]
+];
 
-// Empty candidate arrays for rounds
+// All candidates (combined for general view)
+export const allCandidates: Candidate[] = [...round1Candidates, ...round2Candidates];
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'pending': return 'bg-yellow-100 text-yellow-700'
-    case 'reviewed': return 'bg-blue-100 text-blue-700'
-    case 'shortlisted': return 'bg-green-100 text-green-700'
-    case 'rejected': return 'bg-red-100 text-red-700'
-    default: return 'bg-gray-100 text-gray-700'
+    case 'pending':
+      return 'bg-yellow-100 text-yellow-800';
+    case 'reviewed':
+      return 'bg-blue-100 text-blue-800';
+    case 'shortlisted':
+      return 'bg-green-100 text-green-800';
+    case 'rejected':
+      return 'bg-red-100 text-red-800';
+    default:
+      return 'bg-gray-100 text-gray-800';
   }
-}
+};
 
 const getStatusText = (status: string) => {
   switch (status) {
-    case 'pending': return 'Pending Review'
-    case 'reviewed': return 'Reviewed'
-    case 'shortlisted': return 'Shortlisted'
-    case 'rejected': return 'Rejected'
-    default: return status
+    case 'pending':
+      return 'Pending';
+    case 'reviewed':
+      return 'Reviewed';
+    case 'shortlisted':
+      return 'Shortlisted';
+    case 'rejected':
+      return 'Rejected';
+    default:
+      return status;
   }
-}
+};
 
 interface CandidatesViewProps {
   onBack: () => void
@@ -347,17 +366,17 @@ interface CandidatesViewProps {
 }
 
 interface ExtendedCandidatesViewProps extends CandidatesViewProps {
-  filterOpen: boolean;
-  setFilterOpen: (open: boolean) => void;
-  filterStatus: string[];
-  setFilterStatus: (s: string[]) => void;
-  filterDept: string;
-  setFilterDept: (d: string) => void;
-  dropdownOpen: boolean;
-  setDropdownOpen: (open: boolean) => void;
-  handleDropdown: () => void;
-  handleSelect: (dept: string) => void;
-  handleExport: () => void;
+  filterOpen?: boolean;
+  setFilterOpen?: (open: boolean) => void;
+  filterStatus?: string[];
+  setFilterStatus?: (s: string[]) => void;
+  filterDept?: string;
+  setFilterDept?: (d: string) => void;
+  dropdownOpen?: boolean;
+  setDropdownOpen?: (open: boolean) => void;
+  handleDropdown?: () => void;
+  handleSelect?: (dept: string) => void;
+  handleExport?: () => void;
 }
 
 export function CandidatesView({
@@ -367,22 +386,33 @@ export function CandidatesView({
   department = 'All',
   candidates: propCandidates,
   onDeleteCandidate,
-  filterOpen,
-  setFilterOpen,
-  filterStatus,
-  setFilterStatus,
-  filterDept,
-  setFilterDept,
+  filterOpen = false,
+  setFilterOpen = () => {},
+  filterStatus = [],
+  setFilterStatus = () => {},
+  filterDept = 'All',
+  setFilterDept = () => {},
 }: ExtendedCandidatesViewProps & { handleDropdown?: () => void }) {
-  let candidates: Candidate[] = [];
-  const candidateList = propCandidates || allCandidates || [];
+  const getCandidatesForRound = () => {
+    if (propCandidates) {
+      return propCandidates;
+    }
+    
   if (all) {
-    candidates = department === 'All' ? candidateList : (candidateList || []).filter(c => c.department === department);
-  } else if (round === 1) {
-    candidates = (candidateList || []).slice(0, 10);
+      return [...round1Candidates, ...round2Candidates];
+    }
+    
+    if (round === 1) {
+      return round1Candidates;
   } else if (round === 2) {
-    candidates = (candidateList || []).slice(10, 20);
-  }
+      return round2Candidates;
+    }
+    
+    return round1Candidates;
+  };
+
+  const candidates = getCandidatesForRound();
+
   // Add state for selected department
   const [selectedDepartment, setSelectedDepartment] = useState("All Departments");
 
@@ -438,101 +468,127 @@ export function CandidatesView({
 
   return (
     <div className="bg-gray-200 p-2 sm:p-4 md:p-6 rounded-lg min-h-screen flex flex-col">
-      <div className="flex flex-col w-full min-w-0 flex-1">
-        <div className="flex flex-row items-center justify-between w-full gap-2 mb-4">
-          <div className="flex items-center gap-2">
+      <Flex direction="col" className="w-full min-w-0 flex-1">
+        <Flex align="center" justify="between" className="w-full gap-2 mb-4">
+          <Flex align="center" gap={2}>
             <Button variant="ghost" size="icon" className="w-9 h-9 p-0 rounded-full hover:bg-emerald-700" onClick={onBack} aria-label="Back">
-            <ChevronLeft className="w-5 h-5" />
+              <ArrowLeft className="w-5 h-5" />
           </Button>
-            <h1 className="text-base sm:text-lg md:text-xl font-bold">All Candidates</h1>
-          </div>
-        </div>
-      </div>
+            <Typography variant="h1" size="lg" weight="bold" className="text-base sm:text-lg md:text-xl">
+              All Candidates
+            </Typography>
+          </Flex>
+        </Flex>
+      </Flex>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-8">
+      <Grid cols={4} gap={2} className="grid-cols-2 md:grid-cols-4 gap-2 mb-8">
         <Card className="rounded-lg">
           <CardContent className="p-1.5 flex flex-col justify-center items-center text-center">
-            <div className="text-xl font-bold text-blue-600">{filteredCandidates.length}</div>
-            <div className="text-xs text-gray-600">Total Candidates</div>
+            <Typography variant="h2" size="xl" weight="bold" className="text-xl font-bold text-blue-600">
+              {filteredCandidates.length}
+            </Typography>
+            <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-600">
+              Total Candidates
+            </Typography>
           </CardContent>
         </Card>
         <Card className="rounded-lg">
           <CardContent className="p-1.5 flex flex-col justify-center items-center text-center">
-            <div className="text-xl font-bold text-yellow-600">
+            <Typography variant="h2" size="xl" weight="bold" className="text-xl font-bold text-yellow-600">
               {filteredCandidates.filter(c => c.status === 'pending').length}
-            </div>
-            <div className="text-xs text-gray-600">Pending Review</div>
+            </Typography>
+            <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-600">
+              Pending Review
+            </Typography>
           </CardContent>
         </Card>
         <Card className="rounded-lg">
           <CardContent className="p-1.5 flex flex-col justify-center items-center text-center">
-            <div className="text-xl font-bold text-emerald-700">
+            <Typography variant="h2" size="xl" weight="bold" className="text-xl font-bold text-emerald-700">
               {filteredCandidates.filter(c => c.status === 'shortlisted').length}
-            </div>
-            <div className="text-xs text-gray-600">Shortlisted</div>
+            </Typography>
+            <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-600">
+              Shortlisted
+            </Typography>
           </CardContent>
         </Card>
         <Card className="rounded-lg">
           <CardContent className="p-1.5 flex flex-col justify-center items-center text-center">
-            <div className="text-xl font-bold text-red-600">
+            <Typography variant="h2" size="xl" weight="bold" className="text-xl font-bold text-red-600">
               {filteredCandidates.filter(c => c.status === 'rejected').length}
-            </div>
-            <div className="text-xs text-gray-600">Rejected</div>
+            </Typography>
+            <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-600">
+              Rejected
+            </Typography>
           </CardContent>
         </Card>
-      </div>
+      </Grid>
       
       {/* Candidates List */}
-        <div className="flex flex-col gap-3 w-full">
+      <Stack spacing={3} className="flex flex-col gap-3 w-full">
         {(filteredCandidates && filteredCandidates.length === 0) ? (
-          <div className="text-center text-gray-500 text-lg py-12">No candidates found</div>
+          <Typography variant="p" size="lg" color="muted" align="center" className="text-center text-gray-500 text-lg py-12">
+            No candidates found
+          </Typography>
         ) : (
             filteredCandidates.map(candidate => (
               <Card key={candidate.id} className="bg-white rounded-md shadow p-3 sm:p-4 md:p-5 text-sm">
               <CardContent className="p-1.5 md:p-2">
-                <div className="flex items-start justify-between flex-wrap">
-                  <div className="flex items-start space-x-3">
+                <Flex align="start" justify="between" wrap="wrap">
+                  <Flex align="start" gap={3}>
                     <Avatar className="w-10 h-10 md:w-12 md:h-12">
                       <AvatarImage src={candidate.avatar} />
                       <AvatarFallback className="text-xs md:text-sm">
-                        {candidate.name.split(' ').map(n => n[0]).join('')}
+                        {candidate.name.split(' ').map((n: string) => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 space-y-0.5">
-                      <div className="flex items-center space-x-2">
-                        <h3 className="text-base md:text-lg font-semibold">{candidate.name}</h3>
+                      <Flex align="center" gap={2}>
+                        <Typography variant="h3" size="lg" weight="semibold" className="text-base md:text-lg font-semibold">
+                          {candidate.name}
+                        </Typography>
                         <Badge className={getStatusColor(candidate.status)}>
                           {getStatusText(candidate.status)}
                         </Badge>
-                        <div className="flex items-center space-x-1">
+                        <Flex align="center" gap={1}>
                           <Star className="w-3 h-3 md:w-4 md:h-4 text-yellow-500 fill-current" />
-                          <span className="text-xs md:text-sm font-medium">{candidate.rating}</span>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 text-xs md:text-sm text-gray-600">
-                        <div className="flex items-center space-x-1">
+                          <Typography variant="span" size="xs" weight="medium" className="text-xs md:text-sm font-medium">
+                            {candidate.rating}
+                          </Typography>
+                        </Flex>
+                      </Flex>
+                      <Grid cols={4} gap={1} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 text-xs md:text-sm text-gray-600">
+                        <Flex align="center" gap={1}>
                           <Mail className="w-3 h-3 md:w-4 md:h-4" />
-                          <span className="truncate">{candidate.email}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
+                          <Typography variant="span" size="xs" color="muted" className="truncate">
+                            {candidate.email}
+                          </Typography>
+                        </Flex>
+                        <Flex align="center" gap={1}>
                           <Phone className="w-3 h-3 md:w-4 md:h-4" />
-                          <span className="truncate">{candidate.phone}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
+                          <Typography variant="span" size="xs" color="muted" className="truncate">
+                            {candidate.phone}
+                          </Typography>
+                        </Flex>
+                        <Flex align="center" gap={1}>
                           <MapPin className="w-3 h-3 md:w-4 md:h-4" />
-                          <span className="truncate">{candidate.location}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
+                          <Typography variant="span" size="xs" color="muted" className="truncate">
+                            {candidate.location}
+                          </Typography>
+                        </Flex>
+                        <Flex align="center" gap={1}>
                           <Calendar className="w-3 h-3 md:w-4 md:h-4" />
-                          <span className="truncate">Applied Date {candidate.appliedDate}</span>
-                        </div>
-                      </div>
-                      <div className="space-y-0.5">
-                        <div className="text-xs md:text-sm">
-                          <span className="font-medium">Experience:</span> {candidate.experience}
-                        </div>
-                        <div className="flex flex-wrap gap-1">
+                          <Typography variant="span" size="xs" color="muted" className="truncate">
+                            Applied Date {candidate.appliedDate}
+                          </Typography>
+                        </Flex>
+                      </Grid>
+                      <Stack spacing={0.5}>
+                        <Typography variant="p" size="xs" className="text-xs md:text-sm">
+                          <Typography variant="span" size="xs" weight="medium">Experience:</Typography> {candidate.experience}
+                        </Typography>
+                        <Flex align="center" gap={1} wrap="wrap">
                           {candidate.skills.slice(0, 3).map((skill, index) => (
                             <Badge key={index} variant="outline" className="text-xs px-1 py-0.5">
                               {skill}
@@ -543,12 +599,14 @@ export function CandidatesView({
                               +{candidate.skills.length - 3} More
                             </Badge>
                           )}
-                        </div>
-                        <div className="text-xs text-gray-500">{candidate.department}</div>
-                      </div>
+                        </Flex>
+                        <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500">
+                          {candidate.department}
+                        </Typography>
+                      </Stack>
                     </div>
-                  </div>
-                  <div className="flex items-center space-x-1 flex-shrink-0 max-w-full overflow-x-auto">
+                  </Flex>
+                  <Flex align="center" gap={1} className="flex-shrink-0 max-w-full overflow-x-auto">
                       <Button variant="ghost" size="sm" className="p-1 h-8 w-8 hover:bg-emerald-700" onClick={() => setPreviewCandidate(candidate)}>
                       <Eye className="w-3 h-3 md:w-4 md:h-4" />
                     </Button>
@@ -566,17 +624,17 @@ export function CandidatesView({
                           className="text-red-600 cursor-pointer"
                           onClick={() => setDeleteDialogOpen(candidate.id)}
                         >
-                          Delete
+                          <Typography variant="span" size="sm">Delete</Typography>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  </div>
-                </div>
+                  </Flex>
+                </Flex>
               </CardContent>
             </Card>
           ))
         )}
-      </div>
+      </Stack>
       
       {/* Delete confirmation dialog */}
       <Dialog open={deleteDialogOpen !== null} onOpenChange={() => setDeleteDialogOpen(null)}>
@@ -586,166 +644,166 @@ export function CandidatesView({
             <DialogDescription>Are you sure you want to delete this candidate?</DialogDescription>
           </DialogHeader>
           <DialogFooter>
-              <Button variant="outline" className="hover:bg-emerald-700" onClick={() => setDeleteDialogOpen(null)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(null)}>
+              <Typography variant="span" size="sm">Cancel</Typography>
+            </Button>
             <Button 
-              variant="destructive" 
-              className="bg-red-600 hover:bg-red-700" 
+              className="bg-red-600 hover:bg-red-700 text-white"
               onClick={() => { 
-                if (onDeleteCandidate && typeof deleteDialogOpen === 'number') { 
+                if (deleteDialogOpen && onDeleteCandidate) {
                   onDeleteCandidate(deleteDialogOpen); 
                 } 
                 setDeleteDialogOpen(null); 
               }}
             >
-              Delete
+              <Typography variant="span" size="sm">Delete</Typography>
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
       
-      {/* Preview Candidate Dialog */}
-      {previewCandidate && (
-        <Dialog open={!!previewCandidate} onOpenChange={() => setPreviewCandidate(null)}>
-          <DialogContent className="max-w-md">
+      {/* Preview Modal */}
+      <Dialog open={previewCandidate !== null} onOpenChange={() => setPreviewCandidate(null)}>
+        <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>Candidate Details</DialogTitle>
-              <DialogDescription>Preview of the candidate's application and profile.</DialogDescription>
             </DialogHeader>
             {previewCandidate && (
-            <div className="flex flex-col items-center gap-2">
-              <Avatar className="w-20 h-20 mb-2">
-                  <AvatarImage src={previewCandidate?.avatar} />
-                  <AvatarFallback>{previewCandidate?.name?.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+            <div className="space-y-4">
+              <Flex align="center" gap={3}>
+                <Avatar className="w-16 h-16">
+                  <AvatarImage src={previewCandidate.avatar} />
+                  <AvatarFallback className="text-lg">
+                    {previewCandidate.name.split(' ').map((n: string) => n[0]).join('')}
+                  </AvatarFallback>
               </Avatar>
-                <div className="font-bold text-lg">{previewCandidate?.name}</div>
-                <div className="text-gray-600 text-sm">{previewCandidate?.email}</div>
-                <div className="text-gray-600 text-sm">{previewCandidate?.phone}</div>
-                <div className="text-gray-600 text-sm">{previewCandidate?.location}</div>
-                <div className="text-gray-600 text-sm">Department: {previewCandidate?.department}</div>
-                <div className="text-gray-600 text-sm">Applied: {previewCandidate?.appliedDate}</div>
-                <div className="text-gray-600 text-sm">Experience: {previewCandidate?.experience}</div>
-              <div className="flex flex-wrap gap-1 mt-1">
-                  {previewCandidate?.skills?.map((skill, idx) => (
-                  <Badge key={idx} variant="outline" className="text-xs px-1 py-0.5">{skill}</Badge>
-                ))}
+                <div>
+                  <Typography variant="h3" size="lg" weight="bold" className="text-xl font-bold">
+                    {previewCandidate.name}
+                  </Typography>
+                  <Typography variant="p" size="sm" color="muted" className="text-gray-600">
+                    {previewCandidate.email}
+                  </Typography>
+                  <Badge className={getStatusColor(previewCandidate.status)}>
+                    {getStatusText(previewCandidate.status)}
+                  </Badge>
               </div>
-              <div className="flex items-center gap-1 mt-1">
-                <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                  <span className="text-sm font-medium">{previewCandidate?.rating}</span>
+              </Flex>
+              
+              <Grid cols={2} gap={4}>
+                <div>
+                  <Typography variant="h4" size="sm" weight="semibold" className="font-semibold mb-2">
+                    Contact Information
+                  </Typography>
+                  <Stack spacing={2}>
+                    <Flex align="center" gap={2}>
+                      <Mail className="w-4 h-4" />
+                      <Typography variant="span" size="sm">{previewCandidate.email}</Typography>
+                    </Flex>
+                    <Flex align="center" gap={2}>
+                      <Phone className="w-4 h-4" />
+                      <Typography variant="span" size="sm">{previewCandidate.phone}</Typography>
+                    </Flex>
+                    <Flex align="center" gap={2}>
+                      <MapPin className="w-4 h-4" />
+                      <Typography variant="span" size="sm">{previewCandidate.location}</Typography>
+                    </Flex>
+                  </Stack>
               </div>
-              <div className="flex items-center gap-1 mt-1">
-                  <Badge className={getStatusColor(previewCandidate?.status)}>{getStatusText(previewCandidate?.status)}</Badge>
+                
+                <div>
+                  <Typography variant="h4" size="sm" weight="semibold" className="font-semibold mb-2">
+                    Application Details
+                  </Typography>
+                  <Stack spacing={2}>
+                    <Flex align="center" gap={2}>
+                      <Calendar className="w-4 h-4" />
+                      <Typography variant="span" size="sm">Applied: {previewCandidate.appliedDate}</Typography>
+                    </Flex>
+                    <Flex align="center" gap={2}>
+                      <Star className="w-4 h-4 text-yellow-500" />
+                      <Typography variant="span" size="sm">Rating: {previewCandidate.rating}</Typography>
+                    </Flex>
+                    <Typography variant="span" size="sm">
+                      Experience: {previewCandidate.experience}
+                    </Typography>
+                  </Stack>
                 </div>
+              </Grid>
+              
+              <div>
+                <Typography variant="h4" size="sm" weight="semibold" className="font-semibold mb-2">
+                  Skills
+                </Typography>
+                <Flex align="center" gap={1} wrap="wrap">
+                  {previewCandidate.skills.map((skill, index) => (
+                    <Badge key={index} variant="outline" className="text-xs">
+                      {skill}
+                    </Badge>
+                  ))}
+                </Flex>
               </div>
-            )}
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full">
-                  Close
-                </Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      )}
-      
-      {/* Comments Dialog */}
-      {commentsCandidate && (
-        <Dialog open={!!commentsCandidate} onOpenChange={() => { setCommentsCandidate(null); setNewComment(""); }}>
-          <DialogContent className="max-w-md">
-            <DialogHeader>
-              <DialogTitle>Comments for {commentsCandidate?.name}</DialogTitle>
-              <DialogDescription>Add or view comments related to this candidate.</DialogDescription>
-            </DialogHeader>
-            {commentsCandidate && (
-            <div className="flex flex-col gap-2 max-h-72 overflow-y-auto mb-2">
-              {(commentsMap[commentsCandidate.id] || []).length === 0 ? (
-                <div className="text-gray-500 text-sm text-center">No comments yet.</div>
-              ) : (
-                commentsMap[commentsCandidate.id].map((comment, idx) => (
-                  <div key={idx} className="bg-gray-100 rounded px-3 py-2 text-sm text-gray-800 mb-1 w-fit max-w-full self-start">
-                    {comment}
-                  </div>
-                ))
-              )}
             </div>
             )}
-            <form
-              className="flex gap-2 mt-2"
-              onSubmit={e => {
-                e.preventDefault();
-                if (!newComment.trim() || !commentsCandidate) return;
-                setCommentsMap(prev => ({
-                  ...prev,
-                  [commentsCandidate.id]: [...(prev[commentsCandidate.id] || []), newComment.trim()]
-                }));
-                setNewComment("");
-              }}
-            >
-              <Input
-                type="text"
-                className="flex-1"
-                placeholder="Add a comment..."
-                value={newComment}
-                onChange={e => setNewComment(e.target.value)}
-              />
-              <Button type="submit" size="sm" className="px-3 bg-black text-white hover:bg-emerald-700 hover:text-white">
-                <Send className="w-4 h-4" />
-              </Button>
-            </form>
             <DialogFooter>
-              <DialogClose asChild>
-                <Button className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full">
-                  Close
+            <Button onClick={() => setPreviewCandidate(null)}>
+              <Typography variant="span" size="sm">Close</Typography>
                 </Button>
-              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      )}
       
-      {/* Filter Panel Dialog */}
-      <Dialog open={filterOpen} onOpenChange={setFilterOpen}>
+      {/* Comments Modal */}
+      <Dialog open={commentsCandidate !== null} onOpenChange={() => setCommentsCandidate(null)}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Filter Candidates</DialogTitle>
-            <DialogDescription>Narrow down candidates by status and department.</DialogDescription>
+            <DialogTitle>Comments</DialogTitle>
+            <DialogDescription>Add notes about this candidate.</DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col gap-4">
+          {commentsCandidate && (
+            <div className="space-y-4">
             <div>
-              <Label className="font-semibold text-sm mb-2">Status</Label>
-              <div className="flex flex-wrap gap-2">
-                {['pending', 'reviewed', 'shortlisted', 'rejected'].map(status => (
-                  <label key={status} className="flex items-center gap-2 text-xs capitalize">
-                    <Checkbox
-                      checked={filterStatus.includes(status)}
-                      onCheckedChange={checked => {
-                        if (checked) setFilterStatus([...filterStatus, status]);
-                        else setFilterStatus(filterStatus.filter(s => s !== status));
-                      }}
-                    />
-                    {status.replace(/^[a-z]/, c => c.toUpperCase())}
-                  </label>
-                ))}
+                <Label htmlFor="new-comment">Add Comment</Label>
+                <Input
+                  id="new-comment"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="Enter your comment..."
+                />
+              </div>
+              
+              <Button 
+                onClick={() => {
+                  if (newComment.trim() && commentsCandidate) {
+                    const candidateId = commentsCandidate.id;
+                    setCommentsMap(prev => ({
+                      ...prev,
+                      [candidateId]: [...(prev[candidateId] || []), newComment]
+                    }));
+                    setNewComment("");
+                  }
+                }}
+                disabled={!newComment.trim()}
+                className="w-full"
+              >
+                <Typography variant="span" size="sm">Add Comment</Typography>
+              </Button>
+              
+              <div className="max-h-40 overflow-y-auto">
+                <Stack spacing={2}>
+                  {(commentsMap[commentsCandidate.id] || []).map((comment, index) => (
+                    <Card key={index} className="p-2">
+                      <Typography variant="p" size="sm">{comment}</Typography>
+                    </Card>
+                  ))}
+                </Stack>
               </div>
             </div>
-            <div>
-              <Label className="font-semibold text-sm mb-2">Department</Label>
-              <Select value={filterDept} onValueChange={setFilterDept}>
-                <SelectTrigger className="bg-gray-100 text-black h-8 px-2 text-xs flex items-center gap-1 min-w-[120px]">
-                  <SelectValue placeholder="Select Department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="All Departments">All Departments</SelectItem>
-                  <SelectItem value="Design Department">Design Department</SelectItem>
-                  <SelectItem value="Engineering Department">Engineering Department</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-    </div>
+          )}
           <DialogFooter>
-            <Button className="bg-black hover:bg-emerald-700 text-white text-xs" onClick={() => setFilterOpen(false)}>Apply</Button>
-            <Button variant="ghost" className="text-xs" onClick={() => setFilterOpen(false)}>Cancel</Button>
+            <Button onClick={() => setCommentsCandidate(null)}>
+              <Typography variant="span" size="sm">Close</Typography>
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

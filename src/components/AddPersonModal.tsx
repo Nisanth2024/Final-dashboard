@@ -267,7 +267,7 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
                           <DropdownMenuItem
                             key={skill}
                             onClick={() => handleAddRecommendedSkill(skill)}
-                            className="text-sm cursor-pointer hover:bg-gray-100"
+                            className="text-sm cursor-pointer hover:bg-emerald-700"
                           >
                             {skill}
                           </DropdownMenuItem>

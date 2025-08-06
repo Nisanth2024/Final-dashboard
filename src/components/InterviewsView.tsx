@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "./ui/dialog"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
+import { Label } from "./ui/label"
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "./ui/select"
 import { ArrowLeft } from "lucide-react";
 import { allCandidates } from "./CandidatesView";
@@ -139,7 +140,7 @@ export function InterviewsView({ onBack }: { onBack?: () => void }) {
               />
             </div>
             <div>
-              <label className="block text-xs font-medium mb-1">Interviewers</label>
+              <Label className="block text-xs font-medium mb-1">Interviewers</Label>
               <Select value={selectedInterviewer} onValueChange={setSelectedInterviewer}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select interviewer" />
@@ -152,7 +153,7 @@ export function InterviewsView({ onBack }: { onBack?: () => void }) {
               </Select>
             </div>
             <div>
-              <label className="block text-xs font-medium mb-1">Candidates</label>
+              <Label className="block text-xs font-medium mb-1">Candidates</Label>
               <Select value={selectedCandidate} onValueChange={setSelectedCandidate}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select candidate" />
@@ -165,7 +166,7 @@ export function InterviewsView({ onBack }: { onBack?: () => void }) {
               </Select>
             </div>
             <div>
-              <label className="block text-xs font-medium mb-1">Round Type</label>
+              <Label className="block text-xs font-medium mb-1">Round Type</Label>
               <Select value={roundType} onValueChange={setRoundType}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select round type" />
