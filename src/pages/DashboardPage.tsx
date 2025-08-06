@@ -214,6 +214,41 @@ export default function DashboardPage() {
     },
   ];
 
+  // State for Assigned Interviewers and Section Panel (moved from MainContent)
+  const [showInterviewersModal, setShowInterviewersModal] = useState(false);
+  const [sections, setSections] = useState([
+    { name: "Introduction", details: "5m • 7 Questions" },
+    { name: "Portfolio Review", details: "4m • 4 Questions" },
+    { name: "Background Check", details: "6m • 5 Questions" },
+    { name: "Skill Assessment", details: "30m • 7 Questions" },
+  ]);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [newSection, setNewSection] = useState("");
+  const [creating, setCreating] = useState(false);
+
+  // Interviewers data
+  const interviewers = [
+    { name: "John Doe", img: "https://randomuser.me/api/portraits/men/32.jpg" },
+    { name: "Ryan King", img: "https://randomuser.me/api/portraits/men/45.jpg" },
+    { name: "Sarah Miller", img: "https://randomuser.me/api/portraits/women/44.jpg" },
+    { name: "Priya Patel", img: "https://randomuser.me/api/portraits/women/68.jpg" },
+    { name: "Alex Lee", img: "https://randomuser.me/api/portraits/men/51.jpg" },
+    { name: "Maria Garcia", img: "https://randomuser.me/api/portraits/women/65.jpg" },
+    { name: "David Kim", img: "https://randomuser.me/api/portraits/men/23.jpg" },
+    { name: "Emily Chen", img: "https://randomuser.me/api/portraits/women/12.jpg" },
+  ];
+
+  // Handlers for Section Panel
+  const handleCreateSection = () => {
+    if (newSection.trim()) {
+      setCreating(true);
+      setSections(prev => [...prev, { name: newSection.trim(), details: "New Section" }]);
+      setAddDialogOpen(false);
+      setNewSection("");
+      setCreating(false);
+    }
+  };
+
   // Interview Rounds Components
   const Round1Card = ({ onViewCandidates }: { onViewCandidates: () => void }) => (
     <Card className="w-full max-w-full min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
@@ -739,8 +774,20 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* InterviewOverview Components */}
-                <div>
+                <MainContent 
+                  language={language} 
+                  setLanguage={setLanguage} 
+                  departments={departments}
+                  setDepartments={setDepartments}
+                  Round1Card={Round1Card}
+                  Round2Card={Round2Card}
+                  NotificationPanel={NotificationPanel}
+                />
+
+                {/* InterviewOverview Components with Right Side Cards */}
+                <div className="w-full flex flex-col lg:flex-row gap-4">
+                  {/* Left Side: InterviewOverview */}
+                  <div className="w-full lg:w-2/3">
                   {/* Header outside the card */}
                   <Flex align="center" justify="between" className="gap-x-2 mb-1 mt-0 md:mt-0 lg:mt-0 sm:mb-2 md:mb-2">
                     <Typography variant="h2" size="lg" weight="bold" className="text-lg md:text-xl lg:text-2xl">
@@ -1080,16 +1127,152 @@ export default function DashboardPage() {
                     </CardContent>
                   </Card>
                 </div>
-                
-                <MainContent 
-                  language={language} 
-                  setLanguage={setLanguage} 
-                  departments={departments}
-                  setDepartments={setDepartments}
-                  Round1Card={Round1Card}
-                  Round2Card={Round2Card}
-                  NotificationPanel={NotificationPanel}
-                />
+
+                {/* Right Side: Assigned Interviewers and Section Panel */}
+                <div className="w-full lg:w-1/3 flex flex-col gap-4">
+                  {/* Assigned Interviewers Card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 32, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' }}
+                    whileHover={{ 
+                      y: -4, 
+                      scale: 1.02,
+                      transition: { duration: 0.2, ease: 'easeOut' }
+                    }}
+                  >
+                    <Card className="rounded-2xl shadow-md p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[100px]">
+                      <CardHeader className="pb-2">
+                        <Flex align="start" justify="between">
+                          <Stack spacing={1}>
+                            <Typography variant="h3" size="lg" weight="semibold" className="text-base md:text-lg leading-tight">Assigned Interviewers</Typography>
+                            <Typography variant="p" size="xs" color="muted" className="text-gray-500 text-xs md:text-sm mt-0.5">Interview panel for this position</Typography>
+                          </Stack>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="ml-auto p-2 rounded-full hover:bg-emerald-700 focus:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-600 transition-colors"
+                            aria-label="View all interviewers"
+                            onClick={() => setShowInterviewersModal(true)}
+                          >
+                            <ArrowRight className="w-5 h-5 text-gray-700" />
+                          </Button>
+                        </Flex>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <Flex align="center" className="flex flex-wrap items-center md:mt-[-20px] mt-0 lg:mt-0">
+                          <Flex align="center" className="-space-x-3">
+                            <Avatar className="w-7 h-7 border-2 border-white">
+                              <AvatarImage src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe" />
+                              <AvatarFallback>JD</AvatarFallback>
+                            </Avatar>
+                            <Avatar className="w-7 h-7 border-2 border-white">
+                              <AvatarImage src="https://randomuser.me/api/portraits/men/45.jpg" alt="Ryan King" />
+                              <AvatarFallback>RK</AvatarFallback>
+                            </Avatar>
+                            <Avatar className="w-7 h-7 border-2 border-white">
+                              <AvatarImage src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Miller" />
+                              <AvatarFallback>SM</AvatarFallback>
+                            </Avatar>
+                            <Badge className="bg-emerald-700 text-white text-xs font-medium w-7 h-7 flex items-center justify-center rounded-full ml-0 md:ml-2">+5</Badge>
+                          </Flex>
+                        </Flex>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+
+                  {/* Section Panel Card */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
+                    className="flex flex-col gap-0"
+                  >
+                    <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-0 sm:mt-0 md:mt-0">
+                      <CardHeader className="pb-0">
+                        <Flex align="center" justify="between">
+                          <Typography variant="h3" size="lg" weight="semibold" className="text-lg">Section</Typography>
+                          <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
+                            <DialogTrigger asChild>
+                              <Button
+                                size="sm"
+                                className="bg-black text-white hover:bg-emerald-700 hover:text-white rounded-xl px-2 py-1 text-sm font-medium transition-colors"
+                              >
+                                <Typography variant="span" size="sm" className="hidden sm:inline md:inline text-white">Add Section</Typography>
+                                <span className="inline-flex sm:hidden md:hidden text-white"><Plus className="w-4 h-4" /></span>
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="p-6 max-w-sm">
+                              <DialogHeader>
+                                <DialogTitle>Add Section</DialogTitle>
+                                <DialogDescription>Add a new section to the interview.</DialogDescription>
+                              </DialogHeader>
+                              <Input
+                                className="border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                                placeholder="Section Name"
+                                value={newSection}
+                                onChange={e => setNewSection(e.target.value)}
+                                autoFocus
+                              />
+                              <DialogFooter className="flex gap-2 mt-3">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="flex-1 bg-gray-100 hover:bg-emerald-700 text-sm rounded px-3 py-2"
+                                  onClick={() => setAddDialogOpen(false)}
+                                  disabled={creating}
+                                >
+                                  <Typography variant="span" size="sm">Cancel</Typography>
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  className="flex-1 bg-black text-white hover:bg-emerald-700 text-sm rounded px-3 py-2 font-medium"
+                                  onClick={handleCreateSection}
+                                  disabled={!newSection.trim() || creating}
+                                >
+                                  <Typography variant="span" size="sm" className="text-white">Create</Typography>
+                                </Button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+                        </Flex>
+                      </CardHeader>
+                      <CardContent className="pt-0 pb-4">
+                        <Stack spacing={1} className="flex flex-col gap-0.5">
+                          {sections.map((section, idx) => (
+                            <Flex key={idx} align="center" justify="between" className="bg-white rounded-xl border px-3 py-2">
+                              <Stack spacing={1}>
+                                <Typography variant="p" size="xs" weight="medium" className="font-medium text-xs">{section.name}</Typography>
+                                <Typography variant="p" size="xs" color="muted" className="text-gray-400 text-xs">{section.details}</Typography>
+                              </Stack>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="text-lg text-gray-400 cursor-pointer hover:bg-emerald-700 hover:text-white"
+                                    aria-label="Section actions"
+                                  >
+                                    ⋮
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-20">
+                                  <DropdownMenuItem
+                                    className="px-2 py-0.5 text-left text-xs text-red-600 focus:bg-red-50"
+                                    onClick={() => setSections(sections => sections.filter((_, i) => i !== idx))}
+                                  >
+                                    <Typography variant="span" size="xs">Delete</Typography>
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </Flex>
+                          ))}
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </div>
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
@@ -1347,6 +1530,35 @@ export default function DashboardPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {/* Assigned Interviewers Modal */}
+      <Dialog open={showInterviewersModal} onOpenChange={setShowInterviewersModal}>
+        <DialogContent className="max-w-xs sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Assigned Interviewers</DialogTitle>
+          </DialogHeader>
+          <Grid cols={2} gap={2} className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {interviewers.map((user, idx) => (
+              <Flex key={idx} align="center" gap={2} className="flex items-center space-x-2">
+                <Avatar className="w-7 h-7">
+                  <AvatarImage src={user.img} alt={user.name} />
+                  <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                </Avatar>
+                <Typography variant="span" size="sm" weight="medium" className="font-medium text-xs text-gray-800">{user.name}</Typography>
+              </Flex>
+              ))}
+          </Grid>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button 
+                className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full"
+              >
+                <Typography variant="span" size="sm" className="text-white">Close</Typography>
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Help & Support Modal */}
       <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
         <DialogContent className="max-w-md">
