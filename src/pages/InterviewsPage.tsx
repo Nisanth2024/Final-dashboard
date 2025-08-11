@@ -627,14 +627,6 @@ export default function InterviewsPage() {
                         <Plus className="w-4 h-4 lg:mr-2" />
                         <span className="hidden lg:inline">Schedule Interview</span>
                       </Button>
-                      <Button 
-                        onClick={() => setCreateOpen(true)} 
-                        variant="outline"
-                        className="border-black text-black hover:bg-emerald-700 hover:text-white"
-                      >
-                        <Plus className="w-4 h-4 lg:mr-2" />
-                        <span className="hidden lg:inline">Quick Create</span>
-                      </Button>
                     </div>
                   </div>
                   
@@ -1800,54 +1792,7 @@ export default function InterviewsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
-      {/* Simple Interviews List Section */}
-      <div className="mt-8">
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="w-5 h-5 text-emerald-700" />
-              Simple Interviews
-            </CardTitle>
-            <CardDescription>
-              Quick interview creation and management
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {simpleInterviews.length === 0 ? (
-                <div className="text-gray-500 text-center py-8">No simple interviews created yet.</div>
-              ) : (
-                simpleInterviews.map((iv, idx) => (
-                  <Card key={idx} className="bg-white rounded-lg shadow border border-gray-200 p-4 flex flex-col gap-1 w-full max-w-full">
-                    <CardContent className="p-0">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                        <div className="font-semibold text-base sm:text-lg truncate text-gray-700">{iv.title}</div>
-                        <div className="flex gap-1">
-                          <Button size="sm" variant="outline" className="text-xs px-2 py-1 bg-black text-white hover:bg-emerald-700 border-none" onClick={() => handleEditSimpleInterview(idx)}>
-                            Edit
-                          </Button>
-                          <Button size="sm" variant="destructive" className="text-xs px-2 py-1 text-red-600 bg-red-100 border-none" onClick={() => handleDeleteSimpleInterview(idx)}>
-                            Delete
-                          </Button>
                         </div>
-                      </div>
-                      {/* Details */}
-                      <div className="text-xs text-gray-700 mt-2 space-y-1">
-                        <div>Date: <span className="text-emerald-700">{iv.date} {iv.time}</span></div>
-                        <div>Round: <span className="text-emerald-700">{iv.roundType}</span> • <span className="text-emerald-700">{iv.duration}</span></div>
-                        <div>Interviewers: <span className="text-gray-600">{iv.interviewers.join(", ")}</span></div>
-                        <div>Candidates: <span className="text-gray-600">{iv.candidates.join(", ")}</span></div>
-                        {iv.instructions && <div className="text-gray-500">Instructions: {iv.instructions}</div>}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  )
+  );
 } 
+ 

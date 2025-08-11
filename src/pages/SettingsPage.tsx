@@ -11,28 +11,39 @@ import { Flex } from "@/components/ui/flex";
 import { Stack } from "@/components/ui/stack";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Upload } from "lucide-react";
+import { useProfile } from "../lib/profileContext";
+import { useEffect } from "react";
 
 export default function SettingsPage() {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [language, setLanguage] = useState<'en' | 'es' | 'fr'>('en');
-  // Profile/account state
-  const [profileName, setProfileName] = useState('John Doe');
-  const [profileEmail, setProfileEmail] = useState('john.doe@example.com');
-  const [profileAvatar, setProfileAvatar] = useState('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face');
+  const { profile, setProfile } = useProfile();
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  // Avatar upload handler
+  // Local state for editing
+  const [editName, setEditName] = useState(profile.name);
+  const [editEmail, setEditEmail] = useState(profile.email);
+  const [editAvatar, setEditAvatar] = useState(profile.avatar);
+
+  useEffect(() => {
+    setEditName(profile.name);
+    setEditEmail(profile.email);
+    setEditAvatar(profile.avatar);
+  }, [profile]);
+
+  // Avatar upload handler (local only)
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const url = URL.createObjectURL(e.target.files[0]);
-      setProfileAvatar(url);
+      setEditAvatar(url);
     }
   };
 
-  // Save handler (simulate API)
+  // Save handler (update global profile)
   const handleSave = () => {
+    setProfile({ name: editName, email: editEmail, avatar: editAvatar });
     alert("Profile updated!");
   };
 
@@ -102,8 +113,8 @@ export default function SettingsPage() {
               <CardContent className="flex flex-col gap-6 px-6 pb-8 pt-2 w-full">
                 <Flex align="center" gap={4}>
                   <Avatar className="w-20 h-20">
-                    <AvatarImage src={profileAvatar} />
-                    <AvatarFallback className="text-xl">{profileName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    <AvatarImage src={editAvatar} />
+                    <AvatarFallback className="text-xl">{editName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>
                   <div>
                     <Label htmlFor="avatar-upload">
@@ -131,8 +142,8 @@ export default function SettingsPage() {
                     <Label htmlFor="name" className="mb-1 block text-sm font-medium">Name</Label>
                     <Input
                       id="name"
-                      value={profileName}
-                      onChange={e => setProfileName(e.target.value)}
+                      value={editName}
+                      onChange={e => setEditName(e.target.value)}
                       className="w-full"
                       placeholder="Your Name"
                     />
@@ -142,8 +153,8 @@ export default function SettingsPage() {
                     <Input
                       id="email"
                       type="email"
-                      value={profileEmail}
-                      onChange={e => setProfileEmail(e.target.value)}
+                      value={editEmail}
+                      onChange={e => setEditEmail(e.target.value)}
                       className="w-full"
                       placeholder="you@example.com"
                     />

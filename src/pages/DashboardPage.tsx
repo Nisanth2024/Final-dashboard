@@ -251,7 +251,7 @@ export default function DashboardPage() {
 
   // Interview Rounds Components
   const Round1Card = ({ onViewCandidates }: { onViewCandidates: () => void }) => (
-    <Card className="w-full max-w-full min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
+    <Card className="w-full lg:max-w-[900px] min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
       <CardHeader className="pb-0 px-3 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 pt-0 flex-shrink-0">
         <Flex align="center" gap={1} wrap="wrap" className="mb-[-20px] 2xl:mb-[-10px]">
           <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 2xl:text-[8px] 2xl:px-0.5">
@@ -321,7 +321,7 @@ export default function DashboardPage() {
   );
 
   const Round2Card = ({ onViewCandidatesRound2 }: { onViewCandidatesRound2: () => void }) => (
-    <Card className="w-full max-w-full min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
+    <Card className="w-full lg:max-w-[900px] min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
       <CardHeader className="pb-0 px-3 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 pt-0 flex-shrink-0">
         <Flex align="center" gap={1} wrap="wrap" className="mb-[-20px] 2xl:mb-[-10px]">
           <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 2xl:text-[8px] 2xl:px-0.5">
@@ -458,7 +458,7 @@ export default function DashboardPage() {
         }}className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full"
       >
         
-        <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full rounded-2xl shadow-md hover:shadow-md transition-all duration-200 hover:scale-[1.01]">
+        <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full lg:max-w-[360px] rounded-2xl shadow-md hover:shadow-md transition-all duration-200 hover:scale-[1.01]">
           <CardHeader className="pb-0 px-3 sm:px-2 md:px-3 lg:px-3 xl:px-4 2xl:px-2 w-full">
             <Typography 
               variant="h3" 
@@ -509,11 +509,11 @@ export default function DashboardPage() {
             </Stack>
           </CardContent>
           
-          <CardFooter className="pt-0 px-0 pb-1.5 sm:pb-1.5 md:pb-2 lg:pb-2.5 xl:pb-3 2xl:pb-1.5 -mt-4 2xl:-mt-2 w-full bg-transparent border-0">
-            <Flex align="center" justify="start" className="md:mt[-20px] w-full">
+          <CardFooter className="pt-0 px-0 pb-1.5 sm:pb-1.5 md:pb-2 lg:pb-2.5 xl:pb-3 2xl:pb-1.5 -mt-4 2xl:-mt-2 w-full bg-transparent">
+            <Flex align="center" justify="center" className="md:mt[-20px] w-full -ml-1">
               <Button 
                 size="sm" 
-                className="flex-1 bg-black text-white border-0 hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-6 sm:h-6 md:h-7 lg:h-7 xl:h-8 2xl:h-6 font-medium"
+                className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-7 sm:h-6 md:h-7 lg:h-7 xl:h-8 2xl:h-6 font-medium px-3"
                 onClick={() => setAllOpen(true)}
               >
                 <Typography variant="span" size="xs" className="truncate text-white">
@@ -833,16 +833,16 @@ export default function DashboardPage() {
                 </motion.div>
 
                 {/* InterviewOverview Components with Right Side Cards */}
-                <div className="w-full max-w-6xl 2xl:max-w-7xl px-2 2xl:px-0 ml-0 lg:ml-2">
+                <div className="w-full max-w-none px-2 2xl:px-0 ml-0 lg:ml-2">
                   <div className="flex flex-col lg:flex-row gap-4 lg:min-h-0 lg:items-stretch">
                     {/* Left Side: InterviewOverview */}
-                    <div className="w-full lg:w-[78%] xl:w-[80%] 2xl:w-[82%] lg:h-full lg:min-h-0">
+                    <div className="w-full lg:flex-1 lg:w-auto lg:h-full lg:min-h-0">
                       {/* Header outside the card */}
-                      <Flex align="center" justify="start" className="gap-x-2 mb-1 mt-0 md:mt-0 lg:-mt-18 xl:-mt-10 2xl:-mt-18 sm:mb-2 md:mb-2">
-                        <Typography variant="h2" size="lg" weight="bold" className="text-lg md:text-xl lg:text-2xl text-left">
-                          Interview Overview
-                        </Typography>
-                        <Flex align="center" gap={2}>
+                      <Flex align="center" justify="between" className="w-full gap-x-2 mb-1 mt-0 md:mt-0 lg:-mt-18 xl:-mt-10 2xl:-mt-18 sm:mb-2 md:mb-2">
+                        <Typography variant="h2" size="lg" weight="bold" className="-ml-4 text-lg md:text-xl lg:text-2xl text-left">
+                           Interview Overview
+                         </Typography>
+                        <Flex align="center" gap={2} className="ml-auto">
                           <Button
                             variant="ghost"
                             size="sm"
@@ -879,19 +879,19 @@ export default function DashboardPage() {
                           </DropdownMenu>
                         </Flex>
                       </Flex>
-                      <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col md:mt-0 mb-1 sm:mb-2 md:mb-1 lg:mt-10 xl:-mt-0 2xl:mt-11">
-                        <CardContent className="space-y-1 p-1">
+                      <Card className="-ml-4 h-[550px] rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col md:mt-0 mb-0 sm:mb-1 md:mb-0 lg:mt-10 xl:-mt-0 2xl:mt-11 w-full lg:max-w-none">
+                        <CardContent className="space-y-1 p-0.5">
                           <Stack spacing={1}>
                             {/* Previous Background Section */}
                             <div>
-                              <CardHeader className="pb-2 md:pb-3 lg:pb-4">
+                              <CardHeader className="pl-4 pr-6 pb-1 md:pb-2 lg:pb-3">
                                 <Typography variant="h3" size="lg" weight="medium" className="text-base md:text-lg lg:text-xl xl:text-2xl">
                                   Previous Background
                                 </Typography>
                               </CardHeader>
                               {/* Question Item 1 */}
-                              <Card className="border rounded-lg p-2 md:p-3 lg:p-4 mb-1 hover:bg-emerald-700 transition-colors w-[99%] mx-auto">
-                                <CardContent className="p-0 w-full">
+                              <Card className="flex flex-col border rounded-lg px-0 py-1 md:py-4 lg:py-1 mb-4 transition-colors w-full">
+                                <CardContent className="flex-1 p-0 w-full">
                                   {questions.map((q, index) => (
                                     <Fragment key={index}>
                                       {q.deleted ? (
@@ -900,8 +900,8 @@ export default function DashboardPage() {
                                         </Typography>
                                       ) : (
                                         <Flex align="start" justify="between" className="w-full">
-                                          <Flex align="start" gap={2} className="pl-4 md:pl-6 lg:pl-8 flex-1 min-w-0 gap-2 md:gap-3 w-full">
-                                            <Badge className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 bg-gray-300 text-black rounded-full flex items-center justify-center text-sm md:text-base lg:text-lg font-bold flex-shrink-0">
+                                          <Flex align="start" gap={2} className="pl-4 md:pl-5 lg:pl-6 flex-1 min-w-0 gap-2 md:gap-3 w-full">
+                                            <Badge className="w-6 h-6 md:w-7 md:h-7 lg:w-7 lg:h-7 bg-gray-300 text-black rounded-full flex items-center justify-center text-sm md:text-base lg:text-lg font-bold flex-shrink-0">
                                               {index + 1}
                                             </Badge>
                                             <div className="flex-1 min-w-0 w-full">
@@ -931,7 +931,7 @@ export default function DashboardPage() {
                                                   {q.prompt}
                                                 </Typography>
                                               )}
-                                              <Typography variant="p" size="xs" color="muted" className="text-xs md:text-sm lg:text-base text-gray-600 mt-1 md:mt-2">
+                                              <Typography variant="p" size="xs" color="muted" className="text-xs md:text-sm lg:text-base text-gray-600 mt-1 md:mt-1.5">
                                                 3min 4Questions
                                               </Typography>
                                             </div>
@@ -939,7 +939,7 @@ export default function DashboardPage() {
                                           <Flex align="center" gap={1} className="flex-shrink-0 gap-1 md:gap-2">
                                             {q.editing ? (
                                               <>
-                                                <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-3" onClick={() => {
+                                                <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5" onClick={() => {
                                                   const newQuestions = [...questions];
                                                   newQuestions[index].prompt = q.prompt;
                                                   newQuestions[index].editing = false;
@@ -947,7 +947,7 @@ export default function DashboardPage() {
                                                 }}>
                                                   <Save className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
                                                 </Button>
-                                                <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-3" onClick={() => {
+                                                <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5" onClick={() => {
                                                   const newQuestions = [...questions];
                                                   newQuestions[index].editing = false;
                                                   setQuestions(newQuestions);
@@ -956,7 +956,7 @@ export default function DashboardPage() {
                                                 </Button>
                                               </>
                                             ) : (
-                                              <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-3 hover:bg-emerald-700 hover:text-white" onClick={() => {
+                                              <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5 hover:bg-emerald-700 hover:text-white" onClick={() => {
                                                 const newQuestions = [...questions];
                                                 newQuestions[index].editing = true;
                                                 setQuestions(newQuestions);
@@ -964,14 +964,14 @@ export default function DashboardPage() {
                                                 <Edit className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
                                               </Button>
                                             )}
-                                            <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-3 hover:bg-emerald-700 hover:text-white" onClick={() => {
+                                            <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5 hover:bg-emerald-700 hover:text-white" onClick={() => {
                                               const newQuestions = [...questions];
                                               newQuestions[index].deleted = true;
                                               setQuestions(newQuestions);
                                             }}>
                                               <Trash2 className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
                                             </Button>
-                                            <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-3 hover:bg-emerald-700 hover:text-white" onClick={() => alert('More actions coming soon!')}>
+                                            <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5 hover:bg-emerald-700 hover:text-white" onClick={() => alert('More actions coming soon!')}>
                                               <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
                                             </Button>
                                           </Flex>
@@ -982,8 +982,8 @@ export default function DashboardPage() {
                                 </CardContent>
                               </Card>
                               {/* Question Item 2 - Editable */}
-                              <Card className="bg-gray-100 rounded-xl p-3 md:p-4 lg:p-5 mt-2 relative w-[99%] mx-auto">
-                                <CardHeader className="pb-1 w-full">
+                              <Card className="bg-gray-100 rounded-xl p-2 md:p-3 lg:p-4 mt-2 relative w-full">
+                                <CardHeader className="pl-4 pr-4 pb-0.5 w-full">
                                   <Flex align="start" gap={2} className="mb-1">
                                     <Badge className="w-6 h-6 md:w-7 md:h-7 bg-white text-black rounded-full flex items-center justify-center text-sm md:text-base font-bold">2</Badge>
                                     <Typography variant="h3" size="lg" weight="semibold" className="text-lg">Editing</Typography>
@@ -996,7 +996,7 @@ export default function DashboardPage() {
                                 </div>
                                 <CardContent className="pt-0 w-full">
                                   {/* Second row: fields */}
-                                  <Flex direction="col" gap={2} className="md:flex-row md:items-center md:gap-3 lg:gap-4 mb-3 pl-0 w-full">
+                                  <Flex direction="col" gap={2} className="md:flex-row md:items-center md:gap-3 lg:gap-4 mb-2 pl-0 w-full">
                                     <div className="flex-[2] min-w-0 w-full">
                                       <Label className="text-sm font-medium mb-1">Prompt</Label>
                                       <Input
@@ -1057,7 +1057,7 @@ export default function DashboardPage() {
                                   </Typography>
                                   
                                   {/* Guidelines Card */}
-                                  <Card className="bg-white rounded-lg p-3 md:p-4 mb-3 w-full">
+                                  <Card className="bg-white rounded-lg p-3 md:p-3 mb-2 w-full">
                                     <CardContent className="p-0 w-full">
                                       <Typography variant="h4" size="sm" weight="bold" className="font-bold text-sm md:text-base mb-1">
                                         Some of the key features of design are:
@@ -1073,7 +1073,7 @@ export default function DashboardPage() {
                                   <Flex direction="col" gap={2} className="md:flex-row w-full">
                                     <Dialog open={libraryOpen} onOpenChange={setLibraryOpen}>
                                       <DialogTrigger asChild>
-                                        <Button variant="outline" className="flex-1 text-sm md:text-base py-2 md:py-3 hover:bg-emerald-700 hover:text-white" onClick={() => setLibraryOpen(true)}>
+                                        <Button variant="outline" className="flex-1 text-sm md:text-base py-2 md:py-2.5 hover:bg-emerald-700 hover:text-white" onClick={() => setLibraryOpen(true)}>
                                           <Typography variant="span" size="sm" className="text-sm md:text-base">Insert From Library</Typography>
                                         </Button>
                                       </DialogTrigger>
@@ -1142,7 +1142,7 @@ export default function DashboardPage() {
                                       </DialogContent>
                                     </Dialog>
                                     <Button
-                                      className="bg-black text-white w-full sm:w-auto"
+                                      className="flex-1 bg-black text-white"
                                       onClick={() => {
                                         if (!editingPrompt.prompt.trim()) return;
                                         setQuestions(prev => [
@@ -1173,7 +1173,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Right Side: Assigned Interviewers and Section Panel */}
-                    <div className="w-full lg:w-80 xl:w-96 2xl:w-[400px] flex flex-col gap-4 lg:h-full lg:min-h-0 lg:ml-2">
+                    <div className="w-full lg:w-72 xl:w-80 2xl:w-[320px] flex flex-col gap-4 lg:h-full lg:min-h-0 lg:ml-2">
                       {/* Assigned Interviewers Card */}
                       <motion.div
                         initial={{ opacity: 0, y: 32, scale: 0.95 }}
@@ -1186,7 +1186,7 @@ export default function DashboardPage() {
                         }}
                         className="lg:flex-[3] lg:min-h-0 lg:h-0"
                       >
-                        <Card className="rounded-2xl shadow-md p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[180px] h-full">
+                        <Card className="rounded-2xl shadow-md p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[180px] h-full w-full lg:max-w-[360px]">
                           <CardHeader className="pb-2">
                             <Flex align="start" justify="between">
                               <Stack spacing={1}>
@@ -1233,88 +1233,88 @@ export default function DashboardPage() {
                         transition={{ duration: 0.3, delay: 0.3 }}
                         className="flex flex-col gap-0 lg:flex-[7] lg:min-h-0 lg:h-0"
                       >
-                        <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-0 sm:mt-0 md:mt-0 h-full min-h-[320px]">
-                          <CardHeader className="pb-0">
-                            <Flex align="center" justify="between">
-                              <Typography variant="h3" size="lg" weight="semibold" className="text-lg">Section</Typography>
-                              <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
-                                <DialogTrigger asChild>
-                                  <Button
-                                    size="sm"
-                                    className="bg-black text-white hover:bg-emerald-700 hover:text-white rounded-xl px-2 py-1 text-sm font-medium transition-colors"
-                                  >
-                                    <Typography variant="span" size="sm" className="hidden sm:inline md:inline text-white">Add Section</Typography>
-                                    <span className="inline-flex sm:hidden md:hidden text-white"><Plus className="w-4 h-4" /></span>
-                                  </Button>
-                                </DialogTrigger>
-                                <DialogContent className="p-6 max-w-sm">
-                                  <DialogHeader>
-                                    <DialogTitle>Add Section</DialogTitle>
-                                    <DialogDescription>Add a new section to the interview.</DialogDescription>
-                                  </DialogHeader>
-                                  <Input
-                                    className="border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                                    placeholder="Section Name"
-                                    value={newSection}
-                                    onChange={e => setNewSection(e.target.value)}
-                                    autoFocus
-                                  />
-                                  <DialogFooter className="flex gap-2 mt-3">
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      className="flex-1 bg-gray-100 hover:bg-emerald-700 text-sm rounded px-3 py-2"
-                                      onClick={() => setAddDialogOpen(false)}
-                                      disabled={creating}
-                                    >
-                                      <Typography variant="span" size="sm">Cancel</Typography>
-                                    </Button>
-                                    <Button
-                                      size="sm"
-                                      className="flex-1 bg-black text-white hover:bg-emerald-700 text-sm rounded px-3 py-2 font-medium"
-                                      onClick={handleCreateSection}
-                                      disabled={!newSection.trim() || creating}
-                                    >
-                                      <Typography variant="span" size="sm" className="text-white">Create</Typography>
-                                    </Button>
-                                  </DialogFooter>
-                                </DialogContent>
-                              </Dialog>
-                            </Flex>
-                          </CardHeader>
-                          <CardContent className="pt-0 pb-4 w-full">
-                            <Stack spacing={1} className="flex flex-col gap-0.5 w-full">
-                              {sections.map((section, idx) => (
-                                <Flex key={idx} align="center" justify="between" className="bg-white rounded-xl border px-3 py-2 w-full">
-                                  <Stack spacing={1}>
-                                    <Typography variant="p" size="xs" weight="medium" className="font-medium text-xs">{section.name}</Typography>
-                                    <Typography variant="p" size="xs" color="muted" className="text-gray-400 text-xs">{section.details}</Typography>
-                                  </Stack>
-                                  <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                      <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="text-lg text-gray-400 cursor-pointer hover:bg-emerald-700 hover:text-white"
-                                        aria-label="Section actions"
-                                      >
-                                        ⋮
-                                      </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="w-20">
-                                      <DropdownMenuItem
-                                        className="px-2 py-0.5 text-left text-xs text-red-600 focus:bg-red-50"
-                                        onClick={() => setSections(sections => sections.filter((_, i) => i !== idx))}
-                                      >
-                                        <Typography variant="span" size="xs">Delete</Typography>
-                                      </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
-                                </Flex>
-                              ))}
-                            </Stack>
-                          </CardContent>
-                        </Card>
+                        <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-0 sm:mt-0 md:mt-0 h-full min-h-[295px] w-full lg:max-w-[355px]">
+                           <CardHeader className="pb-0">
+                             <Flex align="center" justify="between">
+                               <Typography variant="h3" size="lg" weight="semibold" className="text-lg">Section</Typography>
+                               <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
+                                 <DialogTrigger asChild>
+                                   <Button
+                                     size="sm"
+                                     className="bg-black text-white hover:bg-emerald-700 hover:text-white rounded-xl px-2 py-1 text-sm font-medium transition-colors"
+                                   >
+                                     <Typography variant="span" size="sm" className="hidden sm:inline md:inline text-white">Add Section</Typography>
+                                     <span className="inline-flex sm:hidden md:hidden text-white"><Plus className="w-4 h-4" /></span>
+                                   </Button>
+                                 </DialogTrigger>
+                                 <DialogContent className="p-6 max-w-sm">
+                                   <DialogHeader>
+                                     <DialogTitle>Add Section</DialogTitle>
+                                     <DialogDescription>Add a new section to the interview.</DialogDescription>
+                                   </DialogHeader>
+                                   <Input
+                                     className="border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                                     placeholder="Section Name"
+                                     value={newSection}
+                                     onChange={e => setNewSection(e.target.value)}
+                                     autoFocus
+                                   />
+                                   <DialogFooter className="flex gap-2 mt-3">
+                                     <Button
+                                       variant="ghost"
+                                       size="sm"
+                                       className="flex-1 bg-gray-100 hover:bg-emerald-700 text-sm rounded px-3 py-2"
+                                       onClick={() => setAddDialogOpen(false)}
+                                       disabled={creating}
+                                     >
+                                       <Typography variant="span" size="sm">Cancel</Typography>
+                                     </Button>
+                                     <Button
+                                       size="sm"
+                                       className="flex-1 bg-black text-white hover:bg-emerald-700 text-sm rounded px-3 py-2 font-medium"
+                                       onClick={handleCreateSection}
+                                       disabled={!newSection.trim() || creating}
+                                     >
+                                       <Typography variant="span" size="sm" className="text-white">Create</Typography>
+                                     </Button>
+                                   </DialogFooter>
+                                 </DialogContent>
+                               </Dialog>
+                             </Flex>
+                           </CardHeader>
+                           <CardContent className="pt-0 pb-2 w-full">
+                             <Stack spacing={1} className="flex flex-col gap-0.5 w-full">
+                               {sections.map((section, idx) => (
+                                 <Flex key={idx} align="center" justify="between" className="bg-white rounded-xl border px-3 py-2 w-full">
+                                   <Stack spacing={1}>
+                                     <Typography variant="p" size="xs" weight="medium" className="font-medium text-xs">{section.name}</Typography>
+                                     <Typography variant="p" size="xs" color="muted" className="text-gray-400 text-xs">{section.details}</Typography>
+                                   </Stack>
+                                   <DropdownMenu>
+                                     <DropdownMenuTrigger asChild>
+                                       <Button
+                                         variant="ghost"
+                                         size="icon"
+                                         className="text-lg text-gray-400 cursor-pointer hover:bg-emerald-700 hover:text-white"
+                                         aria-label="Section actions"
+                                       >
+                                         ⋮
+                                       </Button>
+                                     </DropdownMenuTrigger>
+                                     <DropdownMenuContent align="end" className="w-20">
+                                       <DropdownMenuItem
+                                         className="px-2 py-0.5 text-left text-xs text-red-600 focus:bg-red-50"
+                                         onClick={() => setSections(sections => sections.filter((_, i) => i !== idx))}
+                                       >
+                                         <Typography variant="span" size="xs">Delete</Typography>
+                                       </DropdownMenuItem>
+                                     </DropdownMenuContent>
+                                   </DropdownMenu>
+                                 </Flex>
+                               ))}
+                             </Stack>
+                           </CardContent>
+                         </Card>
                       </motion.div>
                     </div>
                   </div>

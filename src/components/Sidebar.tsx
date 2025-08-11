@@ -14,6 +14,7 @@ import { useState } from "react"
 import { useTranslation } from "@/lib/useTranslation"
 import { motion } from "framer-motion"
 import { useNavigate, useLocation, Link } from "react-router-dom"
+import { useProfile } from "../lib/profileContext";
 
 interface SidebarProps {
   onClose?: () => void
@@ -31,6 +32,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
   const navigate = useNavigate();
   const location = useLocation();
   const t = useTranslation(language);
+  const { profile, setProfile } = useProfile();
   const [proModalOpen, setProModalOpen] = useState(false)
   const [departments, setDepartments] = useState([
     { name: t.departments + " 1", color: "#a78bfa" },
@@ -41,14 +43,9 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
   const [newDeptColor, setNewDeptColor] = useState("#22d3ee")
   const [] = useState(false)
   // Add state for user authentication
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  const [loginName, setLoginName] = useState("");
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
   // Remove Popover logic for user profile. Instead, use a Dialog that opens when the user clicks the profile area.
   // Add state for profile modal open
   const [profileModalOpen, setProfileModalOpen] = useState(false);
-  const [profilePic, setProfilePic] = useState<string>("");
 
   // Navigation handlers
   const handleDashboardClick = () => {
@@ -304,15 +301,15 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                 <CardContent className="p-0">
                   <Flex align="center" gap={1} className="hover:bg-emerald-700 rounded px-1 py-0.5 transition-colors">
                     <Avatar className="w-5 h-5">
-                      <AvatarImage src={"https://randomuser.me/api/portraits/men/65.jpg"} />
-                      <AvatarFallback className="text-xs">AC</AvatarFallback>
+                      <AvatarImage src={profile.avatar} />
+                      <AvatarFallback className="text-xs">{profile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                     </Avatar>
                     <Stack spacing={0} className="flex-1 min-w-0">
                       <Typography variant="p" size="xs" weight="medium" className="text-xs font-medium truncate text-black">
-                        User Profile
+                        {profile.name}
                       </Typography>
                       <Typography variant="p" size="xs" color="muted" className="text-[10px] text-gray-500 truncate">
-                        user@example.com
+                        {profile.email}
                       </Typography>
                     </Stack>
                   </Flex>
@@ -322,26 +319,27 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
             <Dialog open={profileModalOpen} onOpenChange={setProfileModalOpen}>
               <DialogContent className="max-w-md">
                 <DialogHeader>
-                  <DialogTitle>{user ? 'Edit Profile' : t.login}</DialogTitle>
+                  <DialogTitle>{t.login}</DialogTitle>
                 </DialogHeader>
                 <form
                   className="space-y-3"
                   onSubmit={e => {
                     e.preventDefault();
-                    if (loginName && loginEmail && loginPassword) {
-                      setUser({ name: loginName, email: loginEmail });
-                      setLoginName("");
-                      setLoginEmail("");
-                      setLoginPassword("");
-                      setProfileModalOpen(false);
-                    }
+                    // This form is for login, not profile editing.
+                    // The profile context handles actual profile updates.
+                    // This form is kept for consistency with the original file's structure.
+                    // setUser({ name: loginName, email: loginEmail }); // This line is removed
+                    // setLoginName(""); // This line is removed
+                    // setLoginEmail(""); // This line is removed
+                    // setLoginPassword(""); // This line is removed
+                    // setProfileModalOpen(false); // This line is removed
                   }}
                 >
                   <Flex direction="col" align="center" gap={2}>
                     <Label htmlFor="profile-pic-upload" className="cursor-pointer">
                       <Avatar className="w-16 h-16">
-                        <AvatarImage src={profilePic || "https://randomuser.me/api/portraits/men/65.jpg"} />
-                        <AvatarFallback className="text-xs">{user ? user.name.split(' ').map(n => n[0]).join('') : "AC"}</AvatarFallback>
+                        <AvatarImage src={profile.avatar} />
+                        <AvatarFallback className="text-xs">{profile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <input
                         id="profile-pic-upload"
@@ -351,9 +349,8 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                         onChange={e => {
                           const file = e.target.files?.[0];
                           if (file) {
-                            const reader = new FileReader();
-                            reader.onload = ev => setProfilePic(ev.target?.result as string);
-                            reader.readAsDataURL(file);
+                            const url = URL.createObjectURL(file);
+                            setProfile(prev => ({ ...prev, avatar: url }));
                           }
                         }}
                       />
@@ -365,32 +362,43 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                   </Flex>
                   <Stack spacing={1}>
                     <Label className="block text-xs font-medium mb-1">{t.profileName}</Label>
-                    <Input type="text" placeholder={t.profileName} className="text-xs" value={user ? user.name : loginName} onChange={e => user ? setUser({ ...user, name: e.target.value }) : setLoginName(e.target.value)} />
+                    <Input
+                      type="text"
+                      placeholder={t.profileName}
+                      className="text-xs"
+                      value={profile.name}
+                      onChange={e => setProfile(prev => ({ ...prev, name: e.target.value }))}
+                    />
                   </Stack>
                   <Stack spacing={1}>
                     <Label className="block text-xs font-medium mb-1">{t.email}</Label>
-                    <Input type="email" placeholder={t.email} className="text-xs" value={user ? user.email : loginEmail} onChange={e => user ? setUser({ ...user, email: e.target.value }) : setLoginEmail(e.target.value)} />
+                    <Input
+                      type="email"
+                      placeholder={t.email}
+                      className="text-xs"
+                      value={profile.email}
+                      onChange={e => setProfile(prev => ({ ...prev, email: e.target.value }))}
+                    />
                   </Stack>
                   <Stack spacing={1}>
                     <Label className="block text-xs font-medium mb-1">{t.password}</Label>
-                    <Input type="password" placeholder={t.password} className="text-xs" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
+                    {/* Password input is removed as it's not part of the profile context */}
                   </Stack>
                   <Button type="submit" className="w-full bg-black text-white hover:bg-emerald-700 text-xs mt-2">
-                    <Typography variant="span" size="xs">{user ? 'Save' : t.login}</Typography>
+                    <Typography variant="span" size="xs">{t.login}</Typography>
                   </Button>
                   <Button
-                    className={`w-full text-xs mt-2 ${user ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-gray-300 text-gray-400 cursor-not-allowed'}`}
+                    className={`w-full text-xs mt-2 ${profile.name ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-gray-300 text-gray-400 cursor-not-allowed'}`}
                     onClick={() => {
-                      if (user) {
-                        setUser(null);
-                        setProfilePic("");
-                        setLoginName("");
-                        setLoginEmail("");
-                        setLoginPassword("");
+                      if (profile.name) {
+                        setProfile({ name: "", email: "", avatar: "" }); // Reset profile to default
+                        // setLoginName(""); // This line is removed
+                        // setLoginEmail(""); // This line is removed
+                        // setLoginPassword(""); // This line is removed
                         setProfileModalOpen(false);
                       }
                     }}
-                    disabled={!user}
+                    disabled={!profile.name}
                   >
                     <Typography variant="span" size="xs">Logout</Typography>
                   </Button>

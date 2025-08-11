@@ -159,7 +159,7 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
               variant={personType === 'candidate' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setPersonType('candidate')}
-              className={`flex-1 ${personType === 'candidate' ? 'bg-black text-white hover:bg-emerald-700 hover:text-white' : ''}`}
+              className={`flex-1 text-white ${personType === 'candidate' ? 'bg-black' : 'border border-black text-black'} hover:bg-emerald-700`}
             >
               <Typography variant="span" size="sm">Candidate</Typography>
             </Button>
@@ -167,7 +167,7 @@ export function AddPersonModal({ open, onOpenChange, onAddPerson }: AddPersonMod
               variant={personType === 'interviewer' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setPersonType('interviewer')}
-              className={`flex-1 ${personType === 'interviewer' ? 'bg-black text-white hover:bg-emerald-700 hover:text-white' : ''}`}
+              className={`flex-1 text-white ${personType === 'interviewer' ? 'bg-black' : 'border border-black text-black'} hover:bg-emerald-700`}
             >
               <Typography variant="span" size="sm">Interviewer</Typography>
             </Button>
