@@ -453,9 +453,9 @@ export default function CandidatesPage() {
           </div>
           <div className="flex-1 h-full bg-black/30 z-40" onClick={() => setIsSidebarOpen(false)}></div>
         </div>
-          )}
+      )}
       {/* Main Content Area */}
-      <div className="md:pl-60 h-screen pt-10">
+      <div className="md:pl-64 h-screen pt-10">
         <div className="h-full overflow-y-auto p-2 sm:p-3 md:p-4 ipadpro:max-w-[900px] ipadpro:mx-auto">
           <div className="flex flex-1 flex-col min-h-[calc(100vh-64px)]">
             <AnimatePresence mode="wait">
@@ -466,7 +466,7 @@ export default function CandidatesPage() {
                 exit={{ opacity: 0, y: 24 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <Card className="bg-gray-200 p-2 sm:p-4 md:p-6 rounded-lg min-h-screen flex flex-col">
+                <Card className="bg-gray-200 p-2 sm:p-4 md:p-6 rounded-lg min-h-screen flex flex-col border-none shadow-none">
                   <CardContent className="p-0">
                     <Flex direction="col" className="w-full min-w-0 flex-1">
                       <Flex align="center" justify="between" className="w-full gap-2 mb-4">
@@ -483,7 +483,7 @@ export default function CandidatesPage() {
 
                     {/* Stats */}
                     <Grid cols={4} gap={2} className="grid-cols-2 md:grid-cols-4 gap-2 mb-8">
-                      <Card className="rounded-lg">
+                      <Card className="rounded-lg border-none shadow-none">
                         <CardContent className="p-1.5 flex flex-col justify-center items-center text-center">
                           <Typography variant="h2" size="xl" weight="bold" className="text-xl font-bold text-blue-600">
                             {filteredCandidates.length}
@@ -493,7 +493,7 @@ export default function CandidatesPage() {
                           </Typography>
                         </CardContent>
                       </Card>
-                      <Card className="rounded-lg">
+                      <Card className="rounded-lg border-none shadow-none">
                         <CardContent className="p-1.5 flex flex-col justify-center items-center text-center">
                           <Typography variant="h2" size="xl" weight="bold" className="text-xl font-bold text-yellow-600">
                             {filteredCandidates.filter(c => c.status === 'pending').length}
@@ -503,7 +503,7 @@ export default function CandidatesPage() {
                           </Typography>
                         </CardContent>
                       </Card>
-                      <Card className="rounded-lg">
+                      <Card className="rounded-lg border-none shadow-none">
                         <CardContent className="p-1.5 flex flex-col justify-center items-center text-center">
                           <Typography variant="h2" size="xl" weight="bold" className="text-xl font-bold text-emerald-700">
                             {filteredCandidates.filter(c => c.status === 'shortlisted').length}
@@ -513,7 +513,7 @@ export default function CandidatesPage() {
                           </Typography>
                         </CardContent>
                       </Card>
-                      <Card className="rounded-lg">
+                      <Card className="rounded-lg border-none shadow-none">
                         <CardContent className="p-1.5 flex flex-col justify-center items-center text-center">
                           <Typography variant="h2" size="xl" weight="bold" className="text-xl font-bold text-red-600">
                             {filteredCandidates.filter(c => c.status === 'rejected').length}
@@ -526,98 +526,99 @@ export default function CandidatesPage() {
                     </Grid>
                     
                     {/* Candidates List */}
-                    <Stack spacing={3} className="flex flex-col gap-3 w-full">
-                      {(filteredCandidates && filteredCandidates.length === 0) ? (
-                        <Typography variant="p" size="lg" color="muted" align="center" className="text-center text-gray-500 text-lg py-12">
-                          No candidates found
-                        </Typography>
-                      ) : (
-                        filteredCandidates.map(candidate => (
-                          <Card key={candidate.id} className="bg-white rounded-md shadow p-3 sm:p-4 md:p-5 text-sm">
-                            <CardContent className="p-1.5 md:p-2">
-                              <Flex align="start" justify="between" wrap="wrap">
-                                <Flex align="start" gap={3}>
-                                  <Avatar className="w-10 h-10 md:w-12 md:h-12">
-                                    <AvatarImage src={candidate.avatar} />
-                                    <AvatarFallback className="text-xs md:text-sm">
-                                      {candidate.name.split(' ').map((n: string) => n[0]).join('')}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                  <Stack spacing={1} className="flex-1 space-y-0.5">
-                                    <Flex align="center" gap={2}>
-                                      <Typography variant="h3" size="lg" weight="semibold" className="text-base md:text-lg font-semibold">
-                                        {candidate.name}
-                                      </Typography>
-                                      <Badge className={`text-xs px-2 py-1 rounded-full border ${getStatusColor(candidate.status)}`}>
-                                        {getStatusText(candidate.status)}
-                                      </Badge>
-                                    </Flex>
-                                    <Stack spacing={1}>
+                    <Card className="shadow-none border-none bg-transparent p-0">
+                      <CardContent className="p-0">
+                        <div className="flex flex-col gap-4 w-full">
+                          {candidates.map(candidate => (
+                            <Card
+                              key={candidate.id}
+                              className="w-full rounded-xl shadow hover:shadow-md transition-all duration-200 bg-white p-0"
+                            >
+                              <CardContent className="p-4 w-full">
+                                <Flex align="start" justify="between" wrap="wrap">
+                                  <Flex align="start" gap={3}>
+                                    <Avatar className="w-10 h-10 md:w-12 md:h-12">
+                                      <AvatarImage src={candidate.avatar} />
+                                      <AvatarFallback className="text-xs md:text-sm">
+                                        {candidate.name.split(' ').map((n: string) => n[0]).join('')}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                    <Stack spacing={1} className="flex-1 space-y-0.5">
                                       <Flex align="center" gap={2}>
-                                        <Mail className="w-3 h-3 text-gray-400" />
-                                        <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.email}</Typography>
+                                        <Typography variant="h3" size="lg" weight="semibold" className="text-base md:text-lg font-semibold">
+                                          {candidate.name}
+                                        </Typography>
+                                        <Badge className={`text-xs px-2 py-1 rounded-full border ${getStatusColor(candidate.status)}`}>
+                                          {getStatusText(candidate.status)}
+                                        </Badge>
                                       </Flex>
+                                      <Stack spacing={1}>
+                                        <Flex align="center" gap={2}>
+                                          <Mail className="w-3 h-3 text-gray-400" />
+                                          <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.email}</Typography>
+                                        </Flex>
+                                        <Flex align="center" gap={2}>
+                                          <Phone className="w-3 h-3 text-gray-400" />
+                                          <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.phone}</Typography>
+                                        </Flex>
+                                        <Flex align="center" gap={2}>
+                                          <MapPin className="w-3 h-3 text-gray-400" />
+                                          <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.location}</Typography>
+                                        </Flex>
+                                      </Stack>
                                       <Flex align="center" gap={2}>
-                                        <Phone className="w-3 h-3 text-gray-400" />
-                                        <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.phone}</Typography>
-                                      </Flex>
-                                      <Flex align="center" gap={2}>
-                                        <MapPin className="w-3 h-3 text-gray-400" />
-                                        <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.location}</Typography>
+                                        <Star className="w-3 h-3 text-yellow-500" />
+                                        <Typography variant="span" size="xs" className="text-xs font-medium">{candidate.rating}</Typography>
+                                        <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-500">•</Typography>
+                                        <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-500">{candidate.experience}</Typography>
                                       </Flex>
                                     </Stack>
-                                    <Flex align="center" gap={2}>
-                                      <Star className="w-3 h-3 text-yellow-500" />
-                                      <Typography variant="span" size="xs" className="text-xs font-medium">{candidate.rating}</Typography>
-                                      <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-500">•</Typography>
-                                      <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-500">{candidate.experience}</Typography>
-                                    </Flex>
-                                  </Stack>
+                                  </Flex>
+                                  <Flex gap={1}>
+                                    <Button 
+                                      size="sm" 
+                                      variant="ghost" 
+                                      className="text-xs p-1 hover:bg-emerald-700" 
+                                      onClick={() => setPreviewCandidate(candidate)}
+                                    >
+                                      <Eye className="w-4 h-4" />
+                                    </Button>
+                                    <Button 
+                                      size="sm" 
+                                      variant="ghost" 
+                                      className="text-xs p-1 hover:bg-emerald-700" 
+                                      onClick={() => setCommentsCandidate(candidate)}
+                                    >
+                                      <MessageSquare className="w-4 h-4" />
+                                    </Button>
+                                    <DropdownMenu>
+                                      <DropdownMenuTrigger asChild>
+                                        <Button size="sm" variant="ghost" className="text-xs p-1 hover:bg-emerald-700">
+                                          <MoreHorizontal className="w-4 h-4" />
+                                        </Button>
+                                      </DropdownMenuTrigger>
+                                      <DropdownMenuContent align="end">
+                                        <DropdownMenuItem onClick={() => setPreviewCandidate(candidate)}>
+                                          <Eye className="w-4 h-4 mr-2" />
+                                          <Typography variant="span" size="sm">View Details</Typography>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setCommentsCandidate(candidate)}>
+                                          <MessageSquare className="w-4 h-4 mr-2" />
+                                          <Typography variant="span" size="sm">Add Comments</Typography>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setDeleteDialogOpen(candidate.id)}>
+                                          <Typography variant="span" size="sm" className="text-red-600">Delete</Typography>
+                                        </DropdownMenuItem>
+                                      </DropdownMenuContent>
+                                    </DropdownMenu>
+                                  </Flex>
                                 </Flex>
-                                <Flex gap={1}>
-                                  <Button 
-                                    size="sm" 
-                                    variant="ghost" 
-                                    className="text-xs p-1 hover:bg-emerald-700" 
-                                    onClick={() => setPreviewCandidate(candidate)}
-                                  >
-                                    <Eye className="w-4 h-4" />
-                                  </Button>
-                                  <Button 
-                                    size="sm" 
-                                    variant="ghost" 
-                                    className="text-xs p-1 hover:bg-emerald-700" 
-                                    onClick={() => setCommentsCandidate(candidate)}
-                                  >
-                                    <MessageSquare className="w-4 h-4" />
-                                  </Button>
-                                  <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                      <Button size="sm" variant="ghost" className="text-xs p-1 hover:bg-emerald-700">
-                                        <MoreHorizontal className="w-4 h-4" />
-                                      </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                      <DropdownMenuItem onClick={() => setPreviewCandidate(candidate)}>
-                                        <Eye className="w-4 h-4 mr-2" />
-                                        <Typography variant="span" size="sm">View Details</Typography>
-                                      </DropdownMenuItem>
-                                      <DropdownMenuItem onClick={() => setCommentsCandidate(candidate)}>
-                                        <MessageSquare className="w-4 h-4 mr-2" />
-                                        <Typography variant="span" size="sm">Add Comments</Typography>
-                                      </DropdownMenuItem>
-                                      <DropdownMenuItem onClick={() => setDeleteDialogOpen(candidate.id)}>
-                                        <Typography variant="span" size="sm" className="text-red-600">Delete</Typography>
-                                      </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
-                                </Flex>
-                              </Flex>
-                            </CardContent>
-                          </Card>
-                        ))
-                      )}
-                    </Stack>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -1031,4 +1032,4 @@ export default function CandidatesPage() {
       </Dialog>
     </div>
   )
-} 
+}

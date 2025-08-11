@@ -53,126 +53,136 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
     { id: 1, title: 'PRO mode activated', desc: 'All premium features are now available for your account', icon: 'pro' },
     { id: 2, title: 'New candidate added', desc: 'Alex Johnson has entered the Technical Review phase', icon: 'candidate' },
     { id: 3, title: 'Phase deadline soon', desc: 'Initial Review Phase 3 ends in 2 days', icon: 'deadline' },
-    { id: 4, title: 'Feedback completed', desc: 'Feedback for Jane Doe has been submitted', icon: 'feedback' },
-    { id: 5, title: 'Round 2 scheduled', desc: 'Round 2 for Michael Chen is scheduled for tomorrow', icon: 'round' },
+    // Removed feedback completed and round 2 scheduled
   ];
   return (
     <Card className="flex flex-wrap items-left justify-between p-1 sm:p-1.5 md:p-2 bg-white rounded-t-xl shadow-sm border-b border-gray-200 relative">
-      <Flex align="center" gap={3} className="space-x-1.5 md:space-x-3">
-        {/* Mobile Menu Button */}
-        <Button variant="ghost" size="sm" className="md:hidden p-1 bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300" onClick={onMenuClick}>
-          <Menu className="w-4 h-4 md:w-5 md:h-5" />
-        </Button>
-        {/* Logo */}
-        <img src="dashboard logo.png" alt="Logo" className="w-8 h-8 rounded-lg object-contain bg-gray-100" />
-        {/* Global Actions - hide some on mobile */}
-        <Flex align="center" gap={1} className="space-x-0.5 md:space-x-1.5">
-          <Button
-            variant="outline"
-            size="sm"
-            className="p-1 sm:p-1.5 md:p-2 flex items-center gap-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 text-xs sm:text-sm md:text-base"
-            onClick={() => setSearchOpen(true)}
-          >
-            <Search className="w-4 h-4 md:w-5 md:h-5" />
-            <Typography variant="span" size="xs" className="hidden sm:inline text-xs font-medium">{t.search}</Typography>
+      <Flex align="center" gap={3} className="space-x-1.5 md:space-x-3 w-full justify-between">
+        {/* Left group: menu, logo, actions */}
+        <Flex align="center" gap={3}>
+          {/* Mobile Menu Button */}
+          <Button variant="ghost" size="sm" className="md:hidden p-1 bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300" onClick={onMenuClick}>
+            <Menu className="w-4 h-4 md:w-5 md:h-5" />
           </Button>
-          <Button 
-            variant="outline"
-            size="sm" 
-            className="hidden sm:flex p-1 sm:p-1.5 md:p-2 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 text-xs sm:text-sm md:text-base"
-            onClick={() => {
-              setAddPersonOpen(true);
-              setAddPersonButtonVisible(true);
-            }}
-          >
-            <UserPlus className="w-4 h-4 md:w-5 md:h-5" />
-            <Typography variant="span" size="xs" className="hidden sm:inline text-xs font-medium">{t.addPerson}</Typography>
-          </Button>
-          <Button variant="outline" size="sm" className="hidden sm:flex relative p-1 md:p-1 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black items-center gap-1" onClick={() => setNotificationOpen((v) => !v)}>
-            <span className="relative flex items-center">
-              <Bell className="w-3 h-3 md:w-4 md:h-4" />
-              <Badge className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 bg-red-500 rounded-full"></Badge>
-            </span>
-            <Typography variant="span" size="xs" className="hidden sm:inline text-xs font-medium">{t.notification}</Typography>
-          </Button>
+          {/* Logo */}
+          <img src="dashboard logo.png" alt="Logo" className="w-8 h-8 rounded-lg object-contain bg-gray-100" />
+          {/* Global Actions - hide some on mobile */}
+          <Flex align="center" gap={1} className="space-x-0.5 md:space-x-1.5">
+            <Button
+              variant="outline"
+              size="sm"
+              className="p-1 sm:p-1.5 md:p-2 flex items-center gap-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 text-xs sm:text-sm md:text-base"
+              onClick={() => setSearchOpen(true)}
+            >
+              <Search className="w-4 h-4 md:w-5 md:h-5" />
+              <Typography variant="span" size="xs" className="hidden sm:inline text-xs font-medium">{t.search}</Typography>
+            </Button>
+            <Button 
+              variant="outline"
+              size="sm" 
+              className="hidden sm:flex p-1 sm:p-1.5 md:p-2 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 text-xs sm:text-sm md:text-base"
+              onClick={() => {
+                setAddPersonOpen(true);
+                setAddPersonButtonVisible(true);
+              }}
+            >
+              <UserPlus className="w-4 h-4 md:w-5 md:h-5" />
+              <Typography variant="span" size="xs" className="hidden sm:inline text-xs font-medium">{t.addPerson}</Typography>
+            </Button>
+            <Button variant="outline" size="sm" className="hidden sm:flex relative p-1 md:p-1 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black items-center gap-1" onClick={() => setNotificationOpen((v) => !v)}>
+              <span className="relative flex items-center">
+                <Bell className="w-3 h-3 md:w-4 md:h-4" />
+                <Badge className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 bg-red-500 rounded-full"></Badge>
+              </span>
+              <Typography variant="span" size="xs" className="hidden sm:inline text-xs font-medium">{t.notification}</Typography>
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="hidden sm:flex p-1 md:p-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 items-center gap-0">
+                  <div className="flex flex-col space-y-0.5">
+                    <div className="w-1 h-1 bg-current rounded-full"></div>
+                    <div className="w-1 h-1 bg-current rounded-full"></div>
+                    <div className="w-1 h-1 bg-current rounded-full"></div>
+                  </div>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="flex items-center gap-2" onClick={() => window.location.assign('/settings')}>
+                  <Settings className="w-4 h-4" />
+                  <Typography variant="span" size="sm">Settings</Typography>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex items-center gap-2" onClick={() => {
+                  const profile = document.getElementById('sidebar-user-profile');
+                  if (profile) profile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}>
+                  <User className="w-4 h-4" />
+                  <Typography variant="span" size="sm">Profile</Typography>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </Flex>
+        </Flex>
+        {/* Right group: plus button and others */}
+        <Flex align="center" gap={2}>
+          {/* Language Selector - always visible */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="hidden sm:flex p-1 md:p-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 items-center gap-0">
-                <div className="flex flex-col space-y-0.5">
-                  <div className="w-1 h-1 bg-current rounded-full"></div>
-                  <div className="w-1 h-1 bg-current rounded-full"></div>
-                  <div className="w-1 h-1 bg-current rounded-full"></div>
-                </div>
+              <Button variant="ghost" size="sm" className="hidden sm:flex items-center space-x-1 p-1 md:p-1 bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black">
+                <Typography variant="span" size="xs" className="text-xs md:text-sm">{language === 'en' ? 'En' : language === 'es' ? 'Es' : 'Fr'}</Typography>
+                <ChevronDown className="w-2.5 md:w-2 h-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => setLanguage('en')} className="hover:bg-emerald-700">
+                <Typography variant="span" size="sm">English</Typography>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage('es')} className="hover:bg-emerald-700">
+                <Typography variant="span" size="sm">Spanish</Typography>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage('fr')} className="hover:bg-emerald-700">
+                <Typography variant="span" size="sm">French</Typography>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* Date - always visible */}
+          <Flex align="center" gap={1} className="hidden sm:flex items-center space-x-1 text-xs md:text-sm text-gray-600">
+            <Calendar className="w-3 h-3 md:w-3 md:h-4" />
+            <Typography variant="span" size="xs" className="text-xs md:text-sm text-gray-600">{dateString}</Typography>
+          </Flex>
+          {/* Create Button with Dropdown - always top right */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                className="bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors text-xs md:text-sm w-8 h-8 min-w-0 rounded-full flex items-center justify-center p-0 sm:w-auto sm:h-auto sm:rounded sm:px-2 sm:py-1.5 sm:ml-2"
+              >
+                <Typography variant="span" size="xs" className="hidden sm:inline text-white">{t.create}</Typography>
+                <span className="sm:hidden flex items-center justify-center text-white"><Plus className="w-5 h-5" /></span>
+                <ArrowRight className="hidden sm:block w-3 h-3 md:w-4 md:h-4 ml-1 text-white" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem className="flex items-center gap-2" onClick={() => window.location.assign('/settings')}>
-                <Settings className="w-4 h-4" />
-                <Typography variant="span" size="sm">Settings</Typography>
+              <DropdownMenuItem onClick={() => onCreateType && onCreateType('interview')} className="hover:bg-emerald-700">
+                <Typography variant="span" size="sm">{t.newInterview}</Typography>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2" onClick={() => {
-                const profile = document.getElementById('sidebar-user-profile');
-                if (profile) profile.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }}>
-                <User className="w-4 h-4" />
-                <Typography variant="span" size="sm">Profile</Typography>
+              <DropdownMenuItem onClick={() => onCreateType && onCreateType('round')} className="hover:bg-emerald-700">
+                <Typography variant="span" size="sm">{t.newRound}</Typography>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onCreateType && onCreateType('prompt')} className="hover:bg-emerald-700">
+                <Typography variant="span" size="sm">{t.newPrompt}</Typography>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onCreateType && onCreateType('candidate')} className="hover:bg-emerald-700">
+                <Typography variant="span" size="sm">{t.newCandidate}</Typography>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </Flex>
       </Flex>
+      {/* REMOVE this duplicate block below */}
       {/* Top-right controls - responsive positioning */}
-      <Flex align="center" gap={3} className="space-x-1.5 md:space-x-3 flex-wrap mt-1 sm:mt-0 md:absolute md:right-0 md:top-2">
-        {/* Language Selector - always visible */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="hidden sm:flex items-center space-x-1 p-1 md:p-1 bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black">
-              <Typography variant="span" size="xs" className="text-xs md:text-sm">{language === 'en' ? 'En' : language === 'es' ? 'Es' : 'Fr'}</Typography>
-              <ChevronDown className="w-2.5 md:w-2 h-3" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => setLanguage('en')} className="hover:bg-emerald-700">
-              <Typography variant="span" size="sm">English</Typography>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setLanguage('es')} className="hover:bg-emerald-700">
-              <Typography variant="span" size="sm">Spanish</Typography>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setLanguage('fr')} className="hover:bg-emerald-700">
-              <Typography variant="span" size="sm">French</Typography>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        {/* Date - always visible */}
-        <Flex align="center" gap={1} className="hidden sm:flex items-center space-x-1 text-xs md:text-sm text-gray-600">
-          <Calendar className="w-3 h-3 md:w-3 md:h-4" />
-          <Typography variant="span" size="xs" className="text-xs md:text-sm text-gray-600">{dateString}</Typography>
-        </Flex>
-        {/* Create Button with Dropdown - responsive */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors text-xs md:text-sm w-full sm:w-auto py-1.5 md:py-2 px-2 md:px-2 border border-gray-300 justify-center flex items-center font-medium">
-              <Typography variant="span" size="xs" className="hidden sm:inline text-white">{t.create}</Typography>
-              <span className="sm:hidden flex items-center text-white"><Plus className="w-5 h-5" /></span>
-              <ArrowRight className="hidden sm:block w-3 h-3 md:w-4 md:h-4 ml-1 text-white" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onCreateType && onCreateType('interview')} className="hover:bg-emerald-700">
-              <Typography variant="span" size="sm">{t.newInterview}</Typography>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onCreateType && onCreateType('round')} className="hover:bg-emerald-700">
-              <Typography variant="span" size="sm">{t.newRound}</Typography>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onCreateType && onCreateType('prompt')} className="hover:bg-emerald-700">
-              <Typography variant="span" size="sm">{t.newPrompt}</Typography>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onCreateType && onCreateType('candidate')} className="hover:bg-emerald-700">
-              <Typography variant="span" size="sm">{t.newCandidate}</Typography>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </Flex>
+      {/* <Flex align="center" gap={3} className="space-x-1.5 md:space-x-3 flex-wrap mt-1 sm:mt-0 md:absolute md:right-0 md:top-2 w-full justify-end">
+        ...DUPLICATE CONTENT...
+      </Flex> */}
+      {/* ...rest of the code... */}
       <SearchModal open={searchOpen} onOpenChange={setSearchOpen} language={language} setLanguage={setLanguage} />
       <AddPersonModal 
         open={addPersonOpen} 
@@ -220,7 +230,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
             ) : (
               <ScrollArea className="max-h-64">
                 <Stack spacing={2}>
-                  <Button variant="ghost" size="sm" className="mb-2 text-xs text-blue-600 hover:underline" onClick={() => setShowAllNotifications(false)}>
+                  <Button variant="ghost" size="sm" className="mb-2 text-xs text-blue-600 hover:bg-emerald-700 hover:text-white" onClick={() => setShowAllNotifications(false)}>
                     <Typography variant="span" size="xs">&larr; Back</Typography>
                   </Button>
                   {notifications.map((n) => (
@@ -256,15 +266,15 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
           <CardContent className="p-4 border-t">
             <Flex gap={2}>
               <Button 
-                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
+                className="flex-1 bg-black text-white hover:bg-emerald-700 hover:text-white text-xs py-2 px-3"
                 onClick={() => setShowAllNotifications(true)}
               >
-                <Typography variant="span" size="xs">See all notifications</Typography>
+                <Typography variant="span" size="xs" className="text-white">See all notifications</Typography>
               </Button>
               <Button 
                 variant="outline"
                 size="sm"
-                className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700"
+                className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700 hover:text-white"
                 onClick={() => setNotesOpen(true)}
               >
                 <Typography variant="span" size="xs">Notes</Typography>
@@ -334,4 +344,4 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
       </Dialog>
     </Card>
   )
-} 
+}
