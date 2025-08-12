@@ -251,7 +251,7 @@ export default function DashboardPage() {
 
   // Interview Rounds Components
   const Round1Card = ({ onViewCandidates }: { onViewCandidates: () => void }) => (
-    <Card className="w-full lg:max-w-[900px] min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
+    <Card className="w-full min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
       <CardHeader className="pb-0 px-3 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 pt-0 flex-shrink-0">
         <Flex align="center" gap={1} wrap="wrap" className="mb-[-20px] 2xl:mb-[-10px]">
           <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 2xl:text-[8px] 2xl:px-0.5">
@@ -321,7 +321,7 @@ export default function DashboardPage() {
   );
 
   const Round2Card = ({ onViewCandidatesRound2 }: { onViewCandidatesRound2: () => void }) => (
-    <Card className="w-full lg:max-w-[900px] min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
+    <Card className="w-full min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
       <CardHeader className="pb-0 px-3 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 pt-0 flex-shrink-0">
         <Flex align="center" gap={1} wrap="wrap" className="mb-[-20px] 2xl:mb-[-10px]">
           <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 2xl:text-[8px] 2xl:px-0.5">
@@ -458,7 +458,7 @@ export default function DashboardPage() {
         }}className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full"
       >
         
-        <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full lg:max-w-[360px] rounded-2xl shadow-md hover:shadow-md transition-all duration-200 hover:scale-[1.01]">
+        <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full rounded-2xl shadow-md hover:shadow-md transition-all duration-200 hover:scale-[1.01]">
           <CardHeader className="pb-0 px-3 sm:px-2 md:px-3 lg:px-3 xl:px-4 2xl:px-2 w-full">
             <Typography 
               variant="h3" 
@@ -791,7 +791,7 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3, delay: 0.05 }}
-                  className="flex-1 flex flex-col lg:flex-row gap-4 sm:gap-4 md:gap-2 mb-10"
+                  className="flex-1 flex flex-col lg:flex-row gap-4 sm:gap-4 md:gap-2 mb-0"
                 >
                   {/* Left Side: Main Content (Round Cards and Interview Overview) */}
                   <div className="flex-1 flex flex-col gap-4 sm:gap-4 md:gap-4 lg:gap-6 xl:gap-8 lg:min-w-0">
@@ -819,39 +819,22 @@ export default function DashboardPage() {
                         </div>
                       </div>
                     </Stack>
-                  </div>
 
-                  {/* Right Side: Notification Panel with Vertical Divider */}
-                  <div className="hidden lg:block w-72 xl:w-80 2xl:w-[320px] border-l border-gray-200 pl-4">
-                    <NotificationPanel language={language} setLanguage={setLanguage} />
-                  </div>
-
-                  {/* Mobile & Tablet: Notification Panel (stacked below) */}
-                  <div className="lg:hidden w-full">
-                    <NotificationPanel language={language} setLanguage={setLanguage} />
-                  </div>
-                </motion.div>
-
-                {/* InterviewOverview Components with Right Side Cards */}
-                <div className="w-full max-w-none px-2 2xl:px-0 ml-0 lg:ml-2">
-                  <div className="flex flex-col lg:flex-row gap-4 lg:min-h-0 lg:items-stretch">
-                    {/* Left Side: InterviewOverview */}
-                    <div className="w-full lg:flex-1 lg:w-auto lg:h-full lg:min-h-0">
-                      {/* Header outside the card */}
-                      <Flex align="center" justify="between" className="w-full gap-x-2 mb-1 mt-0 md:mt-0 lg:-mt-18 xl:-mt-10 2xl:-mt-18 sm:mb-2 md:mb-2">
-                        <Typography variant="h2" size="lg" weight="bold" className="-ml-4 text-lg md:text-xl lg:text-2xl text-left">
-                           Interview Overview
-                         </Typography>
-                        <Flex align="center" gap={2} className="ml-auto">
+                    {/* Header placed at the bottom of Round cards (aligns with Notification panel bottom on lg+) */}
+                    <Flex align="center" justify="between" className="w-full gap-2 mt-2 lg:mt-auto">
+                      <Typography variant="h2" size="lg" weight="bold" className="text-left text-xl md:text-2xl lg:text-3xl">
+                          Interview Overview
+                        </Typography>
+                      <Flex align="center" gap={2} className="ml-auto">
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white transition-colors"
+                          className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white"
                             onClick={() => {
                               setQuestions(prev => [
                                 ...prev,
                                 {
-                                  prompt: 'Team Building',
+                                prompt: 'New Question',
                                   competency: 'Team Building',
                                   time: '10 Min',
                                   level: 'Pending',
@@ -867,7 +850,7 @@ export default function DashboardPage() {
                           </Button>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white transition-colors">
+                            <Button variant="ghost" size="sm" className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white">
                                 <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5" />
                               </Button>
                             </DropdownMenuTrigger>
@@ -879,138 +862,68 @@ export default function DashboardPage() {
                           </DropdownMenu>
                         </Flex>
                       </Flex>
-                      <Card className="-ml-4 h-[550px] rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col md:mt-0 mb-0 sm:mb-1 md:mb-0 lg:mt-10 xl:-mt-0 2xl:mt-11 w-full lg:max-w-none">
-                        <CardContent className="space-y-1 p-0.5">
-                          <Stack spacing={1}>
-                            {/* Previous Background Section */}
-                            <div>
-                              <CardHeader className="pl-4 pr-6 pb-1 md:pb-2 lg:pb-3">
-                                <Typography variant="h3" size="lg" weight="medium" className="text-base md:text-lg lg:text-xl xl:text-2xl">
-                                  Previous Background
-                                </Typography>
+                  </div>
+
+                  {/* Right Side: Notification Panel with Vertical Divider */}
+                  <div className="hidden lg:block w-72 xl:w-80 2xl:w-[320px] border-l border-gray-200 pl-4">
+                    <NotificationPanel language={language} setLanguage={setLanguage} />
+                  </div>
+
+                  {/* Mobile & Tablet: Notification Panel (stacked below) */}
+                  <div className="lg:hidden w-full">
+                    <NotificationPanel language={language} setLanguage={setLanguage} />
+                  </div>
+                </motion.div>
+
+                {/* InterviewOverview Components with Right Side Cards */}
+                <div className="w-full max-w-none px-2 2xl:px-0 ml-0 lg:ml-2 mt-2">
+                  <div className="flex flex-col lg:flex-row gap-4 lg:min-h-0 lg:items-stretch">
+                    {/* Left Side: InterviewOverview */}
+                    <div className="w-full lg:flex-1 lg:w-auto lg:h-full lg:min-h-0">
+
+                      {/* Previous Background Card */}
+                      <Card className="w-full rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col">
+                        <CardHeader className="pl-4 pr-4 pb-0">
+                          <Typography variant="h3" size="lg" weight="medium" className="text-lg md:text-xl">Previous Background</Typography>
                               </CardHeader>
-                              {/* Question Item 1 */}
-                              <Card className="flex flex-col border rounded-lg px-0 py-1 md:py-4 lg:py-1 mb-4 transition-colors w-full">
-                                <CardContent className="flex-1 p-0 w-full">
-                                  {questions.map((q, index) => (
-                                    <Fragment key={index}>
-                                      {q.deleted ? (
-                                        <Typography variant="p" size="xs" color="muted" align="center" className="text-gray-400 text-xs text-center py-2">
-                                          No question
+                        <CardContent className="pt-0 pb-2">
+                          {/* Question Row */}
+                          <Card className="border rounded-xl mb-0.5">
+                            <CardContent className="py-0.5 px-2">
+                              <Flex align="start" justify="between" className="w-full gap-1.5">
+                                <Badge className="w-6 h-6 md:w-7 md:h-7 bg-gray-200 text-black rounded-full flex items-center justify-center font-semibold flex-shrink-0">1</Badge>
+                                <div className="flex-1 min-w-0">
+                                  <Typography variant="h4" size="lg" weight="medium" className="text-sm md:text-base lg:text-lg leading-snug break-words">
+                                    In what ways do JavaScript and jQuery vary?
                                         </Typography>
-                                      ) : (
-                                        <Flex align="start" justify="between" className="w-full">
-                                          <Flex align="start" gap={2} className="pl-4 md:pl-5 lg:pl-6 flex-1 min-w-0 gap-2 md:gap-3 w-full">
-                                            <Badge className="w-6 h-6 md:w-7 md:h-7 lg:w-7 lg:h-7 bg-gray-300 text-black rounded-full flex items-center justify-center text-sm md:text-base lg:text-lg font-bold flex-shrink-0">
-                                              {index + 1}
-                                            </Badge>
-                                            <div className="flex-1 min-w-0 w-full">
-                                              {q.editing ? (
-                                                <Input
-                                                  className="font-medium text-sm md:text-base lg:text-lg xl:text-xl leading-tight w-full"
-                                                  value={q.prompt}
-                                                  onChange={e => {
-                                                    const newQuestions = [...questions];
-                                                    newQuestions[index].prompt = e.target.value;
-                                                    setQuestions(newQuestions);
-                                                  }}
-                                                  autoFocus
-                                                />
-                                              ) : (
-                                                <Typography 
-                                                  variant="h4" 
-                                                  size="lg" 
-                                                  weight="medium" 
-                                                  className="font-medium text-sm md:text-base lg:text-lg xl:text-xl leading-tight cursor-pointer break-words"
-                                                  onDoubleClick={() => {
-                                                    const newQuestions = [...questions];
-                                                    newQuestions[index].editing = true;
-                                                    setQuestions(newQuestions);
-                                                  }}
-                                                >
-                                                  {q.prompt}
-                                                </Typography>
-                                              )}
-                                              <Typography variant="p" size="xs" color="muted" className="text-xs md:text-sm lg:text-base text-gray-600 mt-1 md:mt-1.5">
-                                                3min 4Questions
-                                              </Typography>
+                                  <Typography variant="p" size="xs" color="muted" className="text-gray-500 text-[10px] mt-0">3m • 4 Questions</Typography>
                                             </div>
+                                <Flex align="center" gap={1} className="flex-shrink-0">
+                                  <Button variant="ghost" size="icon" className="hover:bg-emerald-700 hover:text-white"><Edit className="w-4 h-4" /></Button>
+                                  <Button variant="ghost" size="icon" className="hover:bg-emerald-700 hover:text-white"><Trash2 className="w-4 h-4" /></Button>
+                                  <Button variant="ghost" size="icon" className="hover:bg-emerald-700 hover:text-white"><MoreHorizontal className="w-4 h-4" /></Button>
                                           </Flex>
-                                          <Flex align="center" gap={1} className="flex-shrink-0 gap-1 md:gap-2">
-                                            {q.editing ? (
-                                              <>
-                                                <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5" onClick={() => {
-                                                  const newQuestions = [...questions];
-                                                  newQuestions[index].prompt = q.prompt;
-                                                  newQuestions[index].editing = false;
-                                                  setQuestions(newQuestions);
-                                                }}>
-                                                  <Save className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                                                </Button>
-                                                <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5" onClick={() => {
-                                                  const newQuestions = [...questions];
-                                                  newQuestions[index].editing = false;
-                                                  setQuestions(newQuestions);
-                                                }}>
-                                                  <X className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                                                </Button>
-                                              </>
-                                            ) : (
-                                              <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5 hover:bg-emerald-700 hover:text-white" onClick={() => {
-                                                const newQuestions = [...questions];
-                                                newQuestions[index].editing = true;
-                                                setQuestions(newQuestions);
-                                              }}>
-                                                <Edit className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                                              </Button>
-                                            )}
-                                            <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5 hover:bg-emerald-700 hover:text-white" onClick={() => {
-                                              const newQuestions = [...questions];
-                                              newQuestions[index].deleted = true;
-                                              setQuestions(newQuestions);
-                                            }}>
-                                              <Trash2 className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                                            </Button>
-                                            <Button variant="ghost" size="sm" className="p-1 md:p-2 lg:p-2.5 hover:bg-emerald-700 hover:text-white" onClick={() => alert('More actions coming soon!')}>
-                                              <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
-                                            </Button>
                                           </Flex>
-                                        </Flex>
-                                      )}
-                                    </Fragment>
-                                  ))}
                                 </CardContent>
                               </Card>
-                              {/* Question Item 2 - Editable */}
-                              <Card className="bg-gray-100 rounded-xl p-2 md:p-3 lg:p-4 mt-2 relative w-full">
-                                <CardHeader className="pl-4 pr-4 pb-0.5 w-full">
-                                  <Flex align="start" gap={2} className="mb-1">
-                                    <Badge className="w-6 h-6 md:w-7 md:h-7 bg-white text-black rounded-full flex items-center justify-center text-sm md:text-base font-bold">2</Badge>
-                                    <Typography variant="h3" size="lg" weight="semibold" className="text-lg">Editing</Typography>
+
+                          {/* Editing Block */}
+                          <Card className="bg-gray-100 rounded-xl">
+                            <CardContent className="p-2 md:p-2">
+                              <Flex align="start" gap={2} className="mb-1">
+                                <Badge className="w-7 h-7 bg-white text-black rounded-full flex items-center justify-center font-semibold">2</Badge>
+                                <Typography variant="h3" size="lg" weight="semibold">Editing</Typography>
                                   </Flex>
-                                </CardHeader>
-                                <div className="hidden 2xl:block absolute top-1 right-3">
-                                  <Typography variant="span" size="xs" color="muted" weight="medium" className="text-xs text-gray-500 font-medium">
-                                    2 editing
-                                  </Typography>
+
+                              <Grid cols={1} gap={1.5} className="grid grid-cols-1 md:grid-cols-5 gap-1.5 items-start">
+                                <div className="md:col-span-2">
+                                  <Label className="text-sm mb-1">Prompt</Label>
+                                  <Input className="w-full h-8" placeholder="How are JavaScript and jQuery different?" />
                                 </div>
-                                <CardContent className="pt-0 w-full">
-                                  {/* Second row: fields */}
-                                  <Flex direction="col" gap={2} className="md:flex-row md:items-center md:gap-3 lg:gap-4 mb-2 pl-0 w-full">
-                                    <div className="flex-[2] min-w-0 w-full">
-                                      <Label className="text-sm font-medium mb-1">Prompt</Label>
-                                      <Input
-                                        type="text"
-                                        className="w-full rounded-md border px-3 py-2 text-sm md:text-base bg-white"
-                                        placeholder="How are JavaScript and jQuery different?"
-                                        value={editingPrompt.prompt}
-                                        onChange={e => setEditingPrompt(f => ({ ...f, prompt: e.target.value }))}
-                                      />
-                                    </div>
-                                    <div className="flex-1 min-w-0 w-full">
-                                      <Label className="text-sm font-medium mb-1">Competencies</Label>
-                                      <Select value={editingPrompt.competency} onValueChange={(value) => setEditingPrompt(f => ({ ...f, competency: value }))}>
-                                        <SelectTrigger className="w-full rounded-md border px-3 py-2 text-sm md:text-base bg-white text-black">
+                                <div>
+                                  <Label className="text-sm mb-1">Competencies</Label>
+                                  <Select defaultValue="Teambuilding">
+                                    <SelectTrigger className="w-full h-8">
                                           <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -1020,25 +933,17 @@ export default function DashboardPage() {
                                         </SelectContent>
                                       </Select>
                                     </div>
-                                    <div className="flex-1 min-w-0 w-full">
-                                      <Label className="text-sm font-medium mb-1">Time</Label>
-                                      <Flex align="center">
-                                        <Input
-                                          type="text"
-                                          className="w-16 md:w-20 rounded-md border px-3 py-2 text-sm md:text-base bg-white"
-                                          placeholder="10"
-                                          value={editingPrompt.time}
-                                          onChange={e => setEditingPrompt(f => ({ ...f, time: e.target.value }))}
-                                        />
-                                        <Typography variant="span" size="xs" color="muted" className="ml-2 text-gray-500 text-xs md:text-sm">
-                                          min
-                                        </Typography>
+                                <div>
+                                  <Label className="text-sm mb-1">Time</Label>
+                                  <Flex align="center" gap={2}>
+                                    <Input className="w-16 h-8" defaultValue="10" />
+                                    <Typography variant="span" size="xs" color="muted">min</Typography>
                                       </Flex>
                                     </div>
-                                    <div className="flex-1 min-w-0 w-full">
-                                      <Label className="text-sm font-medium mb-1">Level</Label>
-                                      <Select value={editingPrompt.level} onValueChange={(value) => setEditingPrompt(f => ({ ...f, level: value }))}>
-                                        <SelectTrigger className="w-full rounded-md border px-3 py-2 text-sm md:text-base bg-white">
+                                <div>
+                                  <Label className="text-sm mb-1">Level</Label>
+                                  <Select defaultValue="Pending">
+                                    <SelectTrigger className="w-full h-8">
                                           <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -1049,125 +954,25 @@ export default function DashboardPage() {
                                         </SelectContent>
                                       </Select>
                                     </div>
-                                  </Flex>
-                                  
-                                  {/* Guidelines Heading */}
-                                  <Typography variant="h4" size="sm" weight="bold" className="font-bold text-sm md:text-base mb-1">
-                                    Guidelines
-                                  </Typography>
-                                  
-                                  {/* Guidelines Card */}
-                                  <Card className="bg-white rounded-lg p-3 md:p-3 mb-2 w-full">
-                                    <CardContent className="p-0 w-full">
-                                      <Typography variant="h4" size="sm" weight="bold" className="font-bold text-sm md:text-base mb-1">
-                                        Some of the key features of design are:
-                                      </Typography>
-                                      <ul className="list-disc pl-5 text-gray-700 space-y-1 text-xs md:text-sm">
+                              </Grid>
+
+                              <Typography variant="h4" size="sm" weight="bold" className="mt-0.5 mb-1">Guidelines</Typography>
+                              <Card className="bg-white">
+                                <CardContent className="p-1.5">
+                                  <Typography variant="p" size="sm" weight="bold" className="mb-1">Some of the key features of design are:</Typography>
+                                  <ul className="list-disc pl-5 text-xs text-gray-700 space-y-0.5">
                                         <li>A line is a visual trace created by any writing tool or the meeting point of two shapes</li>
                                         <li>Size refers to how much visual space one element occupies compared to another</li>
                                       </ul>
                                     </CardContent>
                                   </Card>
                                   
-                                  {/* Buttons */}
-                                  <Flex direction="col" gap={2} className="md:flex-row w-full">
-                                    <Dialog open={libraryOpen} onOpenChange={setLibraryOpen}>
-                                      <DialogTrigger asChild>
-                                        <Button variant="outline" className="flex-1 text-sm md:text-base py-2 md:py-2.5 hover:bg-emerald-700 hover:text-white" onClick={() => setLibraryOpen(true)}>
-                                          <Typography variant="span" size="sm" className="text-sm md:text-base">Insert From Library</Typography>
-                                        </Button>
-                                      </DialogTrigger>
-                                      <DialogContent className="max-w-lg">
-                                        <DialogHeader>
-                                          <DialogTitle>Select Questions from Library</DialogTitle>
-                                          <DialogDescription>Choose questions to add from the library.</DialogDescription>
-                                        </DialogHeader>
-                                        <ScrollArea className="max-h-72">
-                                          <Stack spacing={2}>
-                                            {questionBank.map((q: any, idx: number) => (
-                                              <Card key={idx} className="hover:bg-emerald-700/10 transition-colors cursor-pointer">
-                                                <CardContent className="p-2">
-                                                  <Label className="flex items-start space-x-2 cursor-pointer">
-                                                    <Checkbox
-                                                      checked={selectedLibraryIndexes.includes(idx)}
-                                                      onCheckedChange={(checked) => {
-                                                        setSelectedLibraryIndexes(sel =>
-                                                          checked
-                                                            ? [...sel, idx]
-                                                            : sel.filter(i => i !== idx)
-                                                        );
-                                                      }}
-                                                    />
-                                                    <div>
-                                                      <Typography variant="p" size="sm" weight="medium" className="font-medium text-sm">
-                                                        {q.prompt}
-                                                      </Typography>
-                                                      <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500">
-                                                        {q.competency} • {q.time} • {q.level}
-                                                      </Typography>
-                                                    </div>
-                                                  </Label>
-                                                </CardContent>
-                                              </Card>
-                                            ))}
-                                            {questionBank.length === 0 && (
-                                              <Typography variant="p" size="sm" color="muted" align="center" className="text-center text-gray-400 py-8">
-                                                No questions in library.
-                                              </Typography>
-                                            )}
-                                          </Stack>
-                                        </ScrollArea>
-                                        <DialogFooter>
-                                          <Button
-                                            type="button"
-                                            onClick={() => {
-                                              // Add selected questions to the list
-                                              const toAdd = selectedLibraryIndexes.map(idx => ({
-                                                ...questionBank[idx],
-                                                answer: '',
-                                                answering: false,
-                                                editing: false,
-                                                deleted: false,
-                                              }));
-                                              setQuestions(prev => [...prev, ...toAdd]);
-                                              setSelectedLibraryIndexes([]);
-                                              setLibraryOpen(false);
-                                            }}
-                                            disabled={selectedLibraryIndexes.length === 0}
-                                            className="bg-black text-white hover:bg-emerald-700 hover:text-white"
-                                          >
-                                            <Typography variant="span" size="sm" className="text-white">Add Selected</Typography>
-                                          </Button>
-                                        </DialogFooter>
-                                      </DialogContent>
-                                    </Dialog>
-                                    <Button
-                                      className="flex-1 bg-black text-white"
-                                      onClick={() => {
-                                        if (!editingPrompt.prompt.trim()) return;
-                                        setQuestions(prev => [
-                                          ...prev,
-                                          {
-                                            prompt: editingPrompt.prompt,
-                                            competency: editingPrompt.competency,
-                                            time: editingPrompt.time,
-                                            level: editingPrompt.level,
-                                            editing: false,
-                                            deleted: false,
-                                            answer: '',
-                                            answering: false,
-                                          },
-                                        ]);
-                                        setEditingPrompt({ prompt: '', competency: 'Team Building', time: '10 Min', level: 'Pending' });
-                                      }}
-                                    >
-                                      <Typography variant="span" size="sm" className="text-white">Create New Prompt</Typography>
-                                    </Button>
+                              <Flex gap={2} className="mt-1 flex-col md:flex-row">
+                                <Button size="sm" variant="outline" className="flex-1 hover:bg-emerald-700 hover:text-white">Insert From Library</Button>
+                                <Button size="sm" className="flex-1 bg-black text-white hover:bg-emerald-700">Create New Prompt</Button>
                                   </Flex>
                                 </CardContent>
                               </Card>
-                            </div>
-                          </Stack>
                         </CardContent>
                       </Card>
                     </div>
@@ -1186,7 +991,7 @@ export default function DashboardPage() {
                         }}
                         className="lg:flex-[3] lg:min-h-0 lg:h-0"
                       >
-                        <Card className="rounded-2xl shadow-md p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[180px] h-full w-full lg:max-w-[360px]">
+                        <Card className="rounded-2xl shadow-md p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[180px] h-full w-full">
                           <CardHeader className="pb-2">
                             <Flex align="start" justify="between">
                               <Stack spacing={1}>
@@ -1234,87 +1039,87 @@ export default function DashboardPage() {
                         className="flex flex-col gap-0 lg:flex-[7] lg:min-h-0 lg:h-0"
                       >
                         <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-0 sm:mt-0 md:mt-0 h-full min-h-[295px] w-full lg:max-w-[355px]">
-                           <CardHeader className="pb-0">
-                             <Flex align="center" justify="between">
-                               <Typography variant="h3" size="lg" weight="semibold" className="text-lg">Section</Typography>
-                               <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
-                                 <DialogTrigger asChild>
-                                   <Button
-                                     size="sm"
-                                     className="bg-black text-white hover:bg-emerald-700 hover:text-white rounded-xl px-2 py-1 text-sm font-medium transition-colors"
-                                   >
-                                     <Typography variant="span" size="sm" className="hidden sm:inline md:inline text-white">Add Section</Typography>
-                                     <span className="inline-flex sm:hidden md:hidden text-white"><Plus className="w-4 h-4" /></span>
-                                   </Button>
-                                 </DialogTrigger>
-                                 <DialogContent className="p-6 max-w-sm">
-                                   <DialogHeader>
-                                     <DialogTitle>Add Section</DialogTitle>
-                                     <DialogDescription>Add a new section to the interview.</DialogDescription>
-                                   </DialogHeader>
-                                   <Input
-                                     className="border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                                     placeholder="Section Name"
-                                     value={newSection}
-                                     onChange={e => setNewSection(e.target.value)}
-                                     autoFocus
-                                   />
-                                   <DialogFooter className="flex gap-2 mt-3">
-                                     <Button
-                                       variant="ghost"
-                                       size="sm"
-                                       className="flex-1 bg-gray-100 hover:bg-emerald-700 text-sm rounded px-3 py-2"
-                                       onClick={() => setAddDialogOpen(false)}
-                                       disabled={creating}
-                                     >
-                                       <Typography variant="span" size="sm">Cancel</Typography>
-                                     </Button>
-                                     <Button
-                                       size="sm"
-                                       className="flex-1 bg-black text-white hover:bg-emerald-700 text-sm rounded px-3 py-2 font-medium"
-                                       onClick={handleCreateSection}
-                                       disabled={!newSection.trim() || creating}
-                                     >
-                                       <Typography variant="span" size="sm" className="text-white">Create</Typography>
-                                     </Button>
-                                   </DialogFooter>
-                                 </DialogContent>
-                               </Dialog>
-                             </Flex>
-                           </CardHeader>
+                          <CardHeader className="pb-0">
+                            <Flex align="center" justify="between">
+                              <Typography variant="h3" size="lg" weight="semibold" className="text-lg">Section</Typography>
+                              <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    size="sm"
+                                    className="bg-black text-white hover:bg-emerald-700 hover:text-white rounded-xl px-2 py-1 text-sm font-medium transition-colors"
+                                  >
+                                    <Typography variant="span" size="sm" className="hidden sm:inline md:inline text-white">Add Section</Typography>
+                                    <span className="inline-flex sm:hidden md:hidden text-white"><Plus className="w-4 h-4" /></span>
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="p-6 max-w-sm">
+                                  <DialogHeader>
+                                    <DialogTitle>Add Section</DialogTitle>
+                                    <DialogDescription>Add a new section to the interview.</DialogDescription>
+                                  </DialogHeader>
+                                  <Input
+                                    className="border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                                    placeholder="Section Name"
+                                    value={newSection}
+                                    onChange={e => setNewSection(e.target.value)}
+                                    autoFocus
+                                  />
+                                  <DialogFooter className="flex gap-2 mt-3">
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="flex-1 bg-gray-100 hover:bg-emerald-700 text-sm rounded px-3 py-2"
+                                      onClick={() => setAddDialogOpen(false)}
+                                      disabled={creating}
+                                    >
+                                      <Typography variant="span" size="sm">Cancel</Typography>
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      className="flex-1 bg-black text-white hover:bg-emerald-700 text-sm rounded px-3 py-2 font-medium"
+                                      onClick={handleCreateSection}
+                                      disabled={!newSection.trim() || creating}
+                                    >
+                                      <Typography variant="span" size="sm" className="text-white">Create</Typography>
+                                    </Button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
+                            </Flex>
+                          </CardHeader>
                            <CardContent className="pt-0 pb-2 w-full">
-                             <Stack spacing={1} className="flex flex-col gap-0.5 w-full">
-                               {sections.map((section, idx) => (
-                                 <Flex key={idx} align="center" justify="between" className="bg-white rounded-xl border px-3 py-2 w-full">
-                                   <Stack spacing={1}>
-                                     <Typography variant="p" size="xs" weight="medium" className="font-medium text-xs">{section.name}</Typography>
-                                     <Typography variant="p" size="xs" color="muted" className="text-gray-400 text-xs">{section.details}</Typography>
-                                   </Stack>
-                                   <DropdownMenu>
-                                     <DropdownMenuTrigger asChild>
-                                       <Button
-                                         variant="ghost"
-                                         size="icon"
-                                         className="text-lg text-gray-400 cursor-pointer hover:bg-emerald-700 hover:text-white"
-                                         aria-label="Section actions"
-                                       >
-                                         ⋮
-                                       </Button>
-                                     </DropdownMenuTrigger>
-                                     <DropdownMenuContent align="end" className="w-20">
-                                       <DropdownMenuItem
-                                         className="px-2 py-0.5 text-left text-xs text-red-600 focus:bg-red-50"
-                                         onClick={() => setSections(sections => sections.filter((_, i) => i !== idx))}
-                                       >
-                                         <Typography variant="span" size="xs">Delete</Typography>
-                                       </DropdownMenuItem>
-                                     </DropdownMenuContent>
-                                   </DropdownMenu>
-                                 </Flex>
-                               ))}
-                             </Stack>
-                           </CardContent>
-                         </Card>
+                            <Stack spacing={1} className="flex flex-col gap-0.5 w-full">
+                              {sections.map((section, idx) => (
+                                <Flex key={idx} align="center" justify="between" className="bg-white rounded-xl border px-3 py-2 w-full">
+                                  <Stack spacing={1}>
+                                    <Typography variant="p" size="xs" weight="medium" className="font-medium text-xs">{section.name}</Typography>
+                                    <Typography variant="p" size="xs" color="muted" className="text-gray-400 text-xs">{section.details}</Typography>
+                                  </Stack>
+                                  <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="text-lg text-gray-400 cursor-pointer hover:bg-emerald-700 hover:text-white"
+                                        aria-label="Section actions"
+                                      >
+                                        ⋮
+                                      </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-20">
+                                      <DropdownMenuItem
+                                        className="px-2 py-0.5 text-left text-xs text-red-600 focus:bg-red-50"
+                                        onClick={() => setSections(sections => sections.filter((_, i) => i !== idx))}
+                                      >
+                                        <Typography variant="span" size="xs">Delete</Typography>
+                                      </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
+                                </Flex>
+                              ))}
+                            </Stack>
+                          </CardContent>
+                        </Card>
                       </motion.div>
                     </div>
                   </div>
