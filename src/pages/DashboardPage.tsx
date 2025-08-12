@@ -307,7 +307,7 @@ export default function DashboardPage() {
           </Flex>
           <Button
             size="sm"
-            className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 bg-black text-white hover:bg-emerald-700 hover:text-white font-medium"
+            className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 bg-black text-white hover:bg-emerald-700 hover:text-white font-medium mr-2 sm:mr-2 md:mr-3 lg:mr-4 xl:mr-5"
             onClick={onViewCandidates}
           >
             <Typography variant="span" size="xs" className="truncate text-white">
@@ -377,7 +377,7 @@ export default function DashboardPage() {
           </Flex>
           <Button
             size="sm"
-            className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 bg-black text-white hover:bg-emerald-700 hover:text-white font-medium"
+            className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 bg-black text-white hover:bg-emerald-700 hover:text-white font-medium mr-2 sm:mr-2 md:mr-3 lg:mr-4 xl:mr-5"
             onClick={onViewCandidatesRound2}
           >
             <Typography variant="span" size="xs" className="truncate text-white">
@@ -810,7 +810,7 @@ export default function DashboardPage() {
                       </Grid>
                       
                       {/* Desktop: Side-by-side Layout with Optimized Card Sizes */}
-                      <div className="hidden lg:flex lg:flex-row lg:gap-4 xl:gap-6 2xl:gap-6 lg:w-full">
+                      <div className="hidden lg:flex lg:flex-row lg:gap-4 xl:gap-6 2xl:gap-6 lg:w-full pr-3 xl:pr-4">
                         <div className="w-[50%]">
                           <Round1Card onViewCandidates={() => {}} />
                         </div>
@@ -821,8 +821,8 @@ export default function DashboardPage() {
                     </Stack>
 
                     {/* Header placed at the bottom of Round cards (aligns with Notification panel bottom on lg+) */}
-                    <Flex align="center" justify="between" className="w-full gap-2 mt-2 lg:mt-auto">
-                      <Typography variant="h2" size="lg" weight="bold" className="text-left text-xl md:text-2xl lg:text-3xl">
+                    <Flex align="center" justify="between" className="w-full gap-2 mt-2 lg:mt-auto px-4">
+                      <Typography variant="h2" size="lg" weight="bold" className="text-left text-xl md:text-2xl lg:text-3xl ">
                           Interview Overview
                         </Typography>
                       <Flex align="center" gap={2} className="ml-auto">
@@ -865,7 +865,7 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Right Side: Notification Panel with Vertical Divider */}
-                  <div className="hidden lg:block w-72 xl:w-80 2xl:w-[320px] border-l border-gray-200 pl-4">
+                  <div className="hidden lg:block w-72 xl:w-80 2xl:w-[355px] border-l border-gray-200 pl-4">
                     <NotificationPanel language={language} setLanguage={setLanguage} />
                   </div>
 
@@ -876,7 +876,7 @@ export default function DashboardPage() {
                 </motion.div>
 
                 {/* InterviewOverview Components with Right Side Cards */}
-                <div className="w-full max-w-none px-2 2xl:px-0 ml-0 lg:ml-2 mt-2">
+                <div className="w-full max-w-none px-0 ml-0 lg:ml-0 mt-2">
                   <div className="flex flex-col lg:flex-row gap-4 lg:min-h-0 lg:items-stretch">
                     {/* Left Side: InterviewOverview */}
                     <div className="w-full lg:flex-1 lg:w-auto lg:h-full lg:min-h-0">
@@ -886,7 +886,7 @@ export default function DashboardPage() {
                         <CardHeader className="pl-4 pr-4 pb-0">
                           <Typography variant="h3" size="lg" weight="medium" className="text-lg md:text-xl">Previous Background</Typography>
                               </CardHeader>
-                        <CardContent className="pt-0 pb-2">
+                        <CardContent className="pt-0 pb-2 px-4">
                           {/* Question Row */}
                           <Card className="border rounded-xl mb-0.5">
                             <CardContent className="py-0.5 px-2">
@@ -910,7 +910,7 @@ export default function DashboardPage() {
                           {/* Editing Block */}
                           <Card className="bg-gray-100 rounded-xl">
                             <CardContent className="p-2 md:p-2">
-                              <Flex align="start" gap={2} className="mb-1">
+                                  <Flex align="start" gap={2} className="mb-1">
                                 <Badge className="w-7 h-7 bg-white text-black rounded-full flex items-center justify-center font-semibold">2</Badge>
                                 <Typography variant="h3" size="lg" weight="semibold">Editing</Typography>
                                   </Flex>
@@ -978,7 +978,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Right Side: Assigned Interviewers and Section Panel */}
-                    <div className="w-full lg:w-72 xl:w-80 2xl:w-[320px] flex flex-col gap-4 lg:h-full lg:min-h-0 lg:ml-2">
+                    <div className="w-full lg:w-72 xl:w-80 2xl:w-[355px] flex flex-col gap-4 lg:h-full lg:min-h-0 lg:ml-2">
                       {/* Assigned Interviewers Card */}
                       <motion.div
                         initial={{ opacity: 0, y: 32, scale: 0.95 }}
