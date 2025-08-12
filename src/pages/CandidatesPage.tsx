@@ -19,6 +19,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { HelpCircle, X, UserPlus, Clock, ArrowLeft, Mail, Phone, Calendar, MapPin, Star, Eye, MessageSquare, Download, Filter as FilterIcon, MoreHorizontal, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 // Candidate type definition
 export type Candidate = {
@@ -255,7 +256,225 @@ export const round2Candidates: Candidate[] = [
 ];
 
 // All candidates combined
-export const allCandidates: Candidate[] = [...round1Candidates, ...round2Candidates];
+// Additional candidates (15 candidates)
+export const extraCandidates: Candidate[] = [
+  {
+    id: 16,
+    name: "Ava Patel",
+    email: "ava.patel@email.com",
+    phone: "+1 (555) 666-7777",
+    location: "Raleigh, NC",
+    avatar: "https://randomuser.me/api/portraits/women/16.jpg",
+    status: "pending",
+    rating: 4.0,
+    appliedDate: "June 27, 2025",
+    experience: "3 years",
+    skills: ["React", "TypeScript", "Testing Library", "Jest"],
+    department: "Engineering Department",
+  },
+  {
+    id: 17,
+    name: "Noah Rivera",
+    email: "noah.rivera@email.com",
+    phone: "+1 (555) 777-8888",
+    location: "Tampa, FL",
+    avatar: "https://randomuser.me/api/portraits/men/17.jpg",
+    status: "reviewed",
+    rating: 4.4,
+    appliedDate: "June 28, 2025",
+    experience: "5 years",
+    skills: ["Node.js", "Express", "PostgreSQL", "Redis"],
+    department: "Engineering Department",
+  },
+  {
+    id: 18,
+    name: "Mia Nguyen",
+    email: "mia.nguyen@email.com",
+    phone: "+1 (555) 888-9999",
+    location: "Salt Lake City, UT",
+    avatar: "https://randomuser.me/api/portraits/women/18.jpg",
+    status: "shortlisted",
+    rating: 4.7,
+    appliedDate: "June 29, 2025",
+    experience: "6 years",
+    skills: ["Figma", "Design Systems", "Prototyping", "Accessibility"],
+    department: "Design Department",
+  },
+  {
+    id: 19,
+    name: "Liam Brooks",
+    email: "liam.brooks@email.com",
+    phone: "+1 (555) 999-0000",
+    location: "Columbus, OH",
+    avatar: "https://randomuser.me/api/portraits/men/19.jpg",
+    status: "rejected",
+    rating: 3.6,
+    appliedDate: "June 30, 2025",
+    experience: "2 years",
+    skills: ["HTML", "CSS", "JavaScript", "Sass"],
+    department: "Engineering Department",
+  },
+  {
+    id: 20,
+    name: "Isabella Moore",
+    email: "isabella.moore@email.com",
+    phone: "+1 (555) 000-1111",
+    location: "Minneapolis, MN",
+    avatar: "https://randomuser.me/api/portraits/women/20.jpg",
+    status: "reviewed",
+    rating: 4.5,
+    appliedDate: "July 1, 2025",
+    experience: "5 years",
+    skills: ["React", "Next.js", "Tailwind CSS", "Vite"],
+    department: "Engineering Department",
+  },
+  {
+    id: 21,
+    name: "Ethan Perez",
+    email: "ethan.perez@email.com",
+    phone: "+1 (555) 111-2223",
+    location: "Charlotte, NC",
+    avatar: "https://randomuser.me/api/portraits/men/21.jpg",
+    status: "pending",
+    rating: 4.1,
+    appliedDate: "July 2, 2025",
+    experience: "3 years",
+    skills: ["GraphQL", "Apollo", "React", "TypeScript"],
+    department: "Engineering Department",
+  },
+  {
+    id: 22,
+    name: "Charlotte Clark",
+    email: "charlotte.clark@email.com",
+    phone: "+1 (555) 222-3334",
+    location: "Cleveland, OH",
+    avatar: "https://randomuser.me/api/portraits/women/22.jpg",
+    status: "shortlisted",
+    rating: 4.9,
+    appliedDate: "July 3, 2025",
+    experience: "7 years",
+    skills: ["UI/UX", "User Research", "Wireframing", "Prototyping"],
+    department: "Design Department",
+  },
+  {
+    id: 23,
+    name: "William Scott",
+    email: "william.scott@email.com",
+    phone: "+1 (555) 333-4445",
+    location: "Orlando, FL",
+    avatar: "https://randomuser.me/api/portraits/men/23.jpg",
+    status: "reviewed",
+    rating: 4.2,
+    appliedDate: "July 4, 2025",
+    experience: "4 years",
+    skills: ["Kubernetes", "Docker", "CI/CD", "AWS"],
+    department: "Engineering Department",
+  },
+  {
+    id: 24,
+    name: "Amelia Adams",
+    email: "amelia.adams@email.com",
+    phone: "+1 (555) 444-5556",
+    location: "Richmond, VA",
+    avatar: "https://randomuser.me/api/portraits/women/24.jpg",
+    status: "pending",
+    rating: 4.0,
+    appliedDate: "July 5, 2025",
+    experience: "2 years",
+    skills: ["React", "Zustand", "Storybook", "Vercel"],
+    department: "Engineering Department",
+  },
+  {
+    id: 25,
+    name: "Henry Turner",
+    email: "henry.turner@email.com",
+    phone: "+1 (555) 555-6667",
+    location: "Baltimore, MD",
+    avatar: "https://randomuser.me/api/portraits/men/25.jpg",
+    status: "reviewed",
+    rating: 4.3,
+    appliedDate: "July 6, 2025",
+    experience: "5 years",
+    skills: ["Java", "Spring Boot", "Kafka", "MySQL"],
+    department: "Engineering Department",
+  },
+  {
+    id: 26,
+    name: "Evelyn Baker",
+    email: "evelyn.baker@email.com",
+    phone: "+1 (555) 666-7778",
+    location: "Kansas City, MO",
+    avatar: "https://randomuser.me/api/portraits/women/26.jpg",
+    status: "shortlisted",
+    rating: 4.7,
+    appliedDate: "July 7, 2025",
+    experience: "6 years",
+    skills: ["Design Systems", "Tokens", "Figma", "Accessibility"],
+    department: "Design Department",
+  },
+  {
+    id: 27,
+    name: "Lucas Phillips",
+    email: "lucas.phillips@email.com",
+    phone: "+1 (555) 777-8889",
+    location: "Pittsburgh, PA",
+    avatar: "https://randomuser.me/api/portraits/men/27.jpg",
+    status: "rejected",
+    rating: 3.7,
+    appliedDate: "July 8, 2025",
+    experience: "3 years",
+    skills: ["PHP", "Laravel", "MySQL", "REST"],
+    department: "Engineering Department",
+  },
+  {
+    id: 28,
+    name: "Harper Ward",
+    email: "harper.ward@email.com",
+    phone: "+1 (555) 888-9990",
+    location: "Madison, WI",
+    avatar: "https://randomuser.me/api/portraits/women/28.jpg",
+    status: "pending",
+    rating: 4.1,
+    appliedDate: "July 9, 2025",
+    experience: "4 years",
+    skills: ["React Native", "Expo", "Redux", "REST"],
+    department: "Engineering Department",
+  },
+  {
+    id: 29,
+    name: "Benjamin Hughes",
+    email: "benjamin.hughes@email.com",
+    phone: "+1 (555) 999-0001",
+    location: "Boise, ID",
+    avatar: "https://randomuser.me/api/portraits/men/29.jpg",
+    status: "reviewed",
+    rating: 4.4,
+    appliedDate: "July 10, 2025",
+    experience: "5 years",
+    skills: ["Go", "gRPC", "PostgreSQL", "Docker"],
+    department: "Engineering Department",
+  },
+  {
+    id: 30,
+    name: "Abigail Collins",
+    email: "abigail.collins@email.com",
+    phone: "+1 (555) 000-1112",
+    location: "Bozeman, MT",
+    avatar: "https://randomuser.me/api/portraits/women/30.jpg",
+    status: "shortlisted",
+    rating: 4.8,
+    appliedDate: "July 11, 2025",
+    experience: "7 years",
+    skills: ["UX Research", "Prototyping", "Interaction Design", "Design Ops"],
+    department: "Design Department",
+  },
+];
+
+export const allCandidates: Candidate[] = [
+  ...round1Candidates,
+  ...round2Candidates,
+  ...extraCandidates,
+];
 
 export default function CandidatesPage() {
   const navigate = useNavigate();
@@ -308,6 +527,20 @@ export default function CandidatesPage() {
   const handleBackToDashboard = () => {
     navigate('/dashboard');
   }
+
+  // Apply round filter from query string
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const round = params.get('round');
+    if (round === '1') {
+      setCandidates(round1Candidates);
+    } else if (round === '2') {
+      // Pick another 10 candidates from the rest of the list
+      setCandidates([ ...round2Candidates, ...extraCandidates.slice(0, 5) ]);
+    } else {
+      setCandidates(allCandidates);
+    }
+  }, []);
 
   // Department filter handler
   const handleDepartmentChange = (dept: string) => {

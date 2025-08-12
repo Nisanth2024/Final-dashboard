@@ -83,11 +83,11 @@ export default function DashboardPage() {
 
   // Interview Rounds handlers
   const handleViewCandidates = () => {
-    navigate('/candidates');
+    navigate('/candidates?round=1');
   }
 
   const handleViewCandidatesRound2 = () => {
-    navigate('/candidates');
+    navigate('/candidates?round=2');
   }
 
   // Department filter handler
@@ -391,7 +391,7 @@ export default function DashboardPage() {
   );
 
   // NotificationPanel Component
-  const NotificationPanel = ({ language }: { language: 'en' | 'es' | 'fr', setLanguage: (lang: 'en' | 'es' | 'fr') => void }) => {
+  const NotificationPanel = ({ language, onOpenNotes }: { language: 'en' | 'es' | 'fr', setLanguage: (lang: 'en' | 'es' | 'fr') => void, onOpenNotes: () => void }) => {
     const t = useTranslation(language);
 
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -459,31 +459,20 @@ export default function DashboardPage() {
       >
         
         <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full rounded-2xl shadow-md hover:shadow-md transition-all duration-200 hover:scale-[1.01]">
-          <CardHeader className="pb-0 px-3 sm:px-2 md:px-3 lg:px-3 xl:px-4 2xl:px-2 w-full">
-            <Typography 
-              variant="h3" 
-              size="sm" 
-              weight="semibold" 
-              className="text-xs sm:text-sm md:text-sm lg:text-base xl:text-lg 2xl:text-sm mb-0 -mt-2"
-            >
-              Notifications
-            </Typography>
-          </CardHeader>
-          
-          <CardContent className="flex-1 space-y-0 w-full px-0 pt-0 pb-[-20px] -mt-7 2xl:-mt-4">
+          <CardContent className="flex-1 space-y-0 w-full px-3 md:px-4 xl:px-5 pt-1">
             <Stack spacing={0} className="w-full">
             {allNotifications.map((notification, index) => (
-                <Card 
-                  key={index} 
-                  className="w-full p-1 sm:p-1 md:p-1.5 lg:p-2 xl:p-2 2xl:p-1 bg-transparent border-0 hover:bg-emerald-700 transition-colors cursor-pointer" 
+                  <Card 
+                    key={index} 
+                    className="w-full  p-1 sm:p-1 md:p-1.5 lg:p-2 xl:p-2 2xl:p-1 bg-transparent border-0 hover:bg-emerald-700 transition-colors cursor-pointer" 
                   onClick={() => handleConfirm(notification.action, index === 0 ? 'pro' : index === 1 ? 'candidates' : 'dashboard')}
                 >
-                  <CardContent className="p-0 w-full bg-transparent">
+                  <CardContent className="p-0 w-full bg-transparent ">
                     <Flex align="center" gap={2} className="w-full">
                 <div className="flex-shrink-0">
                   {notification.icon}
-                </div>
-                <div className="flex-1 min-w-0">
+                </div> 
+                <div className="flex-1 min-w-0 ">
                         <Typography 
                           variant="p" 
                           size="xs" 
@@ -509,18 +498,28 @@ export default function DashboardPage() {
             </Stack>
           </CardContent>
           
-          <CardFooter className="pt-0 px-0 pb-1.5 sm:pb-1.5 md:pb-2 lg:pb-2.5 xl:pb-3 2xl:pb-1.5 -mt-4 2xl:-mt-2 w-full bg-transparent">
-            <Flex align="center" justify="center" className="md:mt[-20px] w-full -ml-1">
-              <Button 
-                size="sm" 
-                className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-7 sm:h-6 md:h-7 lg:h-7 xl:h-8 2xl:h-6 font-medium px-3"
-                onClick={() => setAllOpen(true)}
-              >
-                <Typography variant="span" size="xs" className="truncate text-white">
-                  See All Notifications
-                </Typography>
-                <ArrowRight className="ml-1 w-3 h-3 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-3 2xl:h-3 text-white" />
-              </Button>
+          <CardFooter className="pt-0 px-3 md:px-4 xl:px-5 pb-1.5 sm:pb-1.5 md:pb-2 lg:pb-2.5 xl:pb-3 2xl:pb-1.5 w-full bg-transparent">
+            <Flex align="center" justify="center" className="md:mt[-20px] w-full">
+              <div className="flex w-full items-center justify-center gap-2">
+                <Button 
+                  size="sm" 
+                  className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-7 sm:h-6 md:h-7 lg:h-7 xl:h-8 2xl:h-6 font-medium px-3"
+                  onClick={() => setAllOpen(true)}
+                >
+                  <Typography variant="span" size="xs" className="truncate text-white">
+                    See All Notifications
+                  </Typography>
+                  <ArrowRight className="ml-1 w-3 h-3 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-3 2xl:h-3 text-white" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-7 sm:h-6 md:h-7 lg:h-7 xl:h-8 2xl:h-6 px-3 border border-gray-300 hover:bg-emerald-700"
+                  onClick={onOpenNotes}
+                >
+                  Notes
+                </Button>
+              </div>
             </Flex>
           </CardFooter>
         </Card>
@@ -801,10 +800,10 @@ export default function DashboardPage() {
                       <Grid cols={1} gap={4} className="grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:hidden gap-4 sm:gap-4 md:gap-4 w-full">
                         <Grid cols={1} gap={4} className="w-full animate-in fade-in slide-in-from-bottom-4">
                           <div className="w-full">
-                            <Round1Card onViewCandidates={() => {}} />
+                            <Round1Card onViewCandidates={handleViewCandidates} />
                           </div>
                           <div className="w-full">
-                            <Round2Card onViewCandidatesRound2={() => {}} />
+                            <Round2Card onViewCandidatesRound2={handleViewCandidatesRound2} />
                           </div>
                         </Grid>
                       </Grid>
@@ -812,10 +811,10 @@ export default function DashboardPage() {
                       {/* Desktop: Side-by-side Layout with Optimized Card Sizes */}
                       <div className="hidden lg:flex lg:flex-row lg:gap-4 xl:gap-6 2xl:gap-6 lg:w-full pr-3 xl:pr-4">
                         <div className="w-[50%]">
-                          <Round1Card onViewCandidates={() => {}} />
+                          <Round1Card onViewCandidates={handleViewCandidates} />
                         </div>
                         <div className="w-[50%]">
-                          <Round2Card onViewCandidatesRound2={() => {}} />
+                          <Round2Card onViewCandidatesRound2={handleViewCandidatesRound2} />
                         </div>
                       </div>
                     </Stack>
@@ -865,13 +864,13 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Right Side: Notification Panel with Vertical Divider */}
-                  <div className="hidden lg:block w-72 xl:w-80 2xl:w-[355px] border-l border-gray-200 pl-4">
-                    <NotificationPanel language={language} setLanguage={setLanguage} />
+                  <div className="hidden lg:block w-72 xl:w-80 2xl:w-[355px] border-l border-gray-200 pl-1 xl:pl-1 2xl:pl-2">
+                    <NotificationPanel language={language} setLanguage={setLanguage} onOpenNotes={() => setNotesOpen(true)} />
                   </div>
 
                   {/* Mobile & Tablet: Notification Panel (stacked below) */}
                   <div className="lg:hidden w-full">
-                    <NotificationPanel language={language} setLanguage={setLanguage} />
+                    <NotificationPanel language={language} setLanguage={setLanguage} onOpenNotes={() => setNotesOpen(true)} />
                   </div>
                 </motion.div>
 
@@ -886,10 +885,10 @@ export default function DashboardPage() {
                         <CardHeader className="pl-4 pr-4 pb-0">
                           <Typography variant="h3" size="lg" weight="medium" className="text-lg md:text-xl">Previous Background</Typography>
                               </CardHeader>
-                        <CardContent className="pt-0 pb-2 px-4">
+                        <CardContent className="-mt-4 pb-0 px-4">
                           {/* Question Row */}
-                          <Card className="border rounded-xl mb-0.5">
-                            <CardContent className="py-0.5 px-2">
+                          <Card className="border rounded-xl mb-6">
+                            <CardContent className="py-0.5  px-2">
                               <Flex align="start" justify="between" className="w-full gap-1.5">
                                 <Badge className="w-6 h-6 md:w-7 md:h-7 bg-gray-200 text-black rounded-full flex items-center justify-center font-semibold flex-shrink-0">1</Badge>
                                 <div className="flex-1 min-w-0">
@@ -908,22 +907,22 @@ export default function DashboardPage() {
                               </Card>
 
                           {/* Editing Block */}
-                          <Card className="bg-gray-100 rounded-xl">
+                          <Card className="bg-gray-100 rounded-xl ">
                             <CardContent className="p-2 md:p-2">
                                   <Flex align="start" gap={2} className="mb-1">
                                 <Badge className="w-7 h-7 bg-white text-black rounded-full flex items-center justify-center font-semibold">2</Badge>
                                 <Typography variant="h3" size="lg" weight="semibold">Editing</Typography>
                                   </Flex>
 
-                              <Grid cols={1} gap={1.5} className="grid grid-cols-1 md:grid-cols-5 gap-1.5 items-start">
+                              <Grid cols={1} gap={2} className="grid grid-cols-1 md:grid-cols-5 gap-2 items-start">
                                 <div className="md:col-span-2">
                                   <Label className="text-sm mb-1">Prompt</Label>
-                                  <Input className="w-full h-8" placeholder="How are JavaScript and jQuery different?" />
+                                  <Input className="w-full h-8 bg-white" placeholder="How are JavaScript and jQuery different?" />
                                 </div>
                                 <div>
                                   <Label className="text-sm mb-1">Competencies</Label>
                                   <Select defaultValue="Teambuilding">
-                                    <SelectTrigger className="w-full h-8">
+                                    <SelectTrigger className="w-full h-8 bg-white">
                                           <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -936,14 +935,14 @@ export default function DashboardPage() {
                                 <div>
                                   <Label className="text-sm mb-1">Time</Label>
                                   <Flex align="center" gap={2}>
-                                    <Input className="w-16 h-8" defaultValue="10" />
+                                    <Input className="w-16 h-8  bg-white" defaultValue="10" />
                                     <Typography variant="span" size="xs" color="muted">min</Typography>
                                       </Flex>
                                     </div>
                                 <div>
                                   <Label className="text-sm mb-1">Level</Label>
                                   <Select defaultValue="Pending">
-                                    <SelectTrigger className="w-full h-8">
+                                    <SelectTrigger className="w-full h-8  bg-white">
                                           <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -968,7 +967,7 @@ export default function DashboardPage() {
                                   </Card>
                                   
                               <Flex gap={2} className="mt-1 flex-col md:flex-row">
-                                <Button size="sm" variant="outline" className="flex-1 hover:bg-emerald-700 hover:text-white">Insert From Library</Button>
+                                <Button size="sm" variant="outline" className="flex-1 bg-white hover:bg-emerald-700 hover:text-white">Insert From Library</Button>
                                 <Button size="sm" className="flex-1 bg-black text-white hover:bg-emerald-700">Create New Prompt</Button>
                                   </Flex>
                                 </CardContent>
