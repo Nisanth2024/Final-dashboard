@@ -164,9 +164,6 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
               <DropdownMenuItem onClick={() => onCreateType && onCreateType('interview')} className="hover:bg-emerald-700">
                 <Typography variant="span" size="sm">{t.newInterview}</Typography>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onCreateType && onCreateType('round')} className="hover:bg-emerald-700">
-                <Typography variant="span" size="sm">{t.newRound}</Typography>
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onCreateType && onCreateType('prompt')} className="hover:bg-emerald-700">
                 <Typography variant="span" size="sm">{t.newPrompt}</Typography>
               </DropdownMenuItem>

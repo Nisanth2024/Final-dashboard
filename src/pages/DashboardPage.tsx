@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
@@ -171,6 +171,14 @@ export default function DashboardPage() {
     },
   ];
   const [questions, setQuestions] = useState(defaultQuestions);
+  const [showPrevQuestion, setShowPrevQuestion] = useState(true);
+  const editingBlockRef = useRef<HTMLDivElement | null>(null);
+  const editPromptInputRef = useRef<HTMLInputElement | null>(null);
+  const [createPromptOpen, setCreatePromptOpen] = useState(false);
+  const [newPrompt, setNewPrompt] = useState("");
+  const [newCompetency, setNewCompetency] = useState("Team Building");
+  const [newTime, setNewTime] = useState("10");
+  const [newLevel, setNewLevel] = useState("Pending");
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [selectedLibraryIndexes, setSelectedLibraryIndexes] = useState<number[]>([]);
   const [editingPrompt, setEditingPrompt] = useState({
@@ -557,15 +565,15 @@ export default function DashboardPage() {
             <DialogHeader>
               <DialogTitle>All Notifications</DialogTitle>
             </DialogHeader>
-            <Stack spacing={2} className="max-h-80 overflow-y-auto mt-2 w-full">
+            <Stack spacing={2} className="mt-2 w-full">
               {allNotifications.length === 0 ? (
                 <Typography variant="p" size="sm" color="muted" align="center" className="py-8">
                   No notifications found.
                 </Typography>
               ) : (
                 allNotifications.map((n, i) => (
-                  <Card key={i} className="bg-gray-100">
-                    <CardContent className="p-2">
+                  <Card key={i} className="bg-gray-100 w-full">
+                    <CardContent className="p-1.5">
                       <Flex align="start" gap={2} className="relative w-full min-w-0">
                         <Flex align="center">{n.icon}</Flex>
                         <Stack spacing={0} className="flex-1 min-w-0">
@@ -821,8 +829,8 @@ export default function DashboardPage() {
                       </div>
                     </Stack>
 
-                    {/* Header placed at the bottom of Round cards (aligns with Notification panel bottom on lg+) */}
-                    <Flex align="center" justify="between" className="w-full gap-2 mt-2 lg:mt-auto px-4">
+                    {/* Header placed at the bottom of Round cards (aligns with Notification panel bottom on lg+). Hidden on small screens. */}
+                    <Flex align="center" justify="between" className="w-full gap-2 mt-2 lg:mt-auto pl-0 pr-5 hidden lg:flex">
                       <Typography variant="h2" size="lg" weight="bold" className="text-left text-xl md:text-2xl lg:text-3xl ">
                           Interview Overview
                         </Typography>
@@ -831,21 +839,23 @@ export default function DashboardPage() {
                             variant="ghost"
                             size="sm"
                           className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white"
-                            onClick={() => {
-                              setQuestions(prev => [
-                                ...prev,
-                                {
+                          onClick={() => {
+                            // Add a new empty question to the Editing block
+                            setQuestions(prev => [
+                              ...prev,
+                              {
                                 prompt: 'New Question',
-                                  competency: 'Team Building',
-                                  time: '10 Min',
-                                  level: 'Pending',
-                                  editing: true,
-                                  deleted: false,
-                                  answer: '',
-                                  answering: false,
-                                },
-                              ]);
-                            }}
+                                competency: 'Team Building',
+                                time: '10 Min',
+                                level: 'Pending',
+                                editing: true,
+                                deleted: false,
+                                answer: '',
+                                answering: false,
+                              },
+                            ]);
+                            editingBlockRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }}
                           >
                             <Plus className="w-4 h-4 md:w-5 md:h-5" />
                           </Button>
@@ -878,6 +888,48 @@ export default function DashboardPage() {
 
                 {/* InterviewOverview Components with Right Side Cards */}
                 <div className="w-full max-w-none px-0 ml-0 lg:ml-0 mt-2">
+                  {/* Mobile/tablet header for Interview Overview (placed above Previous Background). Hidden on lg+. */}
+                  <Flex align="center" justify="between" className="w-full gap-2 mb-2 pl-0 pr-2 flex lg:hidden">
+                    <Typography variant="h2" size="lg" weight="bold" className="text-left text-xl md:text-2xl">
+                      Interview Overview
+                    </Typography>
+                    <Flex align="center" gap={2} className="ml-auto">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white"
+                        onClick={() => {
+                          setQuestions(prev => [
+                            ...prev,
+                            {
+                              prompt: 'New Question',
+                              competency: 'Team Building',
+                              time: '10 Min',
+                              level: 'Pending',
+                              editing: true,
+                              deleted: false,
+                              answer: '',
+                              answering: false,
+                            },
+                          ]);
+                        }}
+                      >
+                        <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm" className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white">
+                            <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem className="text-red-600" onClick={() => setQuestions([])}>
+                            <Typography variant="span" size="sm">Delete All Questions</Typography>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </Flex>
+                  </Flex>
                   <div className="flex flex-col lg:flex-row gap-4 lg:min-h-0 lg:items-stretch">
                     {/* Left Side: InterviewOverview */}
                     <div className="w-full lg:flex-1 lg:w-auto lg:h-full lg:min-h-0">
@@ -886,30 +938,68 @@ export default function DashboardPage() {
                       <Card className="w-full rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col">
                         <CardHeader className="pl-4 pr-4 pb-0">
                           <Typography variant="h2" size="2xl" weight="medium" className="text-lg md:text-xl">Previous Background</Typography>
-                              </CardHeader>
+                        </CardHeader>
                         <CardContent className="-mt-4 pb-0 px-4">
                           {/* Question Row */}
-                          <Card className="border rounded-xl mb-6 py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
-                            <CardContent className="py-0.5  px-2">
-                              <Flex align="start" justify="between" className="w-full gap-1.5">
-                                <Badge className="w-6 h-6 md:w-7 md:h-7 bg-gray-200 text-black rounded-full flex items-center justify-center font-semibold flex-shrink-0">1</Badge>
-                                <div className="flex-1 min-w-0">
-                                  <Typography variant="h4" size="lg" weight="medium" className="text-sm md:text-base lg:text-lg leading-snug break-words">
-                                    In what ways do JavaScript and jQuery vary?
-                                        </Typography>
-                                  <Typography variant="p" size="xs" color="muted" className="text-gray-500 text-[10px] mt-0">3m • 4 Questions</Typography>
-                                            </div>
-                                <Flex align="center" gap={1} className="flex-shrink-0">
-                                  <Button variant="ghost" size="icon" className="hover:bg-emerald-700 hover:text-white"><Edit className="w-4 h-4" /></Button>
-                                  <Button variant="ghost" size="icon" className="hover:bg-emerald-700 hover:text-white"><Trash2 className="w-4 h-4" /></Button>
-                                  <Button variant="ghost" size="icon" className="hover:bg-emerald-700 hover:text-white"><MoreHorizontal className="w-4 h-4" /></Button>
-                                          </Flex>
-                                          </Flex>
-                                </CardContent>
-                              </Card>
+                          {showPrevQuestion && (
+                            <Card className="border rounded-xl mb-6 py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
+                              <CardContent className="py-0.5 px-2">
+                                <Flex align="start" justify="between" className="w-full gap-1.5">
+                                  <Badge className="w-6 h-6 md:w-7 md:h-7 bg-gray-200 text-black rounded-full flex items-center justify-center font-semibold flex-shrink-0">1</Badge>
+                                  <div className="flex-1 min-w-0">
+                                    <Typography variant="h4" size="lg" weight="medium" className="text-sm md:text-base lg:text-lg leading-snug break-words">
+                                      In what ways do JavaScript and jQuery vary?
+                                    </Typography>
+                                    <Typography variant="p" size="xs" color="muted" className="text-gray-500 text-[10px] mt-0">3m • 4 Questions</Typography>
+                                  </div>
+                                  <Flex align="center" gap={1} className="flex-shrink-0">
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="hover:bg-emerald-700 hover:text-white"
+                                      onClick={() => {
+                                        editingBlockRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                        requestAnimationFrame(() => editPromptInputRef.current?.focus());
+                                      }}
+                                    >
+                                      <Edit className="w-4 h-4" />
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="hover:bg-emerald-700 hover:text-white"
+                                      onClick={() => setShowPrevQuestion(false)}
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                    <DropdownMenu>
+                                      <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" size="icon" className="hover:bg-emerald-700 hover:text-white">
+                                          <MoreHorizontal className="w-4 h-4" />
+                                        </Button>
+                                      </DropdownMenuTrigger>
+                                      <DropdownMenuContent align="end">
+                                        <DropdownMenuItem
+                                          onClick={() => {
+                                            const text = 'In what ways do JavaScript and jQuery vary?';
+                                            navigator.clipboard?.writeText(text).catch(() => {});
+                                          }}
+                                        >
+                                          <Typography variant="span" size="sm">Copy question</Typography>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setShowPrevQuestion(true)}>
+                                          <Typography variant="span" size="sm">Restore</Typography>
+                                        </DropdownMenuItem>
+                                      </DropdownMenuContent>
+                                    </DropdownMenu>
+                                  </Flex>
+                                </Flex>
+                              </CardContent>
+                            </Card>
+                          )}
 
                           {/* Editing Block */}
-                          <Card className="bg-gray-100 rounded-xl py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
+                          <Card ref={editingBlockRef} className="bg-gray-100 rounded-xl py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
                             <CardContent className="py-0.5 px-2 md:px-3 md:py-1">
                                   <Flex align="start" gap={2} className="mb-1">
                                 <Badge className="w-7 h-7 bg-white text-black rounded-full flex items-center justify-center font-semibold">2</Badge>
@@ -919,7 +1009,7 @@ export default function DashboardPage() {
                               <Grid cols={1} gap={2} className="grid grid-cols-1 md:grid-cols-5 gap-2 items-start">
                                 <div className="md:col-span-2">
                                   <Label className="text-sm mb-1">Prompt</Label>
-                                  <Input className="w-full h-8 bg-white" placeholder="How are JavaScript and jQuery different?" />
+                                  <Input ref={editPromptInputRef} className="w-full h-8 bg-white" placeholder="How are JavaScript and jQuery different?" />
                                 </div>
                                 <div>
                                   <Label className="text-sm mb-1">Competencies</Label>
@@ -972,12 +1062,100 @@ export default function DashboardPage() {
                                   
                               <Flex gap={2} className="mt-2 sm:mt-3 md:mt-4 lg:mt-6 flex-col md:flex-row">
                                 <Button size="sm" variant="outline" className="w-full md:flex-1 bg-white hover:bg-emerald-700 hover:text-white">Insert From Library</Button>
-                                <Button size="sm" className="w-full md:flex-1 bg-black text-white hover:bg-emerald-700">Create New Prompt</Button>
-                                  </Flex>
-                                </CardContent>
-                              </Card>
-                        </CardContent>
-                      </Card>
+                                <Dialog open={createPromptOpen} onOpenChange={setCreatePromptOpen}>
+                                  <DialogTrigger asChild>
+                                    <Button size="sm" className="w-full md:flex-1 bg-black text-white hover:bg-emerald-700">Create New Prompt</Button>
+                                  </DialogTrigger>
+                                  <DialogContent className="max-w-sm w-full">
+                                    <DialogHeader>
+                                      <DialogTitle>Create New Prompt</DialogTitle>
+                                    </DialogHeader>
+                                    <Grid cols={1} gap={2} className="grid grid-cols-1 gap-2">
+                                      <div>
+                                        <Label className="text-sm mb-1">Prompt</Label>
+                                        <Input
+                                          className="w-full h-8 bg-white"
+                                          placeholder="Type the question..."
+                                          value={newPrompt}
+                                          onChange={e => setNewPrompt(e.target.value)}
+                                        />
+                                      </div>
+                                      <div>
+                                        <Label className="text-sm mb-1">Competencies</Label>
+                                        <Select value={newCompetency} onValueChange={setNewCompetency}>
+                                          <SelectTrigger className="w-full h-8 bg-white">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="Team Building">Team Building</SelectItem>
+                                            <SelectItem value="Technical Skills">Technical Skills</SelectItem>
+                                            <SelectItem value="Communication">Communication</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                      <div>
+                                        <Label className="text-sm mb-1">Time</Label>
+                                        <Flex align="center" gap={2}>
+                                          <Input
+                                            className="w-16 h-8 bg-white"
+                                            value={newTime}
+                                            onChange={e => setNewTime(e.target.value.replace(/[^0-9]/g, ""))}
+                                          />
+                                          <Typography variant="span" size="xs" color="muted">min</Typography>
+                                        </Flex>
+                                      </div>
+                                      <div>
+                                        <Label className="text-sm mb-1">Level</Label>
+                                        <Select value={newLevel} onValueChange={setNewLevel}>
+                                          <SelectTrigger className="w-full h-8 bg-white">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="Pending">Pending</SelectItem>
+                                            <SelectItem value="Beginner">Beginner</SelectItem>
+                                            <SelectItem value="Intermediate">Intermediate</SelectItem>
+                                            <SelectItem value="Advanced">Advanced</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                    </Grid>
+                                    <DialogFooter>
+                                      <DialogClose asChild>
+                                        <Button
+                                          className="bg-black text-white hover:bg-emerald-700 hover:text-white"
+                                          onClick={() => {
+                                            // Guard
+                                            if (!newPrompt.trim()) return;
+                                            const minutes = newTime.replace(/[^0-9]/g, "") || "10";
+                                            const newQuestion = {
+                                              prompt: newPrompt.trim(),
+                                              competency: newCompetency,
+                                              time: `${minutes} Min`,
+                                              level: newLevel,
+                                              editing: false,
+                                              deleted: false,
+                                              answer: "",
+                                              answering: false,
+                                            } as const;
+                                            setQuestions(prev => [...prev, newQuestion]);
+                                            // reset form
+                                            setNewPrompt("");
+                                            setNewCompetency("Team Building");
+                                            setNewTime("10");
+                                            setNewLevel("Pending");
+                                          }}
+                                        >
+                                          <Typography variant="span" size="sm" className="text-white">Save</Typography>
+                                        </Button>
+                                      </DialogClose>
+                                    </DialogFooter>
+                                  </DialogContent>
+                                </Dialog>
+                              </Flex>
+                            </CardContent>
+                          </Card>
+                          </CardContent>
+                        </Card>
                     </div>
 
                     {/* Right Side: Assigned Interviewers and Section Panel */}

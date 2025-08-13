@@ -7,8 +7,7 @@ import { Flex } from "@/components/ui/flex"
 import { Stack } from "@/components/ui/stack"
 import { Typography } from "@/components/ui/typography"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Home, Users, Settings, X, LogOut, Bell, UserPlus, Upload } from "lucide-react"
+import { Home, Users, Settings, X, Bell, UserPlus, Upload } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { useState } from "react"
 import { useTranslation } from "@/lib/useTranslation"
@@ -35,8 +34,8 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
   const { profile, setProfile } = useProfile();
   const [proModalOpen, setProModalOpen] = useState(false)
   const [departments, setDepartments] = useState([
-    { name: t.departments + " 1", color: "#a78bfa" },
-    { name: t.departments + " 2", color: "#fb923c" }
+    { name: "Design Department", color: "#a78bfa" },
+    { name: "Engineering Department", color: "#fb923c" }
   ])
   const [addDeptOpen, setAddDeptOpen] = useState(false)
   const [newDeptName, setNewDeptName] = useState("")
@@ -94,7 +93,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
             <motion.nav className="space-y-1" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}> {/* Reduced space-y */}
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <Button 
-                  className={`w-full justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
+                  className={`w-47 justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/dashboard' 
                       ? 'bg-emerald-700 text-white' 
                       : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
@@ -107,7 +106,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </motion.div>
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <Button 
-                  className={`w-full justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
+                  className={`w-47 justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/interviews' 
                       ? 'bg-emerald-700 text-white' 
                       : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
@@ -120,7 +119,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </motion.div>
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <Button 
-                  className={`w-full justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
+                  className={`w-47 justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/candidates' 
                       ? 'bg-emerald-700 text-white' 
                       : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
@@ -133,7 +132,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </motion.div>
               {/* Mobile-only notification button */}
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }} className="sm:hidden">
-                <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal"
+                <Button className="w-47 justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal"
                   onClick={() => { onNotificationClick && onNotificationClick(); onClose && onClose(); }}>
                   <Bell className="w-4 h-4 mr-2" />
                   <Typography variant="span" size="sm" className="text-black group-hover:text-white hover:text-white">{t.notification}</Typography>
@@ -141,7 +140,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </motion.div>
               {/* Mobile-only add person button */}
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }} className="sm:hidden">
-                <Button className="w-full justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal"
+                <Button className="w-47 justify-start h-9 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white text-sm font-normal"
                   onClick={() => { onAddPerson && onAddPerson(); onClose && onClose(); }}>
                   <UserPlus className="w-4 h-4 mr-2" />
                   <Typography variant="span" size="sm" className="text-black group-hover:text-white hover:text-white">{t.addPerson}</Typography>
@@ -149,7 +148,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </motion.div>
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <Button 
-                  className={`w-full justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
+                  className={`w-47 justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/settings' 
                       ? 'bg-emerald-700 text-white' 
                       : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
@@ -166,16 +165,16 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
           {/* Departments Section */}
           <Stack spacing={3} className="mt-2"> {/* Reduced spacing and margin */}
             <Flex align="center" className="mb-2">
-              <Typography variant="h2" size="sm" weight="normal" className="text-sm font-normal text-black flex items-center">
+              <Typography variant="h6" size="sm" weight="light" className="text-xs font-normal text-black flex items-center">
                 {t.departments}
                 <Typography variant="span" size="base" className="cursor-pointer text-gray-400 hover:text-gray-600 text-base font-bold select-none ml-1" onClick={() => setAddDeptOpen(true)}>+</Typography>
               </Typography>
             </Flex>
-            <motion.div className="flex flex-col gap-2 ml-6" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}> {/* Reduced gap and margin */}
+            <motion.div className="flex flex-col gap-2 pl-3" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}> {/* Adjusted left padding */}
               {departments.map((dept, idx) => (
                 <motion.div key={idx} className="flex items-center gap-2" variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                   <span className="w-3 h-3 rounded inline-block" style={{ backgroundColor: dept.color }}></span>
-                  <Typography variant="span" size="sm" weight="normal" className="text-sm font-normal text-black">{dept.name}</Typography>
+                  <Typography variant="span" size="sm" weight="normal" className="text-sm font-normal text-black whitespace-nowrap">{dept.name}</Typography>
                 </motion.div>
               ))}
             </motion.div>
@@ -236,12 +235,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
             <Card className="p-1 md:p-0.5 max-w-[200px] mx-auto mb-1">
               <CardContent className="p-0">
                 {/* Abstract Background Section */}
-                <div className="h-8 md:h-6 bg-gradient-to-r from-teal-300 via-rose-200 to-orange-300 relative">
-                  {/* Abstract shapes */}
-                  <div className="absolute top-1 left-1 w-3 h-1.5 bg-teal-400/30 rounded-full"></div>
-                  <div className="absolute top-1.5 right-1.5 w-2 h-2 bg-orange-400/40 rounded-full"></div>
-                  <div className="absolute bottom-1 left-1/2 w-4 h-1 bg-rose-300/50 rounded-full transform -translate-x-1/2"></div>
-                </div>
+                <Card className="h-2 md:h-1.5 bg-gradient-to-r from-teal-300 via-rose-200 to-orange-300 rounded-lg" />
                 {/* Content Section */}
                 <CardContent className="bg-white p-1 text-center">
                   <Typography variant="h3" size="xs" weight="bold" className="font-bold text-xs mb-0.5">{t.proModeTitle}</Typography>
@@ -299,7 +293,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                 }}
               >
                 <CardContent className="p-0">
-                  <Flex align="center" gap={1} className="hover:bg-emerald-700 rounded px-1 py-0.5 transition-colors">
+                  <Flex align="center" gap={1} className="rounded px-1 py-0.5 transition-colors">
                     <Avatar className="w-5 h-5">
                       <AvatarImage src={profile.avatar} />
                       <AvatarFallback className="text-xs">{profile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
