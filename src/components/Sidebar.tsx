@@ -71,9 +71,9 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
   return (
     <div className={`flex flex-col h-full ${className}`}>
       <Card
-        className={`w-50 max-w-full bg-gray-200 flex flex-col h-screen overflow-hidden transition-transform duration-300 ease-in-out fixed z-40 inset-y-0 left-0 lg:static lg:translate-x-0 lg:top-[70px] lg:h-[calc(100vh-60px)] text-sm` +
-          (typeof window !== 'undefined' && window.innerWidth < 1024 ? ' translate-x-0 mt-2' : '')}
-        style={{ overflow: "hidden", marginTop: "8px" }} // Move sidebar a little top
+        className={`w-50 max-w-full bg-gray-200 border-0 shadow-none flex flex-col h-screen overflow-hidden transition-transform duration-300 ease-in-out fixed z-40 inset-y-0 left-0 lg:static lg:translate-x-0 lg:top-[64px] lg:h-[calc(100vh-60px)] text-sm` +
+          (typeof window !== 'undefined' && window.innerWidth < 1024 ? ' translate-x-0 mt-1' : '')}
+        style={{ overflow: "hidden", marginTop: "2px" }} // Move sidebar slightly higher
       >
         {/* Mobile Header with Close Button */}
         <CardHeader className="p-2 lg:hidden flex-shrink-0"> {/* Reduced padding */}
@@ -89,12 +89,12 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
         <CardContent className="flex-1 flex flex-col p-2 pb-0 overflow-visible">
           {/* Navigation and Departments */}
           <Stack spacing={3} className="p-0 flex-1"> {/* Reduced spacing */}
-            <Typography variant="h2" size="sm" weight="semibold" className="text-sm font-semibold mb-1 mt-[-8px]">{t.round}</Typography>
+            <Typography variant="h2" size="sm" weight="semibold" className="text-sm font-semibold mb-1 mt-[-10px] lg:mt-[-33px]">{t.round}</Typography>
             
             <motion.nav className="space-y-1" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}> {/* Reduced space-y */}
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <Button 
-                  className={`w-full justify-start h-9 text-sm font-normal ${
+                  className={`w-full justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/dashboard' 
                       ? 'bg-emerald-700 text-white' 
                       : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
@@ -107,7 +107,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </motion.div>
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <Button 
-                  className={`w-full justify-start h-9 text-sm font-normal ${
+                  className={`w-full justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/interviews' 
                       ? 'bg-emerald-700 text-white' 
                       : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
@@ -120,7 +120,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </motion.div>
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <Button 
-                  className={`w-full justify-start h-9 text-sm font-normal ${
+                  className={`w-full justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/candidates' 
                       ? 'bg-emerald-700 text-white' 
                       : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
@@ -149,7 +149,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
               </motion.div>
               <motion.div variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}>
                 <Button 
-                  className={`w-full justify-start h-9 text-sm font-normal ${
+                  className={`w-full justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/settings' 
                       ? 'bg-emerald-700 text-white' 
                       : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'

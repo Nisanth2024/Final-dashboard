@@ -270,8 +270,8 @@ export default function DashboardPage() {
       <CardContent className="flex-1 px-3 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 pb-0">
         <Typography 
           variant="h3" 
-          size="lg" 
-          weight="semibold" 
+          size="2xl" 
+          weight="medium" 
           className="text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-lg leading-tight mb-0"
         >
           Round 1
@@ -340,8 +340,9 @@ export default function DashboardPage() {
       <CardContent className="flex-1 px-3 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 pb-0">
         <Typography 
           variant="h3" 
-          size="lg" 
-          weight="semibold" 
+          size="2xl" 
+          weight="medium" 
+          
           className="text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-lg leading-tight mb-0"
         >
           Round 2
@@ -350,6 +351,7 @@ export default function DashboardPage() {
           variant="p" 
           size="xs" 
           color="muted" 
+       
           className="text-xs sm:text-sm text-muted-foreground 2xl:text-[10px]"
         >
           Initial Review
@@ -462,34 +464,34 @@ export default function DashboardPage() {
           <CardContent className="flex-1 space-y-0 w-full px-3 md:px-4 xl:px-5 pt-1">
             <Stack spacing={0} className="w-full">
             {allNotifications.map((notification, index) => (
-                  <Card 
-                    key={index} 
+                <Card 
+                  key={index} 
                     className="w-full  p-1 sm:p-1 md:p-1.5 lg:p-2 xl:p-2 2xl:p-1 bg-transparent border-0 hover:bg-emerald-700 transition-colors cursor-pointer" 
                   onClick={() => handleConfirm(notification.action, index === 0 ? 'pro' : index === 1 ? 'candidates' : 'dashboard')}
                 >
                   <CardContent className="p-0 w-full bg-transparent ">
                     <Flex align="center" gap={2} className="w-full">
-                <div className="flex-shrink-0">
-                  {notification.icon}
-                </div> 
-                <div className="flex-1 min-w-0 ">
-                        <Typography 
-                          variant="p" 
-                          size="xs" 
-                          weight="medium" 
+                      <Flex align="center" className="flex-shrink-0">
+                        {notification.icon}
+                      </Flex>
+                      <Stack spacing={0} className="flex-1 min-w-0">
+                        <Typography
+                          variant="p"
+                          size="xs"
+                          weight="medium"
                           className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm xl:text-sm 2xl:text-[10px] leading-tight"
                         >
                           {notification.title}
                         </Typography>
-                        <Typography 
-                          variant="p" 
-                          size="xs" 
-                          color="muted" 
+                        <Typography
+                          variant="p"
+                          size="xs"
+                          color="muted"
                           className="text-[8px] sm:text-[9px] md:text-xs lg:text-xs xl:text-xs 2xl:text-[8px] truncate"
                         >
                           {notification.message}
                         </Typography>
-                </div>
+                      </Stack>
                       <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-2.5 2xl:h-2.5 text-gray-400 flex-shrink-0" />
                     </Flex>
                   </CardContent>
@@ -500,17 +502,17 @@ export default function DashboardPage() {
           
           <CardFooter className="pt-0 px-3 md:px-4 xl:px-5 pb-1.5 sm:pb-1.5 md:pb-2 lg:pb-2.5 xl:pb-3 2xl:pb-1.5 w-full bg-transparent">
             <Flex align="center" justify="center" className="md:mt[-20px] w-full">
-              <div className="flex w-full items-center justify-center gap-2">
-                <Button 
-                  size="sm" 
+              <Flex align="center" justify="center" className="w-full gap-2">
+              <Button 
+                size="sm" 
                   className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-7 sm:h-6 md:h-7 lg:h-7 xl:h-8 2xl:h-6 font-medium px-3"
-                  onClick={() => setAllOpen(true)}
-                >
-                  <Typography variant="span" size="xs" className="truncate text-white">
-                    See All Notifications
-                  </Typography>
-                  <ArrowRight className="ml-1 w-3 h-3 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-3 2xl:h-3 text-white" />
-                </Button>
+                onClick={() => setAllOpen(true)}
+              >
+                <Typography variant="span" size="xs" className="truncate text-white">
+                  See All Notifications
+                </Typography>
+                <ArrowRight className="ml-1 w-3 h-3 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-3 2xl:h-3 text-white" />
+              </Button>
                 <Button 
                   variant="outline" 
                   size="sm" 
@@ -519,7 +521,7 @@ export default function DashboardPage() {
                 >
                   Notes
                 </Button>
-              </div>
+              </Flex>
             </Flex>
           </CardFooter>
         </Card>
@@ -565,8 +567,8 @@ export default function DashboardPage() {
                   <Card key={i} className="bg-gray-100">
                     <CardContent className="p-2">
                       <Flex align="start" gap={2} className="relative w-full min-w-0">
-                    <div>{n.icon}</div>
-                    <div className="flex-1 min-w-0">
+                        <Flex align="center">{n.icon}</Flex>
+                        <Stack spacing={0} className="flex-1 min-w-0">
                           <Typography variant="p" size="sm" weight="bold" className="text-xs sm:text-sm leading-tight">
                             {n.title}
                           </Typography>
@@ -576,7 +578,7 @@ export default function DashboardPage() {
                           <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-400">
                             {n.time}
                           </Typography>
-                    </div>
+                        </Stack>
                     <Button
                       size="sm"
                           className="bg-black text-white hover:bg-emerald-700 hover:text-white text-xs font-medium"
@@ -883,11 +885,11 @@ export default function DashboardPage() {
                       {/* Previous Background Card */}
                       <Card className="w-full rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col">
                         <CardHeader className="pl-4 pr-4 pb-0">
-                          <Typography variant="h3" size="lg" weight="medium" className="text-lg md:text-xl">Previous Background</Typography>
+                          <Typography variant="h2" size="2xl" weight="medium" className="text-lg md:text-xl">Previous Background</Typography>
                               </CardHeader>
                         <CardContent className="-mt-4 pb-0 px-4">
                           {/* Question Row */}
-                          <Card className="border rounded-xl mb-6">
+                          <Card className="border rounded-xl mb-6 py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
                             <CardContent className="py-0.5  px-2">
                               <Flex align="start" justify="between" className="w-full gap-1.5">
                                 <Badge className="w-6 h-6 md:w-7 md:h-7 bg-gray-200 text-black rounded-full flex items-center justify-center font-semibold flex-shrink-0">1</Badge>
@@ -907,11 +909,11 @@ export default function DashboardPage() {
                               </Card>
 
                           {/* Editing Block */}
-                          <Card className="bg-gray-100 rounded-xl ">
-                            <CardContent className="p-2 md:p-2">
+                          <Card className="bg-gray-100 rounded-xl py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
+                            <CardContent className="py-0.5 px-2 md:px-3 md:py-1">
                                   <Flex align="start" gap={2} className="mb-1">
                                 <Badge className="w-7 h-7 bg-white text-black rounded-full flex items-center justify-center font-semibold">2</Badge>
-                                <Typography variant="h3" size="lg" weight="semibold">Editing</Typography>
+                                <Typography variant="h3" size="lg" weight="medium">Editing</Typography>
                                   </Flex>
 
                               <Grid cols={1} gap={2} className="grid grid-cols-1 md:grid-cols-5 gap-2 items-start">
@@ -956,19 +958,21 @@ export default function DashboardPage() {
                               </Grid>
 
                               <Typography variant="h4" size="sm" weight="bold" className="mt-0.5 mb-1">Guidelines</Typography>
-                              <Card className="bg-white">
-                                <CardContent className="p-1.5">
-                                  <Typography variant="p" size="sm" weight="bold" className="mb-1">Some of the key features of design are:</Typography>
-                                  <ul className="list-disc pl-5 text-xs text-gray-700 space-y-0.5">
-                                        <li>A line is a visual trace created by any writing tool or the meeting point of two shapes</li>
-                                        <li>Size refers to how much visual space one element occupies compared to another</li>
-                                      </ul>
-                                    </CardContent>
-                                  </Card>
+                              <Card className="bg-white rounded-xl overflow-hidden py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3">
+                                <CardContent className="p-1 sm:p-1 md:p-1.5">
+                                  <Typography variant="p" size="xs" weight="bold" className="mb-0.5">Some of the key features of design are:</Typography>
+                                  <div className="max-h-[56px] sm:max-h-[64px] md:max-h-[76px] lg:max-h-[88px] xl:max-h-[96px] overflow-y-auto pr-1">
+                                    <ul className="list-disc pl-4 text-[11px] sm:text-xs leading-snug text-gray-700 space-y-0">
+                                      <li>A line is a visual trace created by any writing tool or the meeting point of two shapes</li>
+                                      <li>Size refers to how much visual space one element occupies compared to another</li>
+                                    </ul>
+                                  </div>
+                                </CardContent>
+                              </Card>
                                   
-                              <Flex gap={2} className="mt-1 flex-col md:flex-row">
-                                <Button size="sm" variant="outline" className="flex-1 bg-white hover:bg-emerald-700 hover:text-white">Insert From Library</Button>
-                                <Button size="sm" className="flex-1 bg-black text-white hover:bg-emerald-700">Create New Prompt</Button>
+                              <Flex gap={2} className="mt-2 sm:mt-3 md:mt-4 lg:mt-6 flex-col md:flex-row">
+                                <Button size="sm" variant="outline" className="w-full md:flex-1 bg-white hover:bg-emerald-700 hover:text-white">Insert From Library</Button>
+                                <Button size="sm" className="w-full md:flex-1 bg-black text-white hover:bg-emerald-700">Create New Prompt</Button>
                                   </Flex>
                                 </CardContent>
                               </Card>
@@ -990,27 +994,41 @@ export default function DashboardPage() {
                         }}
                         className="lg:flex-[3] lg:min-h-0 lg:h-0"
                       >
-                        <Card className="rounded-2xl shadow-md p-2 md:p-3 pb-6 flex flex-col justify-start min-h-[180px] h-full w-full">
-                          <CardHeader className="pb-2">
-                            <Flex align="start" justify="between">
-                              <Stack spacing={1}>
-                                <Typography variant="h3" size="lg" weight="semibold" className="text-base md:text-lg leading-tight">Assigned Interviewers</Typography>
-                                <Typography variant="p" size="xs" color="muted" className="text-gray-500 text-xs md:text-sm mt-0.5">Interview panel for this position</Typography>
-                              </Stack>
+                        <Card
+                          className="rounded-2xl shadow-md px-3 py-2 md:px-3 md:py-2 flex flex-col justify-center min-h-[120px] w-full"
+                        >
+                          <CardHeader className="p-0 mb-1">
+                            <Flex align="center" justify="between" className="w-full">
+                              <Typography
+                                variant="h2"
+                                size="2xl"
+                                weight="medium"
+                                className="text-sm md:text-xl lg:text-xl"
+                              >
+                                Assigned Interviewers
+                              </Typography>
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="ml-auto p-2 rounded-full hover:bg-emerald-700 focus:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-600 transition-colors"
+                                className="p-2 rounded-full hover:bg-emerald-700 focus:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-600"
                                 aria-label="View all interviewers"
                                 onClick={() => setShowInterviewersModal(true)}
                               >
                                 <ArrowRight className="w-5 h-5 text-gray-700" />
                               </Button>
                             </Flex>
+                            <Typography
+                              variant="p"
+                              size="xs"
+                              color="muted"
+                              className="text-gray-500 text-[11px] md:text-xs mt-0.5"
+                            >
+                              Interview panel for this position
+                            </Typography>
                           </CardHeader>
-                          <CardContent className="pt-0">
-                            <Flex align="center" className="flex flex-wrap items-center md:mt-[-20px] mt-0 lg:mt-0">
-                              <Flex align="center" className="-space-x-3">
+                          <CardContent className="p-0">
+                            <Flex align="center" className="w-full">
+                              <Flex align="center" className="-space-x-2">
                                 <Avatar className="w-7 h-7 border-2 border-white">
                                   <AvatarImage src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe" />
                                   <AvatarFallback>JD</AvatarFallback>
@@ -1023,7 +1041,7 @@ export default function DashboardPage() {
                                   <AvatarImage src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Miller" />
                                   <AvatarFallback>SM</AvatarFallback>
                                 </Avatar>
-                                <Badge className="bg-emerald-700 text-white text-xs font-medium w-7 h-7 flex items-center justify-center rounded-full ml-0 md:ml-2">+5</Badge>
+                                <Badge className="bg-emerald-700 text-white text-[11px] md:text-xs font-medium w-7 h-7 flex items-center justify-center rounded-full">+5</Badge>
                               </Flex>
                             </Flex>
                           </CardContent>
@@ -1037,10 +1055,10 @@ export default function DashboardPage() {
                         transition={{ duration: 0.3, delay: 0.3 }}
                         className="flex flex-col gap-0 lg:flex-[7] lg:min-h-0 lg:h-0"
                       >
-                        <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col mt-0 sm:mt-0 md:mt-0 h-full min-h-[295px] w-full lg:max-w-[355px]">
-                          <CardHeader className="pb-0">
-                            <Flex align="center" justify="between">
-                              <Typography variant="h3" size="lg" weight="semibold" className="text-lg">Section</Typography>
+                        <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 flex flex-col gap-2 md:gap-3 mt-0 h-auto min-h-0 w-full lg:max-w-[355px] py-2 md:py-3">
+                          <CardHeader className="pt-0 pb-0 px-3 md:px-4">
+                            <Flex align="center" justify="between" className="gap-2">
+                              <Typography variant="h2" size="2xl" weight="medium" className="text-lg md:text-xl lg:text-xl">Section</Typography>
                               <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
                                 <DialogTrigger asChild>
                                   <Button
@@ -1086,10 +1104,10 @@ export default function DashboardPage() {
                               </Dialog>
                             </Flex>
                           </CardHeader>
-                           <CardContent className="pt-0 pb-2 w-full">
-                            <Stack spacing={1} className="flex flex-col gap-0.5 w-full">
+                           <CardContent className="pt-0 pb-1 md:pb-2 w-full px-3 md:px-4">
+                            <Stack spacing={1} className="flex flex-col gap-1 w-full">
                               {sections.map((section, idx) => (
-                                <Flex key={idx} align="center" justify="between" className="bg-white rounded-xl border px-3 py-2 w-full">
+                                <Flex key={idx} align="center" justify="between" className="bg-white rounded-xl border px-3 py-1.5 w-full">
                                   <Stack spacing={1}>
                                     <Typography variant="p" size="xs" weight="medium" className="font-medium text-xs">{section.name}</Typography>
                                     <Typography variant="p" size="xs" color="muted" className="text-gray-400 text-xs">{section.details}</Typography>
@@ -1165,7 +1183,7 @@ export default function DashboardPage() {
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium">PRO mode activated</p>
+                        <p className="text-sm font-medium text-black">PRO mode activated</p>
                         <p className="text-xs text-gray-600">All premium features are now available for your account</p>
                       </div>
                     </div>
