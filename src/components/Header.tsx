@@ -56,12 +56,12 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
     // Removed feedback completed and round 2 scheduled
   ];
   return (
-    <Card className="flex flex-wrap items-left justify-between p-1 sm:p-1.5 md:p-2 bg-white rounded-t-xl shadow-sm border-b border-gray-200 relative">
+    <Card className="flex flex-wrap items-left justify-between p-1 sm:p-1.5 md:p-2 bg-white rounded-t-xl shadow-sm relative">
       <Flex align="center" gap={3} className="space-x-1.5 md:space-x-3 w-full justify-between">
         {/* Left group: menu, logo, actions */}
         <Flex align="center" gap={3}>
           {/* Mobile Menu Button */}
-          <Button variant="ghost" size="sm" className="md:hidden p-1 bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300" onClick={onMenuClick}>
+          <Button variant="ghost" size="sm" className="md:hidden p-1 bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors" onClick={onMenuClick}>
             <Menu className="w-4 h-4 md:w-5 md:h-5" />
           </Button>
           {/* Logo */}
@@ -71,7 +71,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
             <Button
               variant="outline"
               size="sm"
-              className="p-1 sm:p-1.5 md:p-2 flex items-center gap-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 text-xs sm:text-sm md:text-base"
+              className="p-1 sm:p-1.5 md:p-2 flex items-center gap-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors text-xs sm:text-sm md:text-base"
               onClick={() => setSearchOpen(true)}
             >
               <Search className="w-4 h-4 md:w-5 md:h-5" />
@@ -80,7 +80,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
             <Button 
               variant="outline"
               size="sm" 
-              className="hidden sm:flex p-1 sm:p-1.5 md:p-2 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 text-xs sm:text-sm md:text-base"
+              className="hidden sm:flex p-1 sm:p-1.5 md:p-2 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors text-xs sm:text-sm md:text-base"
               onClick={() => {
                 setAddPersonOpen(true);
                 setAddPersonButtonVisible(true);
@@ -89,7 +89,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
               <UserPlus className="w-4 h-4 md:w-5 md:h-5" />
               <Typography variant="span" size="xs" className="hidden sm:inline text-xs font-medium">{t.addPerson}</Typography>
             </Button>
-            <Button variant="outline" size="sm" className="hidden sm:flex relative p-1 md:p-1 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black items-center gap-1" onClick={() => setNotificationOpen((v) => !v)}>
+            <Button variant="outline" size="sm" className="hidden sm:flex relative p-1 md:p-1 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors items-center gap-1" onClick={() => setNotificationOpen((v) => !v)}>
               <span className="relative flex items-center">
                 <Bell className="w-3 h-3 md:w-4 md:h-4" />
                 <Badge className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 bg-red-500 rounded-full"></Badge>
@@ -98,7 +98,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="hidden sm:flex p-1 md:p-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-gray-300 items-center gap-0">
+                <Button variant="outline" size="sm" className="hidden sm:flex p-1 md:p-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors items-center gap-0">
                   <div className="flex flex-col space-y-0.5">
                     <div className="w-1 h-1 bg-current rounded-full"></div>
                     <div className="w-1 h-1 bg-current rounded-full"></div>
@@ -127,7 +127,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
           {/* Language Selector - always visible */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="hidden sm:flex items-center space-x-1 p-1 md:p-1 bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors border border-black">
+              <Button variant="ghost" size="sm" className="hidden sm:flex items-center space-x-1 p-1 md:p-1 bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors">
                 <Typography variant="span" size="xs" className="text-xs md:text-sm">{language === 'en' ? 'En' : language === 'es' ? 'Es' : 'Fr'}</Typography>
                 <ChevronDown className="w-2.5 md:w-2 h-3" />
               </Button>
@@ -190,8 +190,8 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
       />
       {/* Notification Dropdown/Modal */}
       {notificationOpen && (
-        <Card className="fixed top-16 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl border animate-fade-in">
-          <CardHeader className="p-4 border-b">
+        <Card className="fixed top-16 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl animate-fade-in">
+          <CardHeader className="p-4">
             <Flex align="center" justify="between">
               <Typography variant="h2" size="lg" weight="semibold" className="text-lg font-semibold">Notifications</Typography>
               <Button 
@@ -211,7 +211,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
             {!showAllNotifications ? (
               <Stack spacing={4}>
                 {/* Show only the first notification as a summary */}
-                <Flex align="start" gap={3} className="p-3 rounded-lg hover:bg-emerald-700">
+                <Flex align="start" gap={3} className="p-3 rounded-lg">
                   <div className="w-4 h-4 text-black mt-0.5">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -231,7 +231,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
                     <Typography variant="span" size="xs">&larr; Back</Typography>
                   </Button>
                   {notifications.map((n) => (
-                    <Flex key={n.id} align="start" gap={3} className="p-3 rounded-lg hover:bg-emerald-700 border-b last:border-b-0">
+                    <Flex key={n.id} align="start" gap={3} className="p-3 rounded-lg">
                       <div className="w-4 h-4 mt-0.5">
                         {/* Simple icon logic for demo */}
                         {n.icon === 'pro' && (
@@ -260,7 +260,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
               </ScrollArea>
             )}
           </CardContent>
-          <CardContent className="p-4 border-t">
+          <CardContent className="p-4">
             <Flex gap={2}>
               <Button 
                 className="flex-1 bg-black text-white hover:bg-emerald-700 hover:text-white text-xs py-2 px-3"
@@ -271,7 +271,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
               <Button 
                 variant="outline"
                 size="sm"
-                className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700 hover:text-white"
+                className="text-xs py-2 px-3 hover:bg-emerald-700 hover:text-white"
                 onClick={() => setNotesOpen(true)}
               >
                 <Typography variant="span" size="xs">Notes</Typography>
@@ -332,7 +332,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
           </ScrollArea>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-emerald-700">
+              <Button variant="outline" className="text-xs px-3 py-1 rounded hover:bg-emerald-700">
                 <Typography variant="span" size="xs">Close</Typography>
               </Button>
             </DialogClose>

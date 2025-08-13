@@ -458,26 +458,26 @@ export default function DashboardPage() {
 
     return (
       <motion.div 
-        initial={{ opacity: 0, y: 32, scale: 0.95 }}
+        initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
         whileHover={{ 
-          y: -4, 
+          y: -8, 
           scale: 1.02,
           transition: { duration: 0.2, ease: 'easeOut' }
-        }}className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full"
+        }}
+        className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full"
       >
-        
-        <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full rounded-2xl shadow-md hover:shadow-md transition-all duration-200 hover:scale-[1.01]">
-          <CardContent className="flex-1 space-y-0 w-full px-3 md:px-4 xl:px-5 pt-1">
+        <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-200">
+          <CardContent className="flex-1 space-y-0 w-full p-4">
             <Stack spacing={0} className="w-full">
             {allNotifications.map((notification, index) => (
                 <Card 
                   key={index} 
-                    className="w-full  p-1 sm:p-1 md:p-1.5 lg:p-2 xl:p-2 2xl:p-1 bg-transparent border-0 hover:bg-emerald-700 transition-colors cursor-pointer" 
+                    className="w-full bg-transparent border-0 cursor-pointer" 
                   onClick={() => handleConfirm(notification.action, index === 0 ? 'pro' : index === 1 ? 'candidates' : 'dashboard')}
                 >
-                  <CardContent className="p-0 w-full bg-transparent ">
+                  <CardContent className="p-3 w-full bg-transparent">
                     <Flex align="center" gap={2} className="w-full">
                       <Flex align="center" className="flex-shrink-0">
                         {notification.icon}
@@ -508,12 +508,12 @@ export default function DashboardPage() {
             </Stack>
           </CardContent>
           
-          <CardFooter className="pt-0 px-3 md:px-4 xl:px-5 pb-1.5 sm:pb-1.5 md:pb-2 lg:pb-2.5 xl:pb-3 2xl:pb-1.5 w-full bg-transparent">
-            <Flex align="center" justify="center" className="md:mt[-20px] w-full">
+          <CardFooter className="p-4 pt-0 w-full bg-transparent">
+            <Flex align="center" justify="center" className="w-full">
               <Flex align="center" justify="center" className="w-full gap-2">
               <Button 
                 size="sm" 
-                  className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-7 sm:h-6 md:h-7 lg:h-7 xl:h-8 2xl:h-6 font-medium px-3"
+                  className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-6 sm:h-6 md:h-6 lg:h-6 xl:h-6 2xl:h-6 font-medium px-3"
                 onClick={() => setAllOpen(true)}
               >
                 <Typography variant="span" size="xs" className="truncate text-white">
@@ -524,7 +524,7 @@ export default function DashboardPage() {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-7 sm:h-6 md:h-7 lg:h-7 xl:h-8 2xl:h-6 px-3 border border-gray-300 hover:bg-emerald-700"
+                  className="text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-6 sm:h-6 md:h-6 lg:h-6 xl:h-6 2xl:h-6 px-3 border border-gray-300 hover:bg-emerald-700"
                   onClick={onOpenNotes}
                 >
                   Notes
@@ -1369,7 +1369,7 @@ export default function DashboardPage() {
                 </Card>
                 {showAllNotifications && (
                   <>
-                    <Card className="hover:bg-emerald-700/10 transition-colors cursor-pointer" onClick={() => setAddPersonModalOpen(true)}>
+                    <Card className="hover:bg-emerald-700 transition-colors cursor-pointer" onClick={() => setAddPersonModalOpen(true)}>
                       <CardContent className="p-3">
                         <div className="flex items-start space-x-3">
                           <div className="w-4 h-4 text-green-600 mt-0.5">

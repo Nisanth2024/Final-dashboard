@@ -472,7 +472,7 @@ export default function InterviewsPage() {
       case 'cancelled':
         return <Badge variant="destructive" className="bg-red-100 text-red-800"><AlertCircle className="w-3 h-3 mr-1" />Cancelled</Badge>;
       case 'rescheduled':
-        return <Badge variant="outline" className="border-orange-200 text-orange-700"><Clock className="w-3 h-3 mr-1" />Rescheduled</Badge>;
+        return <Badge variant="outline" className="text-orange-700"><Clock className="w-3 h-3 mr-1" />Rescheduled</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
     }
@@ -785,7 +785,7 @@ export default function InterviewsPage() {
                                     <Button 
                                       size="sm" 
                                       variant="outline" 
-                                      className="bg-black text-white hover:bg-emerald-700 hover:text-white border-black"
+                                      className="bg-black text-white hover:bg-emerald-700 hover:text-white"
                                       onClick={() => handleViewInterview(interview)}
                                     >
                                       <Eye className="w-4 h-4 mr-1" />
@@ -794,7 +794,7 @@ export default function InterviewsPage() {
                                     <Button 
                                       size="sm" 
                                       variant="outline" 
-                                      className="bg-black text-white hover:bg-emerald-700 hover:text-white border-black"
+                                      className="bg-black text-white hover:bg-emerald-700 hover:text-white"
                                       onClick={() => handleEditInterview(interview)}
                                     >
                                       <Edit className="w-4 h-4 mr-1" />
@@ -813,7 +813,7 @@ export default function InterviewsPage() {
                         <div className="overflow-x-auto">
                           <table className="w-full">
                             <thead>
-                              <tr className="border-b">
+                              <tr>
                                 <th className="text-left p-3 font-medium">Candidate</th>
                                 <th className="text-left p-3 font-medium">Position</th>
                                 <th className="text-left p-3 font-medium">Interviewer</th>
@@ -835,7 +835,7 @@ export default function InterviewsPage() {
                                 return (
                                   <motion.tr
                                     key={interview.id}
-                                    className="border-b hover:bg-gray-50"
+                                    className="hover:bg-gray-50"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
@@ -953,7 +953,7 @@ export default function InterviewsPage() {
         <div className={`md:hidden fixed inset-y-0 right-0 z-[9999] transform transition-transform duration-300 ease-in-out ${isNotificationOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="w-80 h-full bg-white shadow-lg flex flex-col">
             {/* Notification Panel Header */}
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-between p-4">
               <h2 className="text-lg font-semibold">Notifications</h2>
               <div>
                 <Button 
@@ -1010,7 +1010,7 @@ export default function InterviewsPage() {
               </div>
             </div>
             {/* Notification Panel Footer */}
-            <div className="p-4 border-t">
+            <div className="p-4">
               <div className="flex space-x-2">
                 <div>
                   <Button 
@@ -1024,7 +1024,7 @@ export default function InterviewsPage() {
                   <Button 
                     variant="outline"
                     size="sm"
-                    className="text-xs py-2 px-3 border border-gray-300 bg-black text-white hover:bg-emerald-700 hover:text-white"
+                    className="text-xs py-2 px-3 bg-black text-white hover:bg-emerald-700 hover:text-white"
                     onClick={() => setNotesOpen(true)}
                   >
                     Notes
@@ -1038,8 +1038,8 @@ export default function InterviewsPage() {
       
       {/* Desktop Notification Dropdown/Modal */}
       {isNotificationOpen && (
-        <div className="hidden md:block fixed top-20 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl border">
-          <div className="flex items-center justify-between p-4 border-b">
+        <div className="hidden md:block fixed top-20 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl">
+          <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-semibold">Notifications</h2>
             <div>
               <Button 
@@ -1093,7 +1093,7 @@ export default function InterviewsPage() {
               )}
             </div>
           </div>
-          <div className="p-4 border-t">
+          <div className="p-4">
             <div className="flex space-x-2">
               <div>
                 <Button 
@@ -1107,7 +1107,7 @@ export default function InterviewsPage() {
                 <Button 
                   variant="outline"
                   size="sm"
-                  className="text-xs py-2 px-3 border border-gray-300 bg-black text-white hover:bg-emerald-700 hover:text-white"
+                  className="text-xs py-2 px-3 bg-black text-white hover:bg-emerald-700 hover:text-white"
                   onClick={() => setNotesOpen(true)}
                 >
                   Notes
@@ -1433,7 +1433,7 @@ export default function InterviewsPage() {
                   <Button 
                     onClick={() => handleCompleteInterview(selectedInterview.id)}
                     variant="outline"
-                    className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+                    className="text-green-600 hover:bg-green-600 hover:text-white"
                   >
                     <CheckCircle className="w-4 h-4 mr-2" />
                     Mark Complete
@@ -1441,7 +1441,7 @@ export default function InterviewsPage() {
                   <Button 
                     onClick={() => handleCancelInterview(selectedInterview.id)}
                     variant="outline"
-                    className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                    className="text-red-600 hover:bg-red-600 hover:text-white"
                   >
                     <X className="w-4 h-4 mr-2" />
                     Cancel Interview
@@ -1449,7 +1449,7 @@ export default function InterviewsPage() {
                   <Button 
                     onClick={() => setAssignInterviewerModalOpen(true)}
                     variant="outline"
-                    className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                    className="text-blue-600 hover:bg-blue-600 hover:text-white"
                   >
                     <Users className="w-4 h-4 mr-2" />
                     Assign Interviewer
@@ -1457,7 +1457,7 @@ export default function InterviewsPage() {
                   <Button 
                     onClick={() => setFeedbackModalOpen(true)}
                     variant="outline"
-                    className="border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white"
+                    className="text-purple-600 hover:bg-purple-600 hover:text-white"
                   >
                     <Star className="w-4 h-4 mr-2" />
                     Add Feedback
@@ -1635,7 +1635,7 @@ export default function InterviewsPage() {
           <DialogFooter>
             <DialogClose asChild>
               <div>
-                <Button variant="outline" className="text-xs px-3 py-1 border rounded bg-black text-white hover:bg-emerald-700 hover:text-white">
+                <Button variant="outline" className="text-xs px-3 py-1 rounded bg-black text-white hover:bg-emerald-700 hover:text-white">
                   Close
                 </Button>
               </div>
@@ -1667,7 +1667,7 @@ export default function InterviewsPage() {
           <DialogFooter>
             <DialogClose asChild>
               <div>
-                <Button variant="outline" className="text-xs px-3 py-1 border rounded bg-black text-white hover:bg-emerald-700 hover:text-white">
+                <Button variant="outline" className="text-xs px-3 py-1 rounded bg-black text-white hover:bg-emerald-700 hover:text-white">
                   Close
                 </Button>
               </div>

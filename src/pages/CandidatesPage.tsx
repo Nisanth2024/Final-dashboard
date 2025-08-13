@@ -607,15 +607,15 @@ export default function CandidatesPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+        return 'bg-yellow-100 text-yellow-800'
       case 'reviewed':
-        return 'bg-blue-100 text-blue-800 border-blue-200'
+        return 'bg-blue-100 text-blue-800'
       case 'shortlisted':
-        return 'bg-green-100 text-green-800 border-green-200'
+        return 'bg-green-100 text-green-800'
       case 'rejected':
-        return 'bg-red-100 text-red-800 border-red-200'
+        return 'bg-red-100 text-red-800'
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200'
+        return 'bg-gray-100 text-gray-800'
     }
   }
 
@@ -781,7 +781,7 @@ export default function CandidatesPage() {
                                         <Typography variant="h3" size="lg" weight="semibold" className="text-base md:text-lg font-semibold">
                                           {candidate.name}
                                         </Typography>
-                                        <Badge className={`text-xs px-2 py-1 rounded-full border ${getStatusColor(candidate.status)}`}>
+                                        <Badge className={`text-xs px-2 py-1 rounded-full ${getStatusColor(candidate.status)}`}>
                                           {getStatusText(candidate.status)}
                                         </Badge>
                                       </Flex>
@@ -867,7 +867,7 @@ export default function CandidatesPage() {
       }>
         <div className="w-80 h-full bg-white shadow-lg flex flex-col">
           {/* Notification Panel Header */}
-          <div className="flex items-center justify-between p-4 border-b">
+          <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-semibold">Notifications</h2>
             <Button 
               variant="ghost"
@@ -922,7 +922,7 @@ export default function CandidatesPage() {
             </div>
           </div>
           {/* Notification Panel Footer */}
-          <div className="p-4 border-t">
+          <div className="p-4">
             <div className="flex space-x-2">
               <Button 
                 onClick={handleSeeAllNotifications}
@@ -933,7 +933,7 @@ export default function CandidatesPage() {
               <Button 
                 variant="outline"
                 size="sm"
-                className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700"
+                className="text-xs py-2 px-3 hover:bg-emerald-700"
                 onClick={() => setNotesOpen(true)}
               >
                 Notes
@@ -944,8 +944,8 @@ export default function CandidatesPage() {
       </div>
       {/* Desktop Notification Dropdown/Modal */}
       {isNotificationOpen && (
-        <div className="hidden md:block fixed top-20 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl border animate-fade-in">
-          <div className="flex items-center justify-between p-4 border-b">
+        <div className="hidden md:block fixed top-20 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl animate-fade-in">
+          <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-semibold">Notifications</h2>
             <Button 
               variant="ghost"
@@ -997,7 +997,7 @@ export default function CandidatesPage() {
               )}
             </div>
           </div>
-          <div className="p-4 border-t">
+          <div className="p-4">
             <div className="flex space-x-2">
               <Button 
                 onClick={handleSeeAllNotifications}
@@ -1008,7 +1008,7 @@ export default function CandidatesPage() {
               <Button 
                 variant="outline"
                 size="sm"
-                className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700"
+                className="text-xs py-2 px-3 hover:bg-emerald-700"
                 onClick={() => setNotesOpen(true)}
               >
                 Notes
@@ -1071,7 +1071,7 @@ export default function CandidatesPage() {
                 </Avatar>
                 <Stack spacing={2} className="flex-1">
                   <Typography variant="h3" size="lg" weight="bold">{previewCandidate.name}</Typography>
-                  <Badge className={`text-sm px-3 py-1 rounded-full border ${getStatusColor(previewCandidate.status)}`}>
+                  <Badge className={`text-sm px-3 py-1 rounded-full ${getStatusColor(previewCandidate.status)}`}>
                     {getStatusText(previewCandidate.status)}
                   </Badge>
                   <Typography variant="p" size="sm" color="muted">{previewCandidate.email}</Typography>
@@ -1227,7 +1227,7 @@ export default function CandidatesPage() {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-emerald-700">
+              <Button variant="outline" className="text-xs px-3 py-1 rounded hover:bg-emerald-700">
                 Close
               </Button>
             </DialogClose>
@@ -1256,7 +1256,7 @@ export default function CandidatesPage() {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" className="text-xs px-3 py-1 border rounded hover:bg-emerald-700">
+              <Button variant="outline" className="text-xs px-3 py-1 rounded hover:bg-emerald-700">
                 Close
               </Button>
             </DialogClose>

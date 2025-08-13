@@ -106,7 +106,7 @@ export default function SettingsPage() {
                 Settings
               </Typography>
             </div>
-            <Card className="rounded-2xl shadow bg-white p-0 border-none w-full">
+            <Card className="rounded-2xl shadow bg-white p-0 w-full">
               <CardHeader className="pb-2 pt-6 px-6">
                 <CardTitle className="text-lg md:text-xl font-semibold">Account & Profile</CardTitle>
               </CardHeader>

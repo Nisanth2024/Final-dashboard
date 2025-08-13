@@ -70,7 +70,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
   return (
     <div className={`flex flex-col h-full ${className}`}>
       <Card
-        className={`w-50 max-w-full bg-gray-200 border-0 shadow-none flex flex-col h-screen overflow-hidden transition-transform duration-300 ease-in-out fixed z-40 inset-y-0 left-0 lg:static lg:translate-x-0 lg:top-[64px] lg:h-[calc(100vh-60px)] text-sm` +
+        className={`w-50 max-w-full bg-gray-200 shadow-none flex flex-col h-screen overflow-hidden transition-transform duration-300 ease-in-out fixed z-40 inset-y-0 left-0 lg:static lg:translate-x-0 lg:top-[64px] lg:h-[calc(100vh-60px)] text-sm` +
           (typeof window !== 'undefined' && window.innerWidth < 1024 ? ' translate-x-0 mt-1' : '')}
         style={{ overflow: "hidden", marginTop: "2px" }} // Move sidebar slightly higher
       >
@@ -185,7 +185,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                   </DialogHeader>
                   <Stack spacing={2}>
                     <Input
-                      className="border rounded px-2 py-1 text-sm"
+                      className="rounded px-2 py-1 text-sm"
                       placeholder={t.addDepartment}
                       value={newDeptName}
                       onChange={e => setNewDeptName(e.target.value)}
@@ -198,7 +198,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                           type="color"
                           value={newDeptColor}
                           onChange={e => setNewDeptColor(e.target.value)}
-                          className="w-6 h-6 p-0 border border-gray-300 rounded cursor-pointer"
+                          className="w-6 h-6 p-0 rounded cursor-pointer"
                         />
                       </div>
                     </Flex>
@@ -241,7 +241,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                   <Typography variant="h3" size="xs" weight="bold" className="font-bold text-xs mb-0.5">{t.proModeTitle}</Typography>
                   <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-600 mb-1 leading-tight">{t.proModeDesc}</Typography>
                   {/* Compact Discount Card */}
-                  <Card className="bg-green-50 border border-green-200 rounded p-0.5 mb-1">
+                  <Card className="bg-green-50 rounded p-0.5 mb-1">
                     <CardContent className="flex items-center justify-center space-x-1 p-0">
                       <div className="relative">
                         <div className="w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center text-[10px]">🎉</div>
@@ -285,7 +285,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
             {/* User Profile - Now links to settings page */}
             <Link to="/settings">
               <Card
-                className="p-1 bg-gray-200 flex-shrink-0 w-full max-w-[180px] mx-auto cursor-pointer border-none shadow-none"
+                className="p-1 bg-gray-200 flex-shrink-0 w-full max-w-[180px] mx-auto cursor-pointer shadow-none"
                 style={{
                   background: "#e5e7eb",
                   minHeight: "36px",
