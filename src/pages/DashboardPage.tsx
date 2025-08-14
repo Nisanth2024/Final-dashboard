@@ -1112,7 +1112,7 @@ export default function DashboardPage() {
                               <Grid cols={1} gap={2} className="grid grid-cols-1 md:grid-cols-5 gap-2 items-start">
                                 <div className="md:col-span-2">
                                   <Label className="text-sm mb-1">Prompt</Label>
-                                  <Input ref={editPromptInputRef} className="w-full h-8 bg-white" placeholder="How are JavaScript and jQuery different?" />
+                                  <Input ref={editPromptInputRef} className="w-full h-8 bg-white" placeholder="How are JavaScript and........" />
                                 </div>
                                 <div>
                                   <Label className="text-sm mb-1">Competencies</Label>
@@ -1284,7 +1284,7 @@ export default function DashboardPage() {
                                 variant="h2"
                                 size="2xl"
                                 weight="medium"
-                                className="text-sm md:text-xl lg:text-xl"
+                                className="text-lg md:text-xl lg:text-xl"
                               >
                                 Assigned Interviewers
                               </Typography>
