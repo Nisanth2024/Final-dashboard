@@ -34,7 +34,7 @@ interface HeaderProps {
   setLanguage: (lang: 'en' | 'es' | 'fr') => void
 }
 
-export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLanguage }: HeaderProps) {
+export function Header({ onMenuClick, onNotificationClick, onCreateType, onAddPerson, language, setLanguage }: HeaderProps) {
   const t = useTranslation(language);
   // Get today's date in a readable format
   const today = new Date();
@@ -42,19 +42,15 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
   const [searchOpen, setSearchOpen] = useState(false);
   const [addPersonOpen, setAddPersonOpen] = useState(false);
   const [, setAddPersonButtonVisible] = useState(true);
-  const [notificationOpen, setNotificationOpen] = useState(false);
   const [notesOpen, setNotesOpen] = useState(false);
   const [notes, setNotes] = useState<string[]>([]);
   const [newNote, setNewNote] = useState("");
-  const [showAllNotifications, setShowAllNotifications] = useState(false);
   const [] = useState<'light' | 'dark'>("light");
-  // Example notifications
-  const notifications = [
-    { id: 1, title: 'PRO mode activated', desc: 'All premium features are now available for your account', icon: 'pro' },
-    { id: 2, title: 'New candidate added', desc: 'Alex Johnson has entered the Technical Review phase', icon: 'candidate' },
-    { id: 3, title: 'Phase deadline soon', desc: 'Initial Review Phase 3 ends in 2 days', icon: 'deadline' },
-    // Removed feedback completed and round 2 scheduled
-  ];
+
+  // Handle notification click - call the parent handler
+  const handleNotificationClick = () => {
+    onNotificationClick();
+  };
   return (
     <Card className="flex flex-wrap items-left justify-between p-1 sm:p-1.5 md:p-2 bg-white rounded-t-xl shadow-sm relative">
       <Flex align="center" gap={3} className="space-x-1.5 md:space-x-3 w-full justify-between">
@@ -89,7 +85,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
               <UserPlus className="w-4 h-4 md:w-5 md:h-5" />
               <Typography variant="span" size="xs" className="hidden sm:inline text-xs font-medium">{t.addPerson}</Typography>
             </Button>
-            <Button variant="outline" size="sm" className="hidden sm:flex relative p-1 md:p-1 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors items-center gap-1" onClick={() => setNotificationOpen((v) => !v)}>
+            <Button variant="outline" size="sm" className="hidden sm:flex relative p-1 md:p-1 fullscreen:hidden bg-grey-300 text-black hover:bg-emerald-700 hover:text-white transition-colors items-center gap-1" onClick={handleNotificationClick}>
               <span className="relative flex items-center">
                 <Bell className="w-3 h-3 md:w-4 md:h-4" />
                 <Badge className="absolute -top-1 -right-1 w-2 h-2 md:w-2.5 md:h-2.5 bg-red-500 rounded-full"></Badge>
@@ -188,98 +184,7 @@ export function Header({ onMenuClick, onCreateType, onAddPerson, language, setLa
         language={language}
         setLanguage={setLanguage}
       />
-      {/* Notification Dropdown/Modal */}
-      {notificationOpen && (
-        <Card className="fixed top-16 right-8 z-[9999] w-96 bg-white shadow-xl rounded-xl animate-fade-in">
-          <CardHeader className="p-4">
-            <Flex align="center" justify="between">
-              <Typography variant="h2" size="lg" weight="semibold" className="text-lg font-semibold">Notifications</Typography>
-              <Button 
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setNotificationOpen(false);
-                  setShowAllNotifications(false);
-                }}
-                className="p-2 hover:bg-emerald-700 rounded-lg"
-              >
-                <X className="w-5 h-5" />
-              </Button>
-            </Flex>
-          </CardHeader>
-          <CardContent className="flex-1 p-4">
-            {!showAllNotifications ? (
-              <Stack spacing={4}>
-                {/* Show only the first notification as a summary */}
-                <Flex align="start" gap={3} className="p-3 rounded-lg">
-                  <div className="w-4 h-4 text-black mt-0.5">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  </div>
-                  <Stack spacing={1} className="flex-1">
-                    <Typography variant="p" size="sm" weight="medium">{notifications[0].title}</Typography>
-                    <Typography variant="p" size="xs" color="muted">{notifications[0].desc}</Typography>
-                  </Stack>
-                </Flex>
-              </Stack>
-            ) : (
-              <ScrollArea className="max-h-64">
-                <Stack spacing={2}>
-                  <Button variant="ghost" size="sm" className="mb-2 text-xs text-blue-600 hover:bg-emerald-700 hover:text-white" onClick={() => setShowAllNotifications(false)}>
-                    <Typography variant="span" size="xs">&larr; Back</Typography>
-                  </Button>
-                  {notifications.map((n) => (
-                    <Flex key={n.id} align="start" gap={3} className="p-3 rounded-lg">
-                      <div className="w-4 h-4 mt-0.5">
-                        {/* Simple icon logic for demo */}
-                        {n.icon === 'pro' && (
-                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                        )}
-                        {n.icon === 'candidate' && (
-                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
-                        )}
-                        {n.icon === 'deadline' && (
-                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM4.19 4.19A4 4 0 004 6v6a4 4 0 004 4h6a4 4 0 004-4V6a4 4 0 00-4-4H8a4 4 0 00-2.81 1.19z" /></svg>
-                        )}
-                        {n.icon === 'feedback' && (
-                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 20l.8-4A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                        )}
-                        {n.icon === 'round' && (
-                          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6l4 2" /></svg>
-                        )}
-                      </div>
-                      <Stack spacing={1} className="flex-1">
-                        <Typography variant="p" size="sm" weight="medium">{n.title}</Typography>
-                        <Typography variant="p" size="xs" color="muted">{n.desc}</Typography>
-                      </Stack>
-                    </Flex>
-                  ))}
-                </Stack>
-              </ScrollArea>
-            )}
-          </CardContent>
-          <CardContent className="p-4">
-            <Flex gap={2}>
-              <Button 
-                className="flex-1 bg-black text-white hover:bg-emerald-700 hover:text-white text-xs py-2 px-3"
-                onClick={() => setShowAllNotifications(true)}
-              >
-                <Typography variant="span" size="xs" className="text-white">See all notifications</Typography>
-              </Button>
-              <Button 
-                variant="outline"
-                size="sm"
-                className="text-xs py-2 px-3 hover:bg-emerald-700 hover:text-white"
-                onClick={() => setNotesOpen(true)}
-              >
-                <Typography variant="span" size="xs">Notes</Typography>
-              </Button>
-            </Flex>
-          </CardContent>
-        </Card>
-      )}
+
       {/* Notes Modal */}
       <Dialog open={notesOpen} onOpenChange={setNotesOpen}>
         <DialogContent className="max-w-md">

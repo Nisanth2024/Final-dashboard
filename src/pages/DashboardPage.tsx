@@ -153,6 +153,15 @@ export default function DashboardPage() {
   const [newNote, setNewNote] = useState("");
   const [] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
+  // Highlights card detail dialog state
+  const [highlightOpen, setHighlightOpen] = useState(false);
+  const [highlightTitle, setHighlightTitle] = useState<string>("");
+  const [highlightDetail, setHighlightDetail] = useState<string>("");
+  const handleHighlightClick = (title: string, detail: string) => {
+    setHighlightTitle(title);
+    setHighlightDetail(detail);
+    setHighlightOpen(true);
+  };
 
   // State for breadcrumbs and top right components (moved from MainContent)
   const [department, setDepartment] = useState<'All' | 'Design Department' | 'Engineering Department'>('All');
@@ -414,7 +423,7 @@ export default function DashboardPage() {
         title: t.proMode,
         message: t.allPremium,
         time: 'Just now',
-        icon: <Bell className="w-4 h-4 text-black" />,
+        icon: <Bell className="w-3 h-3 text-black" />,
         action: () => window.open('/pro', '_blank'),
         actionLabel: t.proMode,
       },
@@ -422,7 +431,7 @@ export default function DashboardPage() {
         title: t.newCandidate,
         message: t.newCandidateDesc,
         time: '5 min ago',
-        icon: <Users className="w-4 h-4 text-black" />,
+        icon: <Users className="w-3 h-3 text-black" />,
         action: () => window.location.href = '/candidates',
         actionLabel: t.newCandidate,
       },
@@ -430,7 +439,7 @@ export default function DashboardPage() {
         title: t.phaseDeadline,
         message: t.phaseDeadlineDesc,
         time: '1 hour ago',
-        icon: <Clock className="w-4 h-4 text-black" />,
+        icon: <Clock className="w-3 h-3 text-black" />,
         action: () => window.location.href = '/dashboard',
         actionLabel: t.phaseDeadline,
       },
@@ -466,18 +475,18 @@ export default function DashboardPage() {
           scale: 1.02,
           transition: { duration: 0.2, ease: 'easeOut' }
         }}
-        className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] w-full"
+        className="h-full w-full"
       >
-        <Card className="h-full min-h-[50px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[80px] xl:min-h-[90px] 2xl:min-h-[60px] w-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-200">
-          <CardContent className="flex-1 space-y-0 w-full p-4">
-            <Stack spacing={0} className="w-full">
+        <Card className="h-full w-full rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
+          <CardContent className="flex-1 space-y-1 w-full p-2">
+            <Stack spacing={1} className="w-full">
             {allNotifications.map((notification, index) => (
                 <Card 
                   key={index} 
-                    className="w-full bg-transparent border-0 cursor-pointer" 
+                  className="w-full bg-white border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors" 
                   onClick={() => handleConfirm(notification.action, index === 0 ? 'pro' : index === 1 ? 'candidates' : 'dashboard')}
                 >
-                  <CardContent className="p-3 w-full bg-transparent">
+                  <CardContent className="p-1 w-full">
                     <Flex align="center" gap={2} className="w-full">
                       <Flex align="center" className="flex-shrink-0">
                         {notification.icon}
@@ -485,9 +494,9 @@ export default function DashboardPage() {
                       <Stack spacing={0} className="flex-1 min-w-0">
                         <Typography
                           variant="p"
-                          size="xs"
+                          size="sm"
                           weight="medium"
-                          className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm xl:text-sm 2xl:text-[10px] leading-tight"
+                          className="text-xs leading-tight"
                         >
                           {notification.title}
                         </Typography>
@@ -495,12 +504,12 @@ export default function DashboardPage() {
                           variant="p"
                           size="xs"
                           color="muted"
-                          className="text-[8px] sm:text-[9px] md:text-xs lg:text-xs xl:text-xs 2xl:text-[8px] truncate"
+                          className="text-xs text-gray-500 truncate"
                         >
                           {notification.message}
                         </Typography>
                       </Stack>
-                      <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-2.5 2xl:h-2.5 text-gray-400 flex-shrink-0" />
+                      <ArrowRight className="w-2 h-2 text-gray-400 flex-shrink-0" />
                     </Flex>
                   </CardContent>
                 </Card>
@@ -508,23 +517,23 @@ export default function DashboardPage() {
             </Stack>
           </CardContent>
           
-          <CardFooter className="p-4 pt-0 w-full bg-transparent">
+          <CardFooter className="p-2 pt-0 w-full bg-transparent">
             <Flex align="center" justify="center" className="w-full">
               <Flex align="center" justify="center" className="w-full gap-2">
               <Button 
                 size="sm" 
-                  className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-6 sm:h-6 md:h-6 lg:h-6 xl:h-6 2xl:h-6 font-medium px-3"
+                className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[11px] h-6 font-medium px-2"
                 onClick={() => setAllOpen(true)}
               >
                 <Typography variant="span" size="xs" className="truncate text-white">
                   See All Notifications
                 </Typography>
-                <ArrowRight className="ml-1 w-3 h-3 sm:w-3 sm:h-3 md:w-3 md:h-3 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-3 2xl:h-3 text-white" />
+                <ArrowRight className="ml-1 w-2 h-2 text-white" />
               </Button>
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-xs h-6 sm:h-6 md:h-6 lg:h-6 xl:h-6 2xl:h-6 px-3 border border-gray-300 hover:bg-emerald-700"
+                  className="text-[11px] h-6 px-2 border border-gray-300 hover:bg-emerald-700"
                   onClick={onOpenNotes}
                 >
                   Notes
@@ -573,7 +582,7 @@ export default function DashboardPage() {
               ) : (
                 allNotifications.map((n, i) => (
                   <Card key={i} className="bg-gray-100 w-full">
-                    <CardContent className="p-1.5">
+                    <CardContent className="p-1">
                       <Flex align="start" gap={2} className="relative w-full min-w-0">
                         <Flex align="center">{n.icon}</Flex>
                         <Stack spacing={0} className="flex-1 min-w-0">
@@ -589,7 +598,7 @@ export default function DashboardPage() {
                         </Stack>
                     <Button
                       size="sm"
-                          className="bg-black text-white hover:bg-emerald-700 hover:text-white text-xs font-medium"
+                          className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[11px] h-6 px-2 font-medium"
                       onClick={n.action}
                     >
                           <Typography variant="span" size="xs" className="text-white">{n.actionLabel}</Typography>
@@ -603,7 +612,7 @@ export default function DashboardPage() {
             <DialogFooter>
               <DialogClose asChild>
                 <Button 
-                  className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full font-medium"
+                  className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full font-medium h-8"
                 >
                   <Typography variant="span" size="sm" className="text-white">Close</Typography>
                 </Button>
@@ -875,15 +884,109 @@ export default function DashboardPage() {
                       </Flex>
                   </div>
 
-                  {/* Right Side: Notification Panel with Vertical Divider */}
+                  {/* Right Side: Reserved Space (Notification panel removed) */}
                   <div className="hidden lg:block w-72 xl:w-80 2xl:w-[355px] border-l border-gray-200 pl-1 xl:pl-1 2xl:pl-2">
-                    <NotificationPanel language={language} setLanguage={setLanguage} onOpenNotes={() => setNotesOpen(true)} />
+                    <Card className="rounded-2xl shadow-md w-full min-h-[255px] xl:min-h-[380px] 2xl:min-h-[420px]">
+                      
+                      <CardContent className="px-1 pt-0 pb-3">
+                        <Stack spacing={2}>
+                          {/* Item 1: PRO mode activated */}
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start pl-1 pr-2 sm:pl-2 py-2 h-14 border rounded-xl hover:bg-gray-50 text-left"
+                            onClick={() => handleHighlightClick('PRO mode activated', 'All premium features are now available for your account')}
+                          >
+                            <Flex align="center" className="w-full gap-3 sm:gap-4 items-center overflow-hidden">
+                              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                <Eye className="w-5 h-5 text-gray-700" />
+                  </div>
+                              <Stack spacing={0} className="flex-1 min-w-0 text-left">
+                                <Typography variant="p" size="sm" weight="semibold" className="text-[13px] sm:text-sm overflow-hidden text-ellipsis whitespace-nowrap block">
+                                  PRO mode activated
+                                </Typography>
+                                <Typography variant="p" size="xs" color="muted" className="text-[12px] text-gray-500 overflow-hidden text-ellipsis whitespace-nowrap block">
+                                  All premium features.....
+                                </Typography>
+                              </Stack>
+                              <ArrowRight className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                            </Flex>
+                          </Button>
+
+                          {/* Item 2: New candidate added (emphasis) */}
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start pl-1 pr-2 sm:pl-2 py-2 h-14 border rounded-xl hover:bg-gray-50 text-left"
+                            onClick={() => handleHighlightClick('New candidate added', 'Alex Johnson has entered the Technical Review phase')}
+                          >
+                            <Flex align="center" className="w-full gap-3 sm:gap-4 items-center overflow-hidden">
+                              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                <UserPlus className="w-5 h-5 text-gray-700" />
+                  </div>
+                              <Stack spacing={0} className="flex-1 min-w-0 text-left">
+                                <Typography variant="p" size="sm" weight="semibold" className="text-[13px] sm:text-sm overflow-hidden text-ellipsis whitespace-nowrap block">
+                                  New candidate added
+                                </Typography>
+                                <Typography variant="p" size="xs" color="muted" className="text-[12px] text-gray-500 overflow-hidden text-ellipsis whitespace-nowrap block">
+                                  Alex Johnson has entered...
+                                </Typography>
+                              </Stack>
+                              <ArrowRight className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                            </Flex>
+                          </Button>
+
+                          {/* Item 3: Phase deadline soon */}
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start pl-1 pr-2 sm:pl-2 py-2 h-14 border rounded-xl hover:bg-gray-50 text-left"
+                            onClick={() => handleHighlightClick('Phase deadline soon', 'Initial Review Phase 3 ends in 2 days')}
+                          >
+                             <Flex align="center" className="w-full gap-3 sm:gap-4 items-center overflow-hidden">
+                               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                <Bell className="w-5 h-5 text-gray-700" />
+                              </div>
+                              <Stack spacing={0} className="flex-1 min-w-0 text-left">
+                                <Typography variant="p" size="sm" weight="semibold" className="text-[13px] sm:text-sm overflow-hidden text-ellipsis whitespace-nowrap block">
+                                  Phase deadline soon
+                                </Typography>
+                                <Typography variant="p" size="xs" color="muted" className="text-[12px] text-gray-500 overflow-hidden text-ellipsis whitespace-nowrap block">
+                                  Initial Review Phase 3 ends..
+                                </Typography>
+                              </Stack>
+                              <ArrowRight className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                            </Flex>
+                          </Button>
+                          {/* Divider and actions */}
+                          <Separator className="my-2 sm:my-3 bg-gray-100 h-[1px]" />
+                            <Flex align="center" justify="between" className="w-full gap-2">
+                            <Button
+                              size="lg"
+                                className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 bg-black text-white hover:bg-emerald-700 hover:text-white font-medium ml-2 sm:ml-3 mr-2 sm:mr-2 md:mr-3 lg:mr-4 xl:mr-5"
+                             
+                              onClick={() => {
+                                setIsNotificationOpen(true);
+                                setShowAllNotifications(true);
+                              }}
+                            >
+                              <Typography variant="span" size="xs" className="text-white">See all notifications</Typography>
+                              <ArrowRight className="ml-2 w-3 h-3 text-white" />
+                            </Button>
+                            <Button
+                              variant="outline"
+
+                              size="sm"
+                              className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 bg-gray-200 font-medium mr-2 sm:mr-2 md:mr-3 lg:mr-4 xl:mr-5"
+                              onClick={() => setNotesOpen(true)}
+                            >
+                              <FileText className="w-3.5 h-3.5" />
+                              Notes
+                            </Button>
+                          </Flex>
+                        </Stack>
+                      </CardContent>
+                    </Card>
                   </div>
 
-                  {/* Mobile & Tablet: Notification Panel (stacked below) */}
-                  <div className="lg:hidden w-full">
-                    <NotificationPanel language={language} setLanguage={setLanguage} onOpenNotes={() => setNotesOpen(true)} />
-                  </div>
+                  {/* Mobile & Tablet: Notification panel removed */}
                 </motion.div>
 
                 {/* InterviewOverview Components with Right Side Cards */}
@@ -1324,14 +1427,30 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-      {/* Notification Panel - slides in from right on mobile, dropdown/modal on desktop */}
-      {/* Mobile Notification Panel */}
-      <div className={
-        `md:hidden fixed inset-y-0 right-0 z-[9999] transform transition-transform duration-300 ease-in-out
-        ${isNotificationOpen ? 'translate-x-0' : 'translate-x-full'}`
-      }>
+      {/* Highlights detail dialog */}
+      <Dialog open={highlightOpen} onOpenChange={setHighlightOpen}>
+        <DialogContent className="max-w-xs w-full sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>{highlightTitle}</DialogTitle>
+          </DialogHeader>
+          <Typography variant="p" size="sm" className="text-gray-600">
+            {highlightDetail}
+          </Typography>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button className="bg-black text-white hover:bg-emerald-700">Close</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Responsive Notification Dropdown/Modal - Single Source of Truth */}
+      {isNotificationOpen && (
+        <>
+          {/* Mobile: Full-screen slide-in panel */}
+          <div className="md:hidden fixed inset-y-0 right-0 z-[9999] transform transition-transform duration-300 ease-in-out">
         <Card className="w-80 h-full rounded-none border-0 shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
             <CardTitle className="text-lg font-semibold">Notifications</CardTitle>
             <Button 
               variant="ghost"
@@ -1340,59 +1459,63 @@ export default function DashboardPage() {
                 setIsNotificationOpen(false)
                 setShowAllNotifications(false)
               }}
-              className="p-2 hover:bg-emerald-700 rounded-lg"
+                  className="p-1.5 hover:bg-emerald-700 rounded-lg"
             >
-              <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
             </Button>
           </CardHeader>
-          <CardContent className="flex-1 p-4">
+              <CardContent className="flex-1 p-2">
             <ScrollArea className={`h-full ${showAllNotifications ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-              <div className="space-y-4">
+                  <div className="space-y-1.5">
                 {/* Always show the first notification */}
-                {/* Always show the first notification */}
-                <Card className="hover:bg-emerald-700/10 transition-colors cursor-pointer">
-                 
-                  <CardContent className="p-3">
-                    <div className="flex items-start space-x-3">
-                                           <div className="w-4 h-4 text-black mt-0.5">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-black">PRO mode activated</p>
-                        <p className="text-xs text-gray-600">All premium features are now available for your account</p>
-                      </div>
-                    </div>
+                    <Card className="hover:bg-gray-50 transition-colors cursor-pointer border border-gray-200">
+                      <CardContent className="p-2">
+                        <Flex align="center" gap={2} className="w-full">
+                          <Bell className="w-4 h-4 text-black flex-shrink-0" />
+                          <Stack spacing={0} className="flex-1 min-w-0">
+                            <Typography variant="p" size="sm" weight="medium" className="text-xs leading-tight">
+                              PRO mode activated
+                            </Typography>
+                            <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500 truncate">
+                              All premium features are now available for your account
+                            </Typography>
+                          </Stack>
+                          <ArrowRight className="w-3 h-3 text-gray-400 flex-shrink-0" />
+                        </Flex>
                   </CardContent>
                 </Card>
                 {showAllNotifications && (
                   <>
-                    <Card className="hover:bg-emerald-700 transition-colors cursor-pointer" onClick={() => setAddPersonModalOpen(true)}>
-                      <CardContent className="p-3">
-                        <div className="flex items-start space-x-3">
-                          <div className="w-4 h-4 text-green-600 mt-0.5">
-                            <UserPlus className="w-4 h-4" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">New candidate added</p>
-                            <p className="text-xs text-gray-600">Alex Johnson has entered the Technical Review phase</p>
-                          </div>
-                        </div>
+                        <Card className="hover:bg-gray-50 transition-colors cursor-pointer border border-gray-200" onClick={() => setAddPersonModalOpen(true)}>
+                          <CardContent className="p-2">
+                            <Flex align="center" gap={2} className="w-full">
+                              <Users className="w-4 h-4 text-black flex-shrink-0" />
+                              <Stack spacing={0} className="flex-1 min-w-0">
+                                <Typography variant="p" size="sm" weight="medium" className="text-xs leading-tight">
+                                  New candidate added
+                                </Typography>
+                                <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500 truncate">
+                                  Alex Johnson has entered the Technical Review phase
+                                </Typography>
+                              </Stack>
+                              <ArrowRight className="w-3 h-3 text-gray-400 flex-shrink-0" />
+                            </Flex>
                       </CardContent>
                     </Card>
-                    <Card className="hover:bg-emerald-700/10 transition-colors">
-                      <CardContent className="p-3">
-                        <div className="flex items-start space-x-3">
-                          <div className="w-4 h-4 text-orange-600 mt-0.5">
-                            <Clock className="w-4 h-4" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">Phase deadline soon</p>
-                            <p className="text-xs text-gray-600">Initial Review Phase 3 ends in 2 days</p>
-                          </div>
-                        </div>
+                        <Card className="hover:bg-gray-50 transition-colors border border-gray-200">
+                          <CardContent className="p-2">
+                            <Flex align="center" gap={2} className="w-full">
+                              <Clock className="w-4 h-4 text-black flex-shrink-0" />
+                              <Stack spacing={0} className="flex-1 min-w-0">
+                                <Typography variant="p" size="sm" weight="medium" className="text-xs leading-tight">
+                                  Phase deadline soon
+                                </Typography>
+                                <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500 truncate">
+                                  Initial Review Phase 3 ends in 2 days
+                                </Typography>
+                              </Stack>
+                              <ArrowRight className="w-3 h-3 text-gray-400 flex-shrink-0" />
+                            </Flex>
                       </CardContent>
                     </Card>
                   </>
@@ -1400,30 +1523,30 @@ export default function DashboardPage() {
               </div>
             </ScrollArea>
           </CardContent>
-          <CardFooter className="p-4 border-t">
-            <div className="flex space-x-2 w-full">
+              <CardFooter className="p-2 border-t">
+                <Flex align="center" justify="center" className="w-full gap-2">
               <Button 
                 onClick={handleSeeAllNotifications}
-                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
+                    className="flex-1 bg-black text-white hover:bg-emerald-700 text-[11px] h-6"
               >
                 {showAllNotifications ? 'Show less' : 'See all notifications'}
               </Button>
               <Button 
                 variant="outline"
                 size="sm"
-                className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700"
+                    className="text-[11px] h-6 border border-gray-300 hover:bg-emerald-700"
                 onClick={() => setNotesOpen(true)}
               >
                 Notes
               </Button>
-            </div>
+                </Flex>
           </CardFooter>
         </Card>
       </div>
-      {/* Desktop Notification Dropdown/Modal */}
-      {isNotificationOpen && (
+
+          {/* Desktop: Dropdown modal */}
         <Card className="hidden md:block fixed top-20 right-8 z-[9999] w-96 shadow-xl border animate-fade-in">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
             <CardTitle className="text-lg font-semibold">Notifications</CardTitle>
             <Button 
               variant="ghost"
@@ -1432,56 +1555,62 @@ export default function DashboardPage() {
                 setIsNotificationOpen(false)
                 setShowAllNotifications(false)
               }}
-              className="p-2 hover:bg-emerald-700 rounded-lg"
+                className="p-1.5 hover:bg-emerald-700 rounded-lg"
             >
-              <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
             </Button>
           </CardHeader>
-          <CardContent className="p-4">
+            <CardContent className="p-2">
             <ScrollArea className={`${showAllNotifications ? 'overflow-y-auto' : 'overflow-hidden'}`}>
-              <div className="space-y-4">
-                <Card className="hover:bg-emerald-700/10 transition-colors">
-                  <CardContent className="p-3">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-4 h-4 text-black mt-0.5">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">PRO mode activated</p>
-                        <p className="text-xs text-gray-600">All premium features are now available for your account</p>
-                      </div>
-                    </div>
+                <div className="space-y-1.5">
+                  <Card className="hover:bg-gray-50 transition-colors cursor-pointer border border-gray-200">
+                    <CardContent className="p-1">
+                      <Flex align="center" gap={2} className="w-full">
+                        <Bell className="w-3 h-3 text-black flex-shrink-0" />
+                        <Stack spacing={0} className="flex-1 min-w-0">
+                          <Typography variant="p" size="sm" weight="medium" className="text-xs leading-tight">
+                            PRO mode activated
+                          </Typography>
+                          <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500 truncate">
+                            All premium features are now available for your account
+                          </Typography>
+                        </Stack>
+                        <ArrowRight className="w-2 h-2 text-gray-400 flex-shrink-0" />
+                      </Flex>
                   </CardContent>
                 </Card>
                 {showAllNotifications && (
                   <>
-                    <Card className="hover:bg-emerald-700/10 transition-colors">
-                      <CardContent className="p-3">
-                        <div className="flex items-start space-x-3">
-                          <div className="w-4 h-4 text-green-600 mt-0.5">
-                            <UserPlus className="w-4 h-4" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">New candidate added</p>
-                            <p className="text-xs text-gray-600">Alex Johnson has entered the Technical Review phase</p>
-                          </div>
-                        </div>
+                      <Card className="hover:bg-gray-50 transition-colors cursor-pointer border border-gray-200" onClick={() => setAddPersonModalOpen(true)}>
+                        <CardContent className="p-1">
+                          <Flex align="center" gap={2} className="w-full">
+                            <Users className="w-3 h-3 text-black flex-shrink-0" />
+                            <Stack spacing={0} className="flex-1 min-w-0">
+                              <Typography variant="p" size="sm" weight="medium" className="text-xs leading-tight">
+                                New candidate added
+                              </Typography>
+                              <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500 truncate">
+                                Alex Johnson has entered the Technical Review phase
+                              </Typography>
+                            </Stack>
+                            <ArrowRight className="w-2 h-2 text-gray-400 flex-shrink-0" />
+                          </Flex>
                       </CardContent>
                     </Card>
-                    <Card className="hover:bg-emerald-700/10 transition-colors">
-                      <CardContent className="p-3">
-                        <div className="flex items-start space-x-3">
-                          <div className="w-4 h-4 text-orange-600 mt-0.5">
-                            <Clock className="w-4 h-4" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">Phase deadline soon</p>
-                            <p className="text-xs text-gray-600">Initial Review Phase 3 ends in 2 days</p>
-                          </div>
-                        </div>
+                      <Card className="hover:bg-gray-50 transition-colors border border-gray-200">
+                        <CardContent className="p-1">
+                          <Flex align="center" gap={2} className="w-full">
+                            <Clock className="w-3 h-3 text-black flex-shrink-0" />
+                            <Stack spacing={0} className="flex-1 min-w-0">
+                              <Typography variant="p" size="sm" weight="medium" className="text-xs leading-tight">
+                                Phase deadline soon
+                              </Typography>
+                              <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-500 truncate">
+                                Initial Review Phase 3 ends in 2 days
+                              </Typography>
+                            </Stack>
+                            <ArrowRight className="w-2 h-2 text-gray-400 flex-shrink-0" />
+                          </Flex>
                       </CardContent>
                     </Card>
                   </>
@@ -1489,25 +1618,26 @@ export default function DashboardPage() {
               </div>
             </ScrollArea>
           </CardContent>
-          <CardFooter className="p-4 border-t">
-            <div className="flex space-x-2 w-full">
+            <CardFooter className="p-2 pt-0 w-full bg-transparent">
+              <Flex align="center" justify="center" className="w-full gap-2">
               <Button 
                 onClick={handleSeeAllNotifications}
-                className="flex-1 bg-black text-white hover:bg-emerald-700 text-xs py-2 px-3"
+                  className="flex-1 bg-black text-white hover:bg-emerald-700 text-[11px] h-6"
               >
                 {showAllNotifications ? 'Show less' : 'See all notifications'}
               </Button>
               <Button 
                 variant="outline"
                 size="sm"
-                className="text-xs py-2 px-3 border border-gray-300 hover:bg-emerald-700"
+                  className="text-[11px] h-6 border border-gray-300 hover:bg-emerald-700"
                 onClick={() => setNotesOpen(true)}
               >
                 Notes
               </Button>
-            </div>
+              </Flex>
           </CardFooter>
         </Card>
+        </>
       )}
       {/* AddPersonModal for notification redirect */}
       <AddPersonModal 
