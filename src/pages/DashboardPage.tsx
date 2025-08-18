@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { HelpCircle, X, UserPlus, Clock, Eye, ArrowRight, Users, Bell, FileText, ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus, MoreHorizontal, Edit, Trash2, Save } from "lucide-react";
+import { HelpCircle, X, UserPlus, Clock, Eye, ArrowRight, Users, Bell, FileText, ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus, MoreHorizontal, Edit, Trash2, Save, ChevronUp, Copy } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { allCandidates, type Candidate } from "./CandidatesPage";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -19,14 +19,12 @@ import { Grid } from "@/components/ui/grid";
 import { Flex } from "@/components/ui/flex";
 import { Typography } from "@/components/ui/typography";
 import { Stack } from "@/components/ui/stack";
-import { useTranslation } from "@/lib/useTranslation";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { DialogDescription } from "@/components/ui/dialog";
-import { Fragment } from "react";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -91,9 +89,6 @@ export default function DashboardPage() {
   }
 
   // Department filter handler
-  const handleDepartmentChange = (dept: string) => {
-    setDepartmentFilter(dept as 'All' | 'Design Department' | 'Engineering Department');
-  }
 
   // Add person handler
   const handleAddPerson = (person: {
@@ -142,9 +137,6 @@ export default function DashboardPage() {
   }
 
   // Delete candidate handler
-  const handleDeleteCandidate = (id: number) => {
-    setCandidates(candidates.filter(candidate => candidate.id !== id))
-  }
 
   // Add a ref to control AddPersonModal from outside Header
   const [addPersonModalOpen, setAddPersonModalOpen] = useState(false);
@@ -189,7 +181,74 @@ export default function DashboardPage() {
   const [newTime, setNewTime] = useState("10");
   const [newLevel, setNewLevel] = useState("Pending");
   const [libraryOpen, setLibraryOpen] = useState(false);
-  const [selectedLibraryIndexes, setSelectedLibraryIndexes] = useState<number[]>([]);
+  const [librarySearch, setLibrarySearch] = useState("");
+
+  // Predefined templates for Insert From Library
+  const predefinedTemplates = [
+    {
+      id: "js-basics",
+      title: "JavaScript Basics",
+      category: "Technical",
+      questions: [
+        {
+          prompt: "Explain the difference between var, let, and const in JavaScript",
+          competency: "JavaScript Fundamentals",
+          time: "10",
+          level: "Intermediate"
+        },
+        {
+          prompt: "What is closure in JavaScript and how is it used?",
+          competency: "JavaScript Concepts",
+          time: "15",
+          level: "Advanced"
+        },
+        {
+          prompt: "Explain event bubbling and event delegation",
+          competency: "DOM Manipulation",
+          time: "10",
+          level: "Intermediate"
+        }
+      ]
+    },
+    {
+      id: "problem-solving",
+      title: "Problem Solving",
+      category: "General",
+      questions: [
+        {
+          prompt: "Describe a challenging problem you solved in your previous role",
+          competency: "Problem Solving",
+          time: "15",
+          level: "Advanced"
+        },
+        {
+          prompt: "How do you approach debugging a complex issue?",
+          competency: "Technical Skills",
+          time: "10",
+          level: "Intermediate"
+        }
+      ]
+    },
+    {
+      id: "system-design",
+      title: "System Design",
+      category: "Technical",
+      questions: [
+        {
+          prompt: "Design a scalable chat application",
+          competency: "System Architecture",
+          time: "20",
+          level: "Advanced"
+        },
+        {
+          prompt: "How would you design a URL shortening service?",
+          competency: "System Design",
+          time: "15",
+          level: "Advanced"
+        }
+      ]
+    }
+  ];
   const [editingPrompt, setEditingPrompt] = useState({
     prompt: '',
     competency: 'Team Building',
@@ -198,38 +257,6 @@ export default function DashboardPage() {
   });
 
   // Predefined question bank
-  const questionBank = [
-    {
-      prompt: "What is a closure in JavaScript?",
-      competency: "Technical Skills",
-      time: "10 Min",
-      level: "Beginner",
-    },
-    {
-      prompt: "Describe a time you resolved a team conflict.",
-      competency: "Team Building",
-      time: "10 Min",
-      level: "Intermediate",
-    },
-    {
-      prompt: "How do you optimize React performance?",
-      competency: "Technical Skills",
-      time: "15 Min",
-      level: "Advanced",
-    },
-    {
-      prompt: "Explain the difference between == and === in JavaScript.",
-      competency: "Technical Skills",
-      time: "10 Min",
-      level: "Beginner",
-    },
-    {
-      prompt: "How do you handle feedback from a manager or peer?",
-      competency: "Communication",
-      time: "10 Min",
-      level: "Intermediate",
-    },
-  ];
 
   // State for Assigned Interviewers and Section Panel (moved from MainContent)
   const [showInterviewersModal, setShowInterviewersModal] = useState(false);
@@ -410,219 +437,6 @@ export default function DashboardPage() {
   );
 
   // NotificationPanel Component
-  const NotificationPanel = ({ language, onOpenNotes }: { language: 'en' | 'es' | 'fr', setLanguage: (lang: 'en' | 'es' | 'fr') => void, onOpenNotes: () => void }) => {
-    const t = useTranslation(language);
-
-    const [confirmOpen, setConfirmOpen] = useState(false);
-    const [pendingAction, setPendingAction] = useState<null | (() => void)>(null);
-    const [confirmMessage, setConfirmMessage] = useState('');
-    const [allOpen, setAllOpen] = useState(false);
-    // Example notifications array
-    const allNotifications = [
-      {
-        title: t.proMode,
-        message: t.allPremium,
-        time: 'Just now',
-        icon: <Bell className="w-3 h-3 text-black" />,
-        action: () => window.open('/pro', '_blank'),
-        actionLabel: t.proMode,
-      },
-      {
-        title: t.newCandidate,
-        message: t.newCandidateDesc,
-        time: '5 min ago',
-        icon: <Users className="w-3 h-3 text-black" />,
-        action: () => window.location.href = '/candidates',
-        actionLabel: t.newCandidate,
-      },
-      {
-        title: t.phaseDeadline,
-        message: t.phaseDeadlineDesc,
-        time: '1 hour ago',
-        icon: <Clock className="w-3 h-3 text-black" />,
-        action: () => window.location.href = '/dashboard',
-        actionLabel: t.phaseDeadline,
-      },
-      // Add more notifications as needed
-    ];
-
-    const handleConfirm = (action: () => void, type: 'pro' | 'candidates' | 'dashboard') => {
-      setPendingAction(() => action);
-      let detail = '';
-      if (type === 'pro') {
-        detail = 'You are about to view the PRO features overview in a new tab. This page will show you all premium features, benefits, and settings available with your PRO subscription.';
-      } else if (type === 'candidates') {
-        detail = 'You are about to navigate to the Candidates page. Here you can review all candidates, their profiles, and notes in your pipeline.';
-      } else if (type === 'dashboard') {
-        detail = 'You are about to view the Dashboard. This page summarizes your interview progress, deadlines, and tasks.';
-      }
-      setConfirmMessage(detail + ' Do you want to continue?');
-      setConfirmOpen(true);
-    };
-    const handleProceed = () => {
-      if (pendingAction) pendingAction();
-      setConfirmOpen(false);
-      setPendingAction(null);
-    };
-
-    return (
-      <motion.div 
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-        whileHover={{ 
-          y: -8, 
-          scale: 1.02,
-          transition: { duration: 0.2, ease: 'easeOut' }
-        }}
-        className="h-full w-full"
-      >
-        <Card className="h-full w-full rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
-          <CardContent className="flex-1 space-y-1 w-full p-2">
-            <Stack spacing={1} className="w-full">
-            {allNotifications.map((notification, index) => (
-                <Card 
-                  key={index} 
-                  className="w-full bg-white border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors" 
-                  onClick={() => handleConfirm(notification.action, index === 0 ? 'pro' : index === 1 ? 'candidates' : 'dashboard')}
-                >
-                  <CardContent className="p-1 w-full">
-                    <Flex align="center" gap={2} className="w-full">
-                      <Flex align="center" className="flex-shrink-0">
-                        {notification.icon}
-                      </Flex>
-                      <Stack spacing={0} className="flex-1 min-w-0">
-                        <Typography
-                          variant="p"
-                          size="sm"
-                          weight="medium"
-                          className="text-xs leading-tight"
-                        >
-                          {notification.title}
-                        </Typography>
-                        <Typography
-                          variant="p"
-                          size="xs"
-                          color="muted"
-                          className="text-xs text-gray-500 truncate"
-                        >
-                          {notification.message}
-                        </Typography>
-                      </Stack>
-                      <ArrowRight className="w-2 h-2 text-gray-400 flex-shrink-0" />
-                    </Flex>
-                  </CardContent>
-                </Card>
-              ))}
-            </Stack>
-          </CardContent>
-          
-          <CardFooter className="p-2 pt-0 w-full bg-transparent">
-            <Flex align="center" justify="center" className="w-full">
-              <Flex align="center" justify="center" className="w-full gap-2">
-              <Button 
-                size="sm" 
-                className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[11px] h-6 font-medium px-2"
-                onClick={() => setAllOpen(true)}
-              >
-                <Typography variant="span" size="xs" className="truncate text-white">
-                  See All Notifications
-                </Typography>
-                <ArrowRight className="ml-1 w-2 h-2 text-white" />
-              </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="text-[11px] h-6 px-2 border border-gray-300 hover:bg-emerald-700"
-                  onClick={onOpenNotes}
-                >
-                  Notes
-                </Button>
-              </Flex>
-            </Flex>
-          </CardFooter>
-        </Card>
-
-        {/* Confirmation Dialog */}
-        <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-          <DialogContent className="max-w-xs w-full sm:max-w-sm">
-            <DialogHeader>
-              <DialogTitle>Are you sure?</DialogTitle>
-            </DialogHeader>
-            <Typography variant="p" size="sm" className="py-2">
-              {confirmMessage}
-            </Typography>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline" className="bg-gray-200 text-black">
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button 
-                className="bg-black text-white hover:bg-emerald-700 hover:text-white font-medium"
-                onClick={handleProceed}
-              >
-                <Typography variant="span" size="sm" className="text-white">Proceed</Typography>
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-       
-        {/* See All Notifications Modal */}
-        <Dialog open={allOpen} onOpenChange={setAllOpen}>
-          <DialogContent className="max-w-md w-full sm:max-w-lg">
-            <DialogHeader>
-              <DialogTitle>All Notifications</DialogTitle>
-            </DialogHeader>
-            <Stack spacing={2} className="mt-2 w-full">
-              {allNotifications.length === 0 ? (
-                <Typography variant="p" size="sm" color="muted" align="center" className="py-8">
-                  No notifications found.
-                </Typography>
-              ) : (
-                allNotifications.map((n, i) => (
-                  <Card key={i} className="bg-gray-100 w-full">
-                    <CardContent className="p-1">
-                      <Flex align="start" gap={2} className="relative w-full min-w-0">
-                        <Flex align="center">{n.icon}</Flex>
-                        <Stack spacing={0} className="flex-1 min-w-0">
-                          <Typography variant="p" size="sm" weight="bold" className="text-xs sm:text-sm leading-tight">
-                            {n.title}
-                          </Typography>
-                          <Typography variant="p" size="xs" color="muted" className="text-gray-500 text-xs mb-0.5 break-words">
-                            {n.message}
-                          </Typography>
-                          <Typography variant="p" size="xs" color="muted" className="text-xs text-gray-400">
-                            {n.time}
-                          </Typography>
-                        </Stack>
-                    <Button
-                      size="sm"
-                          className="bg-black text-white hover:bg-emerald-700 hover:text-white text-[11px] h-6 px-2 font-medium"
-                      onClick={n.action}
-                    >
-                          <Typography variant="span" size="xs" className="text-white">{n.actionLabel}</Typography>
-                    </Button>
-                      </Flex>
-                    </CardContent>
-                  </Card>
-                ))
-              )}
-            </Stack>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button 
-                  className="bg-black text-white hover:bg-emerald-700 hover:text-white w-full font-medium h-8"
-                >
-                  <Typography variant="span" size="sm" className="text-white">Close</Typography>
-                </Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </motion.div>
-    );
-  };
 
   return (
     <div className="w-full h-screen bg-gray-200">
@@ -1037,69 +851,125 @@ export default function DashboardPage() {
                     {/* Left Side: InterviewOverview */}
                     <div className="w-full lg:flex-1 lg:w-auto lg:h-full lg:min-h-0">
 
-                      {/* Previous Background Card */}
-                      <Card className="w-full rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col">
+                      {/* Previous Background Card with fixed height and scrollable questions area */}
+                      <Card className="w-full rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col h-[453px] md:h-[453px] min-h-0">
                         <CardHeader className="pl-4 pr-4 pb-0">
                           <Typography variant="h2" size="2xl" weight="medium" className="text-lg md:text-xl">Previous Background</Typography>
                         </CardHeader>
-                        <CardContent className="-mt-4 pb-0 px-4">
-                          {/* Question Row */}
-                          {showPrevQuestion && (
-                            <Card className="border rounded-xl mb-6 py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
-                              <CardContent className="py-0.5 px-2">
-                                <Flex align="start" justify="between" className="w-full gap-1.5">
-                                  <Badge className="w-6 h-6 md:w-7 md:h-7 bg-gray-200 text-black rounded-full flex items-center justify-center font-semibold flex-shrink-0">1</Badge>
+                        <CardContent className="-mt-4 pb-0 px-4 flex flex-col flex-1 min-h-0">
+                          {/* Only one question visible, rest scrollable, scrollbar hidden */}
+                          <div className="flex-1 min-h-0">
+                            <div className="overflow-y-auto h-[88px] scrollbar-none pr-2">
+                              {questions.map((q, idx) => (
+                                <div key={idx} className="flex items-start gap-2 mb-1 border-b pb-2 last:border-b-0 last:mb-0 last:pb-0 min-h-[88px] max-h-[88px]">
+                                  <Badge className="w-6 h-6 md:w-7 md:h-7 bg-gray-200 text-black rounded-full flex items-center justify-center font-semibold flex-shrink-0">{idx + 1}</Badge>
                                   <div className="flex-1 min-w-0">
                                     <Typography variant="h4" size="lg" weight="medium" className="text-sm md:text-base lg:text-lg leading-snug break-words">
-                                      In what ways do JavaScript and jQuery vary?
+                                      {q.prompt}
                                     </Typography>
-                                    <Typography variant="p" size="xs" color="muted" className="text-gray-500 text-[10px] mt-0">3m • 4 Questions</Typography>
+                                    <Typography variant="p" size="xs" color="muted" className="text-gray-500 text-[10px] mt-0">
+                                      {q.time} • {q.competency} • {q.level}
+                                    </Typography>
                                   </div>
                                   <Flex align="center" gap={1} className="flex-shrink-0">
+                                    {/* Edit */}
                                     <Button
                                       variant="ghost"
                                       size="icon"
                                       className="hover:bg-emerald-700 hover:text-white"
                                       onClick={() => {
-                                        editingBlockRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                        requestAnimationFrame(() => editPromptInputRef.current?.focus());
+                                        setQuestions(prev => prev.map((item, i) => i === idx ? { ...item, editing: true } : { ...item, editing: false }));
                                       }}
                                     >
                                       <Edit className="w-4 h-4" />
                                     </Button>
+                                    {/* Delete */}
                                     <Button
                                       variant="ghost"
                                       size="icon"
                                       className="hover:bg-emerald-700 hover:text-white"
-                                      onClick={() => setShowPrevQuestion(false)}
+                                      onClick={() => {
+                                        setQuestions(prev => prev.filter((_, i) => i !== idx));
+                                      }}
                                     >
                                       <Trash2 className="w-4 h-4" />
                                     </Button>
-                                    <DropdownMenu>
-                                      <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon" className="hover:bg-emerald-700 hover:text-white">
-                                          <MoreHorizontal className="w-4 h-4" />
-                                        </Button>
-                                      </DropdownMenuTrigger>
-                                      <DropdownMenuContent align="end">
-                                        <DropdownMenuItem
-                                          onClick={() => {
-                                            const text = 'In what ways do JavaScript and jQuery vary?';
-                                            navigator.clipboard?.writeText(text).catch(() => {});
-                                          }}
-                                        >
-                                          <Typography variant="span" size="sm">Copy question</Typography>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => setShowPrevQuestion(true)}>
-                                          <Typography variant="span" size="sm">Restore</Typography>
-                                        </DropdownMenuItem>
-                                      </DropdownMenuContent>
-                                    </DropdownMenu>
+                                    {/* Duplicate */}
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="hover:bg-emerald-700 hover:text-white"
+                                      onClick={() => {
+                                        setQuestions(prev => {
+                                          const copy = [...prev];
+                                          copy.splice(idx + 1, 0, { ...q });
+                                          return copy;
+                                        });
+                                      }}
+                                    >
+                                      <Copy className="w-4 h-4" />
+                                    </Button>
+                                    {/* Move Up */}
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="hover:bg-emerald-700 hover:text-white"
+                                      disabled={idx === 0}
+                                      onClick={() => {
+                                        if (idx === 0) return;
+                                        setQuestions(prev => {
+                                          const copy = [...prev];
+                                          [copy[idx - 1], copy[idx]] = [copy[idx], copy[idx - 1]];
+                                          return copy;
+                                        });
+                                      }}
+                                    >
+                                      <ChevronUp className="w-4 h-4" />
+                                    </Button>
+                                    {/* Move Down */}
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="hover:bg-emerald-700 hover:text-white"
+                                      disabled={idx === questions.length - 1}
+                                      onClick={() => {
+                                        if (idx === questions.length - 1) return;
+                                        setQuestions(prev => {
+                                          const copy = [...prev];
+                                          [copy[idx], copy[idx + 1]] = [copy[idx + 1], copy[idx]];
+                                          return copy;
+                                        });
+                                      }}
+                                    >
+                                      <ChevronDown className="w-4 h-4" />
+                                    </Button>
+                                    {/* Preview */}
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="hover:bg-emerald-700 hover:text-white"
+                                      onClick={() => {
+                                        alert(`Preview:\n${q.prompt}\nCompetency: ${q.competency}\nTime: ${q.time}\nLevel: ${q.level}`);
+                                      }}
+                                    >
+                                      <Eye className="w-4 h-4" />
+                                    </Button>
+                                    {/* Add to Library */}
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="hover:bg-emerald-700 hover:text-white"
+                                      onClick={() => {
+                                        alert('Added to library!');
+                                      }}
+                                    >
+                                      <Plus className="w-4 h-4" />
+                                    </Button>
                                   </Flex>
-                                </Flex>
-                              </CardContent>
-                            </Card>
-                          )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
 
                           {/* Editing Block */}
                           <Card ref={editingBlockRef} className="bg-gray-100 rounded-xl py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
@@ -1164,7 +1034,69 @@ export default function DashboardPage() {
                               </Card>
                                   
                               <Flex gap={2} className="mt-2 sm:mt-3 md:mt-4 lg:mt-6 flex-col md:flex-row">
-                                <Button size="sm" variant="outline" className="w-full md:flex-1 bg-white hover:bg-emerald-700 hover:text-white">Insert From Library</Button>
+                                {/* Insert From Library Button and Modal */}
+                                <Dialog open={libraryOpen} onOpenChange={setLibraryOpen}>
+                                  <DialogTrigger asChild>
+                                    <Button size="sm" variant="outline" className="w-full md:flex-1 bg-white hover:bg-emerald-700 hover:text-white">Insert From Library</Button>
+                                  </DialogTrigger>
+                                  <DialogContent className="max-w-lg w-full">
+                                    <DialogHeader>
+                                      <DialogTitle>Template Library</DialogTitle>
+                                    </DialogHeader>
+                                    <Input
+                                      placeholder="Search or filter by category..."
+                                      className="mb-2"
+                                      value={librarySearch}
+                                      onChange={e => setLibrarySearch(e.target.value)}
+                                    />
+                                    <ScrollArea className="h-[300px] pr-2">
+                                      <div className="grid gap-3">
+                                        {predefinedTemplates
+                                          .filter(t =>
+                                            t.title.toLowerCase().includes(librarySearch.toLowerCase()) ||
+                                            t.category.toLowerCase().includes(librarySearch.toLowerCase())
+                                          )
+                                          .map(template => (
+                                            <Card
+                                              key={template.id}
+                                              className="cursor-pointer hover:border-primary transition-colors"
+                                              onClick={() => {
+                                                setQuestions(prev => [
+                                                  ...prev,
+                                                  ...template.questions.map(q => ({
+                                                    ...q,
+                                                    time: q.time + ' Min',
+                                                    editing: false,
+                                                    deleted: false,
+                                                    answer: '',
+                                                    answering: false,
+                                                  }))
+                                                ]);
+                                                setLibraryOpen(false);
+                                              }}
+                                            >
+                                              <CardHeader className="pb-2 flex flex-row items-center justify-between">
+                                                <CardTitle className="text-base">{template.title}</CardTitle>
+                                                <Badge>{template.category}</Badge>
+                                              </CardHeader>
+                                              <CardContent>
+                                                <p className="text-xs text-muted-foreground">
+                                                  {template.questions.length} questions
+                                                </p>
+                                              </CardContent>
+                                            </Card>
+                                          ))}
+                                        {predefinedTemplates.filter(t =>
+                                          t.title.toLowerCase().includes(librarySearch.toLowerCase()) ||
+                                          t.category.toLowerCase().includes(librarySearch.toLowerCase())
+                                        ).length === 0 && (
+                                          <Typography variant="p" size="sm" className="text-gray-400">No templates found.</Typography>
+                                        )}
+                                      </div>
+                                    </ScrollArea>
+                                  </DialogContent>
+                                </Dialog>
+                                {/* Create New Prompt Button and Modal */}
                                 <Dialog open={createPromptOpen} onOpenChange={setCreatePromptOpen}>
                                   <DialogTrigger asChild>
                                     <Button size="sm" className="w-full md:flex-1 bg-black text-white hover:bg-emerald-700">Create New Prompt</Button>
@@ -1184,7 +1116,7 @@ export default function DashboardPage() {
                                         />
                                       </div>
                                       <div>
-                                        <Label className="text-sm mb-1">Competencies</Label>
+                                        <Label className="text-sm mb-1">Competency</Label>
                                         <Select value={newCompetency} onValueChange={setNewCompetency}>
                                           <SelectTrigger className="w-full h-8 bg-white">
                                             <SelectValue />
@@ -1227,8 +1159,7 @@ export default function DashboardPage() {
                                         <Button
                                           className="bg-black text-white hover:bg-emerald-700 hover:text-white"
                                           onClick={() => {
-                                            // Guard
-                                            if (!newPrompt.trim()) return;
+                                            if (!newPrompt.trim() || !newCompetency || !newTime.trim() || !newLevel) return;
                                             const minutes = newTime.replace(/[^0-9]/g, "") || "10";
                                             const newQuestion = {
                                               prompt: newPrompt.trim(),
@@ -1239,14 +1170,15 @@ export default function DashboardPage() {
                                               deleted: false,
                                               answer: "",
                                               answering: false,
-                                            } as const;
+                                            };
                                             setQuestions(prev => [...prev, newQuestion]);
-                                            // reset form
                                             setNewPrompt("");
                                             setNewCompetency("Team Building");
                                             setNewTime("10");
                                             setNewLevel("Pending");
+                                            setCreatePromptOpen(false);
                                           }}
+                                          disabled={!newPrompt.trim() || !newCompetency || !newTime.trim() || !newLevel}
                                         >
                                           <Typography variant="span" size="sm" className="text-white">Save</Typography>
                                         </Button>
