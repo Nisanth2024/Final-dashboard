@@ -13,6 +13,8 @@ import { Search, UserPlus, Bell, Calendar, ArrowRight, ChevronDown, Menu, Plus, 
 import { SearchModal } from "./SearchModal"
 import { AddPersonModal } from "./AddPersonModal"
 import { useTranslation } from "@/lib/useTranslation"
+import { useProfile } from "@/lib/profileContext"
+import { useNavigate } from "react-router-dom"
 
 interface HeaderProps {
   onMenuClick: () => void
@@ -35,6 +37,8 @@ interface HeaderProps {
 }
 
 export function Header({ onMenuClick, onNotificationClick, onCreateType, onAddPerson, language, setLanguage }: HeaderProps) {
+  const { setProfile } = useProfile();
+  const navigate = useNavigate();
   const t = useTranslation(language);
   // Get today's date in a readable format
   const today = new Date();
@@ -107,12 +111,14 @@ export function Header({ onMenuClick, onNotificationClick, onCreateType, onAddPe
                   <Settings className="w-4 h-4" />
                   <Typography variant="span" size="sm">Settings</Typography>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2" onClick={() => {
-                  const profile = document.getElementById('sidebar-user-profile');
-                  if (profile) profile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                <DropdownMenuItem className="flex items-center gap-2 text-red-600" onClick={() => {
+                  setProfile({ name: '', email: '', avatar: '' });
+                  navigate('/');
                 }}>
-                  <User className="w-4 h-4" />
-                  <Typography variant="span" size="sm">Profile</Typography>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m-6-3h12m0 0l-3-3m3 3l-3 3" />
+                  </svg>
+                  <Typography variant="span" size="sm">Logout</Typography>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
