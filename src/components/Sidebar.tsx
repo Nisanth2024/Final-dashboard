@@ -230,7 +230,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
           </CardContent>
           
           {/* Bottom area: PRO card and profile button INSIDE the sidebar */}
-          <div className="w-full bg-gray-200 z-10 relative flex flex-col gap-1 pb-2">
+          <div className="w-full bg-gray-200 z-10 relative flex flex-col gap-2 pb-2 mb-0" style={{marginTop: '-16px'}}>
             {/* Compact PRO Mode Card */}
             <Card className="p-1 md:p-0.5 max-w-[200px] mx-auto mb-1">
               <CardContent className="p-0">
@@ -295,16 +295,30 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                 <CardContent className="p-0">
                   <Flex align="center" gap={1} className="rounded px-1 py-0.5 transition-colors">
                     <Avatar className="w-5 h-5">
-                      <AvatarImage src={profile.avatar} />
-                      <AvatarFallback className="text-xs">{profile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      {profile.name && profile.email ? (
+                        <>
+                          <AvatarImage src={profile.avatar} />
+                          <AvatarFallback className="text-xs">{profile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        </>
+                      ) : (
+                        <AvatarFallback className="text-xs">?</AvatarFallback>
+                      )}
                     </Avatar>
                     <Stack spacing={0} className="flex-1 min-w-0">
-                      <Typography variant="p" size="xs" weight="medium" className="text-xs font-medium truncate text-black">
-                        {profile.name}
-                      </Typography>
-                      <Typography variant="p" size="xs" color="muted" className="text-[10px] text-gray-500 truncate">
-                        {profile.email}
-                      </Typography>
+                      {profile.name && profile.email ? (
+                        <>
+                          <Typography variant="p" size="xs" weight="medium" className="text-xs font-medium truncate text-black">
+                            {profile.name}
+                          </Typography>
+                          <Typography variant="p" size="xs" color="muted" className="text-[10px] text-gray-500 truncate">
+                            {profile.email}
+                          </Typography>
+                        </>
+                      ) : (
+                        <Typography variant="p" size="xs" weight="medium" className="text-xs font-medium truncate text-red-600">
+                          Not logged in
+                        </Typography>
+                      )}
                     </Stack>
                   </Flex>
                 </CardContent>

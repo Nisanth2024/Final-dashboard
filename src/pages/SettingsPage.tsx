@@ -26,6 +26,10 @@ export default function SettingsPage() {
   const [editName, setEditName] = useState(profile.name);
   const [editEmail, setEditEmail] = useState(profile.email);
   const [editAvatar, setEditAvatar] = useState(profile.avatar);
+  const [editDescription, setEditDescription] = useState(
+    `Hi, I'm ${profile.name}. I'm passionate about building modern web applications and collaborating with cross-functional teams. Reach out to me at ${profile.email} for any project or team opportunities!`
+  );
+  const [descEditMode, setDescEditMode] = useState(false);
 
   useEffect(() => {
     setEditName(profile.name);
@@ -53,8 +57,16 @@ export default function SettingsPage() {
   const handleShowDashboard = () => navigate('/dashboard');
   const handleMenuClick = () => setIsSidebarOpen((open) => !open);
 
+  // Show not-logged-in indicator if profile is empty
+  const isLoggedIn = !!profile.email && !!profile.name;
+
   return (
     <div className="w-full h-screen bg-gray-200">
+      {!isLoggedIn && (
+        <div className="w-full flex justify-center items-center bg-red-100 text-red-700 py-2 font-semibold">
+          You are not logged in.
+        </div>
+      )}
       {/* Fixed Header */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Header
@@ -106,17 +118,59 @@ export default function SettingsPage() {
                 Settings
               </Typography>
             </div>
-            <Card className="rounded-2xl shadow bg-white p-0 w-full">
-              <CardHeader className="pb-2 pt-6 px-6">
-                <CardTitle className="text-lg md:text-xl font-semibold">Account & Profile</CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-6 px-6 pb-8 pt-2 w-full">
-                <Flex align="center" gap={4}>
-                  <Avatar className="w-20 h-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Profile Summary Card */}
+              <Card className="rounded-2xl shadow bg-white p-0 w-full">
+                <CardHeader className="pb-2 pt-6 px-6">
+                  <CardTitle className="text-lg md:text-xl font-semibold">Profile Summary</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col items-center gap-4 px-6 pb-8 pt-2 w-full">
+                  <Avatar className="w-24 h-24 mb-2">
                     <AvatarImage src={editAvatar} />
-                    <AvatarFallback className="text-xl">{editName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    <AvatarFallback className="text-2xl">{editName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>
-                  <div>
+                  <Typography variant="h2" size="lg" weight="bold" className="text-xl text-center">{editName}</Typography>
+                  <Typography variant="p" size="sm" color="muted" className="text-gray-500 text-center">{editEmail}</Typography>
+                  {/* ShadCN badge for status */}
+                  <div className="flex flex-col items-center gap-2 w-full mt-2">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800">Active User</span>
+                  </div>
+                  {/* Editable description */}
+                  <div className="w-full flex flex-col items-center mt-2">
+                    {descEditMode ? (
+                      <>
+                        <textarea
+                          className="w-full max-w-xs border rounded p-2 text-sm text-gray-700 mb-2"
+                          value={editDescription}
+                          onChange={e => setEditDescription(e.target.value)}
+                          rows={3}
+                        />
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline" onClick={() => setDescEditMode(false)}>Cancel</Button>
+                          <Button size="sm" onClick={() => setDescEditMode(false)}>Save</Button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Typography variant="p" size="sm" className="text-center text-gray-700 mb-2">
+                          {editDescription}
+                        </Typography>
+                        <Button size="sm" variant="outline" onClick={() => setDescEditMode(true)}>
+                          Edit Description
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Project/Account Details Card */}
+              <Card className="rounded-2xl shadow bg-white p-0 w-full">
+                <CardHeader className="pb-2 pt-6 px-6">
+                  <CardTitle className="text-lg md:text-xl font-semibold">Account & Profile</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-6 px-6 pb-8 pt-2 w-full">
+                  <Flex align="center" gap={4}>
                     <Label htmlFor="avatar-upload">
                       <Button
                         asChild
@@ -135,62 +189,75 @@ export default function SettingsPage() {
                         onChange={handleAvatarChange}
                       />
                     </Label>
-                  </div>
-                </Flex>
-                <Stack spacing={4}>
-                  <div>
-                    <Label htmlFor="name" className="mb-1 block text-sm font-medium">Name</Label>
-                    <Input
-                      id="name"
-                      value={editName}
-                      onChange={e => setEditName(e.target.value)}
-                      className="w-full"
-                      placeholder="Your Name"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email" className="mb-1 block text-sm font-medium">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={editEmail}
-                      onChange={e => setEditEmail(e.target.value)}
-                      className="w-full"
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="password" className="mb-1 block text-sm font-medium">Password</Label>
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={e => setPassword(e.target.value)}
-                      className="w-full"
-                      placeholder="Enter new password"
-                    />
+                  </Flex>
+                  <Stack spacing={4}>
+                    <div>
+                      <Label htmlFor="name" className="mb-1 block text-sm font-medium">Name</Label>
+                      <Input
+                        id="name"
+                        value={editName}
+                        onChange={e => setEditName(e.target.value)}
+                        className="w-full"
+                        placeholder="Your Name"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="email" className="mb-1 block text-sm font-medium">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={editEmail}
+                        onChange={e => setEditEmail(e.target.value)}
+                        className="w-full"
+                        placeholder="you@example.com"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="password" className="mb-1 block text-sm font-medium">Password</Label>
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        className="w-full"
+                        placeholder="Enter new password"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="mt-2 bg-black text-white hover:bg-emerald-700 hover:text-white"
+                        onClick={() => setShowPassword(v => !v)}
+                      >
+                        {showPassword ? "Hide Password" : "Show Password"}
+                      </Button>
+                    </div>
+                  </Stack>
+                  <div className="mt-4 flex flex-col sm:flex-row gap-3 w-full">
                     <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="mt-2 bg-black text-white hover:bg-emerald-700 hover:text-white"
-                      onClick={() => setShowPassword(v => !v)}
+                      className="flex-1 bg-black text-white hover:bg-emerald-700 hover:text-white py-2 rounded-lg font-semibold"
+                      onClick={handleSave}
                     >
-                      {showPassword ? "Hide Password" : "Show Password"}
+                      Save Changes
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      className="flex-1 py-2 rounded-lg font-semibold"
+                      onClick={() => {
+                        setProfile({ name: '', email: '', avatar: '' });
+                        navigate('/');
+                      }}
+                    >
+                      Logout
                     </Button>
                   </div>
-                </Stack>
-                <Button
-                  className="mt-4 bg-black text-white hover:bg-emerald-700 hover:text-white w-full py-2 rounded-lg font-semibold"
-                  onClick={handleSave}
-                >
-                  Save Changes
-                </Button>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
+  {/* Removed redundant bottom logout button for clarity */}
     </div>
   );
 }

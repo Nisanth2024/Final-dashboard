@@ -609,7 +609,7 @@ export default function InterviewsPage() {
                       <Button 
                         onClick={handleBackToDashboard} 
                         variant="ghost" 
-                        className="p-2 hover:bg-emerald-700 rounded-lg transition-colors"
+                        className="p-2 hover:bg-emerald-700 rounded-full transition-colors w-9 h-9 flex items-center justify-center"
                         aria-label="Back to Dashboard"
                       >
                         <ArrowLeft className="w-5 h-5 text-gray-700" />

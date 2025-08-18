@@ -7,9 +7,9 @@ import { Badge } from "@/components/ui/badge"
 import { Flex } from "@/components/ui/flex"
 import { Stack } from "@/components/ui/stack"
 import { Typography } from "@/components/ui/typography"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Search, UserPlus, Bell, Calendar, ArrowRight, ChevronDown, Menu, Plus, X, Settings, User } from "lucide-react"
+import { Search, UserPlus, Bell, Calendar, ArrowRight, ChevronDown, Menu, Plus, Settings, User } from "lucide-react"
 import { SearchModal } from "./SearchModal"
 import { AddPersonModal } from "./AddPersonModal"
 import { useTranslation } from "@/lib/useTranslation"
@@ -149,7 +149,7 @@ export function Header({ onMenuClick, onNotificationClick, onCreateType, onAddPe
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                className="bg-black text-white hover:bg-emerald-700 hover:text-white transition-colors text-xs md:text-sm w-8 h-8 min-w-0 rounded-full flex items-center justify-center p-0 sm:w-auto sm:h-auto sm:rounded sm:px-2 sm:py-1.5 sm:ml-2"
+                className="bg-black text-white hover:bg-emerald-700 hover:text-white font-medium text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 rounded-full flex items-center justify-center sm:ml-2"
               >
                 <Typography variant="span" size="xs" className="hidden sm:inline text-white">{t.create}</Typography>
                 <span className="sm:hidden flex items-center justify-center text-white"><Plus className="w-5 h-5" /></span>

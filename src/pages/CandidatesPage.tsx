@@ -707,7 +707,7 @@ export default function CandidatesPage() {
                           <Button variant="ghost" size="icon" className="w-9 h-9 p-0 rounded-full hover:bg-emerald-700" onClick={handleBackToDashboard} aria-label="Back">
                             <ArrowLeft className="w-5 h-5" />
                           </Button>
-                          <Typography variant="h1" size="lg" weight="bold" className="text-base sm:text-lg md:text-xl">
+                          <Typography variant="h1" size="lg" weight="bold" className="text-2xl md:text-3xl">
                             All Candidates
                           </Typography>
                         </Flex>

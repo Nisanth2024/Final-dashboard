@@ -31,13 +31,13 @@ export default function DashboardPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isNotificationOpen, setIsNotificationOpen] = useState(false)
   const [showAllNotifications, setShowAllNotifications] = useState(false)
-  const [departmentFilter, setDepartmentFilter] = useState<'All' | 'Design Department' | 'Engineering Department'>('All')
+  const [, setDepartmentFilter] = useState<'All' | 'Design Department' | 'Engineering Department'>('All')
   const [candidates, setCandidates] = useState<Candidate[]>(allCandidates)
   const [language, setLanguage] = useState<'en' | 'es' | 'fr'>('en');
   const [filterStatus, setFilterStatus] = useState<string[]>([]);
   const [filterDept, setFilterDept] = useState<string>('All');
   // Departments state for MainContent
-  const [departments, setDepartments] = useState([
+  const [departments] = useState([
     { name: "Design Department", color: "purple" },
     { name: "Engineering Department", color: "orange" }
   ]);
@@ -156,7 +156,7 @@ export default function DashboardPage() {
   };
 
   // State for breadcrumbs and top right components (moved from MainContent)
-  const [department, setDepartment] = useState<'All' | 'Design Department' | 'Engineering Department'>('All');
+  const [department] = useState<'All' | 'Design Department' | 'Engineering Department'>('All');
 
   // State for InterviewOverview components (moved from InterviewOverview)
   const defaultQuestions = [
@@ -172,10 +172,18 @@ export default function DashboardPage() {
     },
   ];
   const [questions, setQuestions] = useState(defaultQuestions);
-  const [showPrevQuestion, setShowPrevQuestion] = useState(true);
+  const [] = useState(true);
   const editingBlockRef = useRef<HTMLDivElement | null>(null);
   const editPromptInputRef = useRef<HTMLInputElement | null>(null);
+  const createPromptInputRef = useRef<HTMLInputElement | null>(null);
   const [createPromptOpen, setCreatePromptOpen] = useState(false);
+  // Handler to open create prompt and focus input
+  const handleOpenCreatePrompt = () => {
+    setCreatePromptOpen(true);
+    setTimeout(() => {
+      createPromptInputRef.current?.focus();
+    }, 100);
+  };
   const [newPrompt, setNewPrompt] = useState("");
   const [newCompetency, setNewCompetency] = useState("Team Building");
   const [newTime, setNewTime] = useState("10");
@@ -295,17 +303,17 @@ export default function DashboardPage() {
 
   // Interview Rounds Components
   const Round1Card = ({ onViewCandidates }: { onViewCandidates: () => void }) => (
-    <Card className="w-full min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
+  <Card className="w-full min-h-[140px] sm:min-h-[120px] md:min-h-[140px] lg:min-h-[160px] xl:min-h-[180px] 2xl:min-h-[120px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
       <CardHeader className="pb-0 px-3 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 pt-0 flex-shrink-0">
         <Flex align="center" gap={1} wrap="wrap" className="mb-[-20px] 2xl:mb-[-10px]">
-          <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 2xl:text-[8px] 2xl:px-0.5">
+          <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 2xl:text-[8px] 2xl:px-0.5 border border-black">
             Aug 10 - Aug 20
           </Badge>
-          <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 flex items-center gap-1 2xl:text-[8px] 2xl:px-0.5">
+          <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 flex items-center gap-1 2xl:text-[8px] 2xl:px-0.5 border border-black">
             <Users className="w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 2xl:w-2 2xl:h-2" />
             <Typography variant="span" size="xs">10 Candidates</Typography>
           </Badge>
-          <Badge variant="secondary" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 text-green-700 bg-green-100 2xl:text-[8px] 2xl:px-0.5">
+          <Badge variant="secondary" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 text-green-700 bg-green-100 2xl:text-[8px] 2xl:px-0.5 border border-black">
             Completed
           </Badge>
         </Flex>
@@ -365,17 +373,17 @@ export default function DashboardPage() {
   );
 
   const Round2Card = ({ onViewCandidatesRound2 }: { onViewCandidatesRound2: () => void }) => (
-    <Card className="w-full min-h-[180px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] xl:min-h-[220px] 2xl:min-h-[160px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
+  <Card className="w-full min-h-[140px] sm:min-h-[120px] md:min-h-[140px] lg:min-h-[160px] xl:min-h-[180px] 2xl:min-h-[120px] hover:shadow-md transition-all duration-200 hover:scale-[1.01] overflow-hidden flex flex-col">
       <CardHeader className="pb-0 px-3 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 pt-0 flex-shrink-0">
         <Flex align="center" gap={1} wrap="wrap" className="mb-[-20px] 2xl:mb-[-10px]">
-          <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 2xl:text-[8px] 2xl:px-0.5">
+          <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 2xl:text-[8px] 2xl:px-0.5 border border-black">
             Aug 10 - Aug 20
           </Badge>
-          <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 flex items-center gap-1 2xl:text-[8px] 2xl:px-0.5">
+          <Badge variant="outline" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 flex items-center gap-1 2xl:text-[8px] 2xl:px-0.5 border border-black">
             <Users className="w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 2xl:w-2 2xl:h-2" />
             <Typography variant="span" size="xs">10 Candidates</Typography>
           </Badge>
-          <Badge variant="secondary" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 text-orange-700 bg-orange-100 2xl:text-[8px] 2xl:px-0.5">
+          <Badge variant="secondary" className="text-[9px] sm:text-xs leading-tight px-1 py-0.3 text-orange-700 bg-orange-100 2xl:text-[8px] 2xl:px-0.5 border border-black">
             In Progress
           </Badge>
         </Flex>
@@ -451,6 +459,8 @@ export default function DashboardPage() {
               navigate('/interviews');
             } else if (type === 'candidate') {
               setAddPersonModalOpen(true);
+            } else if (type === 'prompt') {
+              handleOpenCreatePrompt();
             }
           }}
           language={language}
@@ -516,7 +526,7 @@ export default function DashboardPage() {
                       <Flex
                         align="center"
                         gap={3}
-                        className="flex-col sm:flex-row gap-3 w-full sm:w-auto md:flex-wrap md:w-full md:space-x-0 md:gap-y-2 lg:flex-nowrap lg:w-auto lg:space-x-2"
+                        className="flex-col sm:flex-row gap-3 w-full sm:w-auto md:ml-auto md:w-auto md:justify-end md:flex-row md:gap-3 lg:flex-nowrap lg:w-auto lg:space-x-2"
                       >
                         <div className="relative">
                           <Button
@@ -652,18 +662,17 @@ export default function DashboardPage() {
                       </div>
                     </Stack>
 
-                    {/* Header placed at the bottom of Round cards (aligns with Notification panel bottom on lg+). Hidden on small screens. */}
-                    <Flex align="center" justify="between" className="w-full gap-2 mt-2 lg:mt-auto pl-0 pr-5 hidden lg:flex">
-                      <Typography variant="h2" size="lg" weight="bold" className="text-left text-xl md:text-2xl lg:text-3xl ">
-                          Interview Overview
-                        </Typography>
-                      <Flex align="center" gap={2} className="ml-auto">
-                          <Button
-                            variant="ghost"
-                            size="sm"
+                    {/* Interview Overview header and buttons placed above the Interview Overview section on large screens only */}
+            <div className="hidden lg:flex w-full items-center justify-between mt-0 mb-2 px-2">
+                      <Typography variant="h2" size="lg" weight="bold" className="text-left text-2xl lg:text-3xl">
+                        Interview Overview
+                      </Typography>
+                      <Flex align="center" gap={2}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white"
                           onClick={() => {
-                            // Add a new empty question to the Editing block
                             setQuestions(prev => [
                               ...prev,
                               {
@@ -679,31 +688,40 @@ export default function DashboardPage() {
                             ]);
                             editingBlockRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                           }}
-                          >
-                            <Plus className="w-4 h-4 md:w-5 md:h-5" />
-                          </Button>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
+                        >
+                          <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm" className="p-2 md:p-3 bg-white text-black hover:bg-emerald-700 hover:text-white">
-                                <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem className="text-red-600" onClick={() => setQuestions([])}>
-                                <Typography variant="span" size="sm">Delete All Questions</Typography>
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </Flex>
+                              <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem className="text-red-600" onClick={() => setQuestions([])}>
+                              <Typography variant="span" size="sm">Delete All Questions</Typography>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </Flex>
+                    </div>
                   </div>
 
                   {/* Right Side: Reserved Space (Notification panel removed) */}
                   <div className="hidden lg:block w-72 xl:w-80 2xl:w-[355px] border-l border-gray-200 pl-1 xl:pl-1 2xl:pl-2">
-                    <Card className="rounded-2xl shadow-md w-full min-h-[255px]">
-                      
-                      <CardContent className="px-1 pt-0 pb-3">
-                        <Stack spacing={2}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 32, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
+                      whileHover={{
+                        y: -4,
+                        scale: 1.02,
+                        transition: { duration: 0.2, ease: 'easeOut' }
+                      }}
+                    >
+                      <Card className="rounded-2xl shadow-md w-full min-h-[20px] h-auto pb-3">
+                        <CardContent className="px-1 pt-0 pb-1">
+                          <Stack spacing={2}>
                           {/* Item 1: PRO mode activated */}
                           <Button
                             variant="ghost"
@@ -795,16 +813,17 @@ export default function DashboardPage() {
                               Notes
                             </Button>
                           </Flex>
-                        </Stack>
-                      </CardContent>
-                    </Card>
+                          </Stack>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
                   </div>
 
                   {/* Mobile & Tablet: Notification panel removed */}
                 </motion.div>
 
                 {/* InterviewOverview Components with Right Side Cards */}
-                <div className="w-full max-w-none px-0 ml-0 lg:ml-0 mt-2">
+                <div className="w-full max-w-none px-0 ml-0 lg:ml-0 mt-2 ">
                   {/* Mobile/tablet header for Interview Overview (placed above Previous Background). Hidden on lg+. */}
                   <Flex align="center" justify="between" className="w-full gap-2 mb-2 pl-0 pr-2 flex lg:hidden">
                     <Typography variant="h2" size="lg" weight="bold" className="text-left text-xl md:text-2xl">
@@ -852,7 +871,7 @@ export default function DashboardPage() {
                     <div className="w-full lg:flex-1 lg:w-auto lg:h-full lg:min-h-0">
 
                       {/* Previous Background Card with fixed height and scrollable questions area */}
-                      <Card className="w-full rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col h-[453px] md:h-[453px] min-h-0">
+                      <Card className="w-full rounded-2xl shadow hover:shadow-md transition-all duration-200 hover:scale-[1.01] flex flex-col h-[700px] md:h-[453px] min-h-0 sm:h-full">
                         <CardHeader className="pl-4 pr-4 pb-0">
                           <Typography variant="h2" size="2xl" weight="medium" className="text-lg md:text-xl">Previous Background</Typography>
                         </CardHeader>
@@ -972,8 +991,8 @@ export default function DashboardPage() {
                           </div>
 
                           {/* Editing Block */}
-                          <Card ref={editingBlockRef} className="bg-gray-100 rounded-xl py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
-                            <CardContent className="py-0.5 px-2 md:px-3 md:py-1">
+                          <Card ref={editingBlockRef} className="bg-gray-100 rounded-xl py-1 px-1 sm:py-1.5 sm:px-2 md:py-2 md:px-3 lg:py-2 lg:px-3 xl:py-2 xl:px-4 2xl:py-1 2xl:px-2">
+                            <CardContent className="py-0.5 px-1 sm:px-2 md:px-3 md:py-1">
                                   <Flex align="start" gap={2} className="mb-1">
                                 <Badge className="w-7 h-7 bg-white text-black rounded-full flex items-center justify-center font-semibold">2</Badge>
                                 <Typography variant="h3" size="lg" weight="medium">Editing</Typography>
@@ -1021,11 +1040,11 @@ export default function DashboardPage() {
                               </Grid>
 
                               <Typography variant="h4" size="sm" weight="bold" className="mt-0.5 mb-1">Guidelines</Typography>
-                              <Card className="bg-white rounded-xl overflow-hidden py-2 px-2 sm:py-1.5 sm:px-2 md:py-2 md:px-3">
+                              <Card className="bg-white rounded-xl overflow-hidden py-1 px-1 sm:py-1.5 sm:px-2 md:py-2 md:px-3">
                                 <CardContent className="p-1 sm:p-1 md:p-1.5">
                                   <Typography variant="p" size="xs" weight="bold" className="mb-0.5">Some of the key features of design are:</Typography>
-                                  <div className="max-h-[56px] sm:max-h-[64px] md:max-h-[76px] lg:max-h-[88px] xl:max-h-[96px] overflow-y-auto pr-1">
-                                    <ul className="list-disc pl-4 text-[11px] sm:text-xs leading-snug text-gray-700 space-y-0">
+                                  <div className="max-h-[48px] overflow-y-auto pr-1 text-[10px] sm:max-h-[64px] sm:text-xs md:max-h-[76px] lg:max-h-[88px] xl:max-h-[96px] scrollbar-none">
+                                    <ul className="list-disc pl-3 sm:pl-4 leading-snug text-gray-700 space-y-0">
                                       <li>A line is a visual trace created by any writing tool or the meeting point of two shapes</li>
                                       <li>Size refers to how much visual space one element occupies compared to another</li>
                                     </ul>
@@ -1113,6 +1132,7 @@ export default function DashboardPage() {
                                           placeholder="Type the question..."
                                           value={newPrompt}
                                           onChange={e => setNewPrompt(e.target.value)}
+                                          ref={createPromptInputRef}
                                         />
                                       </div>
                                       <div>
@@ -1263,9 +1283,14 @@ export default function DashboardPage() {
 
                       {/* Section Panel Card */}
                       <motion.div
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: 0.3 }}
+                        initial={{ opacity: 0, y: 32, scale: 0.97 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.5, delay: 0.18, ease: 'easeOut' }}
+                        whileHover={{
+                          y: -4,
+                          scale: 1.02,
+                          transition: { duration: 0.2, ease: 'easeOut' }
+                        }}
                         className="flex flex-col gap-0 lg:flex-[7] lg:min-h-0 lg:h-0"
                       >
                         <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 flex flex-col gap-2 md:gap-3 mt-0 h-[305px] w-full lg:max-w-[355px] py-2 md:py-3">
