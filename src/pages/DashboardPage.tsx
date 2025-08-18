@@ -886,7 +886,7 @@ export default function DashboardPage() {
 
                   {/* Right Side: Reserved Space (Notification panel removed) */}
                   <div className="hidden lg:block w-72 xl:w-80 2xl:w-[355px] border-l border-gray-200 pl-1 xl:pl-1 2xl:pl-2">
-                    <Card className="rounded-2xl shadow-md w-full min-h-[255px] xl:min-h-[380px] 2xl:min-h-[420px]">
+                    <Card className="rounded-2xl shadow-md w-full min-h-[255px]">
                       
                       <CardContent className="px-1 pt-0 pb-3">
                         <Stack spacing={2}>
@@ -1336,8 +1336,8 @@ export default function DashboardPage() {
                         transition={{ duration: 0.3, delay: 0.3 }}
                         className="flex flex-col gap-0 lg:flex-[7] lg:min-h-0 lg:h-0"
                       >
-                        <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 flex flex-col gap-2 md:gap-3 mt-0 h-auto min-h-0 w-full lg:max-w-[355px] py-2 md:py-3">
-                          <CardHeader className="pt-0 pb-0 px-3 md:px-4">
+                        <Card className="rounded-2xl shadow hover:shadow-md transition-all duration-200 flex flex-col gap-2 md:gap-3 mt-0 h-[305px] w-full lg:max-w-[355px] py-2 md:py-3">
+                          <CardHeader className="pt-0 pb-0 px-3 md:px-4 flex-shrink-0">
                             <Flex align="center" justify="between" className="gap-2">
                               <Typography variant="h2" size="2xl" weight="medium" className="text-lg md:text-xl lg:text-xl">Section</Typography>
                               <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
@@ -1385,7 +1385,7 @@ export default function DashboardPage() {
                               </Dialog>
                             </Flex>
                           </CardHeader>
-                           <CardContent className="pt-0 pb-1 md:pb-2 w-full px-3 md:px-4">
+                           <CardContent className="pt-0 pb-1 md:pb-2 w-full px-3 md:px-4 flex-grow overflow-y-auto scrollbar-none">
                             <Stack spacing={1} className="flex flex-col gap-1 w-full">
                               {sections.map((section, idx) => (
                                 <Flex key={idx} align="center" justify="between" className="bg-white rounded-xl border px-3 py-1.5 w-full">
