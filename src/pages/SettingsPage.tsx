@@ -10,7 +10,7 @@ import { Typography } from "@/components/ui/typography";
 import { Flex } from "@/components/ui/flex";
 import { Stack } from "@/components/ui/stack";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Upload } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useProfile } from "../lib/profileContext";
 import { useEffect } from "react";
 

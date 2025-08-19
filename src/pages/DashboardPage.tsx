@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { HelpCircle, X, UserPlus, Clock, Eye, ArrowRight, Users, Bell, FileText, ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus, MoreHorizontal, Edit, Trash2, Save, ChevronUp, Copy } from "lucide-react";
+import { HelpCircle, X, UserPlus, Clock, Eye, ArrowRight, Users, Bell, FileText, ChevronRight, ChevronDown, Download, Filter as FilterIcon, Plus, MoreHorizontal, Edit, Trash2, ChevronUp, Copy } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { allCandidates, type Candidate } from "./CandidatesPage";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -1018,8 +1018,8 @@ export default function DashboardPage() {
                                     </div>
                                 <div>
                                   <Label className="text-sm mb-1">Time</Label>
-                                  <Flex align="center" gap={2}>
-                                    <Input className="w-16 h-8  bg-white" defaultValue="10" />
+                                  <Flex align="center" gap={1}>
+                                    <Input className="w-full  h-8  bg-white" defaultValue="10" />
                                     <Typography variant="span" size="xs" color="muted">min</Typography>
                                       </Flex>
                                     </div>
