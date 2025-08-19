@@ -164,11 +164,11 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
           
           {/* Departments Section */}
           <Stack spacing={3} className="mt-2"> {/* Reduced spacing and margin */}
-            <Flex align="center" className="mb-2">
+            <Flex align="center" justify="between" className="mb-2 w-full">
               <Typography variant="h6" size="sm" weight="light" className="text-xs font-normal text-black flex items-center">
                 {t.departments}
-                <Typography variant="span" size="base" className="cursor-pointer text-gray-400 hover:text-gray-600 text-base font-bold select-none ml-1" onClick={() => setAddDeptOpen(true)}>+</Typography>
               </Typography>
+              <Typography variant="span" size="base" className="cursor-pointer text-gray-400 hover:text-gray-600 text-base font-bold select-none ml-1" onClick={() => setAddDeptOpen(true)}>+</Typography>
             </Flex>
             <motion.div className="flex flex-col gap-2 pl-3" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}> {/* Adjusted left padding */}
               {departments.map((dept, idx) => (
@@ -216,7 +216,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                       }}
                       disabled={!newDeptName.trim()}
                     >
-                      <Typography variant="span" size="sm">{t.add}</Typography>
+                      <Typography variant="span" size="sm" className="text-white">{t.add}</Typography>
                     </Button>
                     <DialogClose asChild>
                       <Button variant="ghost" className="hover:bg-emerald-700">
@@ -271,11 +271,9 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                         </ul>
                       </CardContent>
                       <DialogFooter>
-                        <DialogClose asChild>
-                          <Button className="bg-black text-white hover:bg-emerald-700 text-xs h-8 w-full mt-2">
-                            <Typography variant="span" size="xs">{t.create}</Typography>
-                          </Button>
-                        </DialogClose>
+                        <Button className="bg-black text-white hover:bg-emerald-700 text-xs h-8 w-full mt-2">
+                          <Typography variant="span" size="xs" className="text-white">{t.create}</Typography>
+                        </Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>

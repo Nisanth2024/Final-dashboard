@@ -578,7 +578,8 @@ export default function CandidatesPage() {
       // Add the new candidate to the list
       const updatedCandidates = [...candidates, newCandidate]
       setCandidates(updatedCandidates)
-      
+      // No need to recalculate filteredCandidates here since it's derived from state
+      // If you want to filter candidates, update the candidates state as already done above
       // Set department filter to match the new candidate's department
       setDepartmentFilter(person.department as 'All' | 'Design Department' | 'Engineering Department')
       
@@ -785,20 +786,20 @@ export default function CandidatesPage() {
                                           {getStatusText(candidate.status)}
                                         </Badge>
                                       </Flex>
-                                      <Stack spacing={1}>
-                                        <Flex align="center" gap={2}>
+                                      <Flex align="center" gap={4} wrap="wrap">
+                                        <Flex align="center" gap={1}>
                                           <Mail className="w-3 h-3 text-gray-400" />
                                           <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.email}</Typography>
                                         </Flex>
-                                        <Flex align="center" gap={2}>
+                                        <Flex align="center" gap={1}>
                                           <Phone className="w-3 h-3 text-gray-400" />
                                           <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.phone}</Typography>
                                         </Flex>
-                                        <Flex align="center" gap={2}>
+                                        <Flex align="center" gap={1}>
                                           <MapPin className="w-3 h-3 text-gray-400" />
                                           <Typography variant="span" size="xs" color="muted" className="text-xs text-gray-600">{candidate.location}</Typography>
                                         </Flex>
-                                      </Stack>
+                                      </Flex>
                                       <Flex align="center" gap={2}>
                                         <Star className="w-3 h-3 text-yellow-500" />
                                         <Typography variant="span" size="xs" className="text-xs font-medium">{candidate.rating}</Typography>

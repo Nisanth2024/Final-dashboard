@@ -18,9 +18,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { HelpCircle, X, UserPlus, Clock, Calendar, Users, Filter, Plus, Edit, Eye, CheckCircle, AlertCircle, Star, MapPin, Phone, Mail, ExternalLink, Download, Upload, Settings, MoreHorizontal, ArrowLeft } from "lucide-react";
+import { HelpCircle, X, UserPlus, Clock, Calendar, Users, Filter, Plus, Edit, Eye, CheckCircle, AlertCircle, Star, MapPin, Phone, Mail, ExternalLink, Download, Upload, Settings, MoreHorizontal, ArrowLeft, Table } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { allCandidates, type Candidate } from "./CandidatesPage";
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default function InterviewsPage() {
   const navigate = useNavigate();
@@ -814,15 +815,13 @@ export default function InterviewsPage() {
                           <table className="w-full">
                             <thead>
                               <tr>
-                                <th className="text-left p-3 font-medium">Candidate</th>
-                                <th className="text-left p-3 font-medium">Position</th>
-                                <th className="text-left p-3 font-medium">Interviewer</th>
-                                <th className="text-left p-3 font-medium">Date & Time</th>
-                                <th className="text-left p-3 font-medium">Stage</th>
-                                <th className="text-left p-3 font-medium">Status</th>
-                                <th className="text-left p-3 font-medium">Rating</th>
-                                <th className="text-left p-3 font-medium">Progress</th>
-                                <th className="text-left p-3 font-medium">Actions</th>
+                                <th className="text-left px-4 py-2 font-medium">Candidate</th>
+                                <th className="text-left px-4 py-2 font-medium">Position</th>
+                                <th className="text-left px-4 py-2 font-medium">Interviewer</th>
+                                <th className="text-left px-4 py-2 font-medium">Date & Time</th>
+                                <th className="text-left px-4 py-2 font-medium">Status</th>
+                                <th className="text-left px-4 py-2 font-medium">Rating</th>
+                                <th className="text-left px-4 py-2 font-medium">Actions</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -840,7 +839,7 @@ export default function InterviewsPage() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
                                   >
-                                    <td className="p-3">
+                                    <td className="px-4 py-2">
                                       <div className="flex items-center gap-3">
                                         <Avatar>
                                           <AvatarImage src={candidate.avatar} alt={candidate.name} />
@@ -852,13 +851,13 @@ export default function InterviewsPage() {
                                         </div>
                                       </div>
                                     </td>
-                                    <td className="p-3">
+                                    <td className="px-4 py-2">
                                       <div>
                                         <p className="font-medium">{interview.position}</p>
                                         <p className="text-sm text-gray-600">{interview.department}</p>
                                       </div>
                                     </td>
-                                    <td className="p-3">
+                                    <td className="px-4 py-2">
                                       <div className="flex items-center gap-2">
                                         <Avatar className="w-6 h-6">
                                           <AvatarImage src={interviewer.avatar} alt={interviewer.name} />
@@ -867,37 +866,25 @@ export default function InterviewsPage() {
                                         <span className="text-sm">{interviewer.name}</span>
                                       </div>
                                     </td>
-                                    <td className="p-3">
-                                      <div>
-                                        <p className="font-medium">{interview.date}</p>
-                                        <p className="text-sm text-gray-600">{interview.time}</p>
-                                      </div>
+                                    <td className="px-4 py-2">
+                                      <span className="font-medium">{interview.date}</span>
+                                      <span className="mx-2 text-gray-400">|</span>
+                                      <span className="text-sm text-gray-600">{interview.time}</span>
                                     </td>
-                                    <td className="p-3">
-                                      <Badge variant="outline">{interview.stage}</Badge>
-                                    </td>
-                                    <td className="p-3">
+                                    <td className="px-4 py-2">
                                       {getStatusBadge(interview.status)}
                                     </td>
-                                    <td className="p-3">
+                                    <td className="px-4 py-2">
                                       {interview.rating ? (
                                         <div className="flex items-center gap-1">
                                           <Star className="w-4 h-4 text-yellow-500 fill-current" />
                                           <span className="text-sm font-medium">{interview.rating}</span>
                                         </div>
                                       ) : (
-                                        <span className="text-sm text-gray-500">-</span>
+                                        <span className="text-sm text-gray-500 flex justify-center items-center w-full">-</span>
                                       )}
                                     </td>
-                                    <td className="p-3">
-                                      <div className="w-20">
-                                        <div className="w-full bg-gray-200 rounded-full h-2">
-                                          <div className="bg-emerald-600 h-2 rounded-full" style={{ width: `${interview.progress}%` }}></div>
-                                        </div>
-                                        <p className="text-xs text-gray-600 mt-1">{interview.progress}%</p>
-                                      </div>
-                                    </td>
-                                    <td className="p-3">
+                                    <td className="px-4 py-2">
                                       <div className="flex gap-1">
                                         <TooltipProvider>
                                           <Tooltip>

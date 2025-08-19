@@ -169,18 +169,17 @@ export default function SettingsPage() {
                 <CardHeader className="pb-2 pt-6 px-6">
                   <CardTitle className="text-lg md:text-xl font-semibold">Account & Profile</CardTitle>
                 </CardHeader>
-                <CardContent className="flex flex-col gap-6 px-6 pb-8 pt-2 w-full">
-                  <Flex align="center" gap={4}>
-                    <Label htmlFor="avatar-upload">
-                      <Button
-                        asChild
-                        className="bg-black text-white hover:bg-emerald-700 hover:text-white px-4 py-2 rounded-lg text-sm font-medium"
-                      >
-                        <span>
-                          <Upload className="inline w-4 h-4 mr-2" />
-                          Change Photo
+                <CardContent className="flex flex-col items-center gap-6 px-6 pb-8 pt-2 w-full">
+                  <div className="w-full flex justify-center mb-2">
+                    <label htmlFor="avatar-upload" className="relative cursor-pointer group">
+                      <Avatar className="w-20 h-20 border-2 border-emerald-500 shadow">
+                        <AvatarImage src={editAvatar} />
+                        <AvatarFallback className="text-2xl">{editName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        <span className="absolute bottom-1 right-1 bg-white rounded-full p-1 shadow group-hover:bg-emerald-700 transition-colors">
+                          {/* ShadCN Edit icon (lucide-react) */}
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black hover:bg-emerald-700"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </span>
-                      </Button>
+                      </Avatar>
                       <Input
                         id="avatar-upload"
                         type="file"
@@ -188,11 +187,11 @@ export default function SettingsPage() {
                         className="hidden"
                         onChange={handleAvatarChange}
                       />
-                    </Label>
-                  </Flex>
-                  <Stack spacing={4}>
-                    <div>
-                      <Label htmlFor="name" className="mb-1 block text-sm font-medium">Name</Label>
+                    </label>
+                  </div>
+                  <Stack spacing={4} className="w-full max-w-xs">
+                    <div className="w-full flex flex-col items-start">
+                      <Label htmlFor="name" className="mb-1 block text-sm font-medium pl-1">Name</Label>
                       <Input
                         id="name"
                         value={editName}
@@ -201,8 +200,8 @@ export default function SettingsPage() {
                         placeholder="Your Name"
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="email" className="mb-1 block text-sm font-medium">Email</Label>
+                    <div className="w-full flex flex-col items-start">
+                      <Label htmlFor="email" className="mb-1 block text-sm font-medium pl-1">Email</Label>
                       <Input
                         id="email"
                         type="email"
@@ -212,8 +211,8 @@ export default function SettingsPage() {
                         placeholder="you@example.com"
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="password" className="mb-1 block text-sm font-medium">Password</Label>
+                    <div className="w-full flex flex-col items-start">
+                      <Label htmlFor="password" className="mb-1 block text-sm font-medium pl-1">Password</Label>
                       <Input
                         id="password"
                         type={showPassword ? "text" : "password"}
@@ -233,7 +232,7 @@ export default function SettingsPage() {
                       </Button>
                     </div>
                   </Stack>
-                  <div className="mt-4 flex flex-col sm:flex-row gap-3 w-full">
+                  <Flex direction="row" gap={3} className="mt-4 w-full justify-center">
                     <Button
                       className="flex-1 bg-black text-white hover:bg-emerald-700 hover:text-white py-2 rounded-lg font-semibold"
                       onClick={handleSave}
@@ -250,7 +249,7 @@ export default function SettingsPage() {
                     >
                       Logout
                     </Button>
-                  </div>
+                  </Flex>
                 </CardContent>
               </Card>
             </div>

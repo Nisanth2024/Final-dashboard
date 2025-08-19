@@ -613,7 +613,7 @@ export default function DashboardPage() {
                             </Stack>
                             <DialogFooter>
                               <Button onClick={() => setFilterOpen(false)} className="bg-black hover:bg-emerald-700 text-white">
-                                <Typography variant="span" size="sm">Apply</Typography>
+                                <Typography variant="span" size="sm" className="text-white">Apply</Typography>
                               </Button>
                               <DialogClose asChild>
                                 <Button variant="ghost" className="hover:bg-emerald-700">
@@ -806,7 +806,7 @@ export default function DashboardPage() {
                               variant="outline"
 
                               size="sm"
-                              className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 bg-gray-200 font-medium mr-2 sm:mr-2 md:mr-3 lg:mr-4 xl:mr-5"
+                              className="text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xs px-2 sm:px-3 md:px-4 lg:px-4 xl:px-5 2xl:px-2 py-1 sm:py-1.5 md:py-2 lg:py-2 xl:py-2.5 2xl:py-1 h-6 sm:h-7 md:h-8 lg:h-8 xl:h-9 2xl:h-6 bg-gray-200 hover:bg-emerald-700 font-medium mr-2 sm:mr-2 md:mr-3 lg:mr-4 xl:mr-5"
                               onClick={() => setNotesOpen(true)}
                             >
                               <FileText className="w-3.5 h-3.5" />
