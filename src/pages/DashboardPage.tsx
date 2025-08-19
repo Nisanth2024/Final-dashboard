@@ -257,7 +257,7 @@ export default function DashboardPage() {
       ]
     }
   ];
-  const [editingPrompt, setEditingPrompt] = useState({
+  const [] = useState({
     prompt: '',
     competency: 'Team Building',
     time: '10 Min',
@@ -468,7 +468,7 @@ export default function DashboardPage() {
         />
       </div>
       {/* Fixed Sidebar */}
-      <div className="fixed top-[64px] left-0 h-[calc(100vh-64px)] w-64 z-40 hidden md:flex flex-col">
+  <div className="fixed top-[64px] left-4 h-[calc(100vh-64px)] w-64 z-40 hidden md:flex flex-col">
         <Sidebar
           className="rounded-xl h-full"
           onShowAllCandidates={handleShowAllCandidates}
