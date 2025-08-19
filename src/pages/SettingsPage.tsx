@@ -61,7 +61,7 @@ export default function SettingsPage() {
   const isLoggedIn = !!profile.email && !!profile.name;
 
   return (
-    <div className="w-full h-screen bg-gray-200">
+  <div className="w-full h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300">
       {!isLoggedIn && (
         <div className="w-full flex justify-center items-center bg-red-100 text-red-700 py-2 font-semibold">
           You are not logged in.
@@ -120,7 +120,7 @@ export default function SettingsPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Profile Summary Card */}
-              <Card className="rounded-2xl shadow bg-white p-0 w-full">
+              <Card className="rounded-2xl shadow bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 p-0 w-full">
                 <CardHeader className="pb-2 pt-6 px-6">
                   <CardTitle className="text-lg md:text-xl font-semibold">Profile Summary</CardTitle>
                 </CardHeader>
@@ -165,7 +165,7 @@ export default function SettingsPage() {
               </Card>
 
               {/* Project/Account Details Card */}
-              <Card className="rounded-2xl shadow bg-white p-0 w-full">
+              <Card className="rounded-2xl shadow bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 p-0 w-full">
                 <CardHeader className="pb-2 pt-6 px-6">
                   <CardTitle className="text-lg md:text-xl font-semibold">Account & Profile</CardTitle>
                 </CardHeader>

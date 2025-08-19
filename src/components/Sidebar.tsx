@@ -69,10 +69,10 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
 
   return (
     <div className={`flex flex-col h-full ${className}`}>
-      <Card
-        className={`w-50 max-w-full bg-gray-200 shadow-none flex flex-col h-screen overflow-hidden transition-transform duration-300 ease-in-out fixed z-40 inset-y-0 left-0 lg:static lg:translate-x-0 lg:top-[64px] lg:h-[calc(100vh-60px)] text-sm` +
-          (typeof window !== 'undefined' && window.innerWidth < 1024 ? ' translate-x-0 mt-1' : '')}
-        style={{ overflow: "hidden", marginTop: "2px" }} // Move sidebar slightly higher
+        <Card
+          className={`w-50 max-w-full bg-transparent shadow-none flex flex-col h-screen overflow-hidden transition-transform duration-300 ease-in-out fixed z-40 inset-y-0 left-0 lg:static lg:translate-x-0 lg:top-[64px] lg:h-[calc(100vh-60px)] text-sm` +
+            (typeof window !== 'undefined' && window.innerWidth < 1024 ? ' translate-x-0 mt-1' : '')}
+          style={{ overflow: "hidden", marginTop: "2px" }}
       >
         {/* Mobile Header with Close Button */}
         <CardHeader className="p-2 lg:hidden flex-shrink-0"> {/* Reduced padding */}
@@ -96,7 +96,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                   className={`w-47 justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/dashboard' 
                       ? 'bg-emerald-700 text-white' 
-                      : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
+                      : 'bg-transparent text-black hover:bg-emerald-700 hover:text-white'
                   }`} 
                   onClick={handleDashboardClick}
                 >
@@ -109,7 +109,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                   className={`w-47 justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/interviews' 
                       ? 'bg-emerald-700 text-white' 
-                      : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
+                      : 'bg-transparent text-black hover:bg-emerald-700 hover:text-white'
                   }`} 
                   onClick={handleInterviewsClick}
                 >
@@ -122,7 +122,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                   className={`w-47 justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/candidates' 
                       ? 'bg-emerald-700 text-white' 
-                      : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
+                      : 'bg-transparent text-black hover:bg-emerald-700 hover:text-white'
                   }`} 
                   onClick={handleCandidatesClick}
                 >
@@ -151,7 +151,7 @@ export function Sidebar({ onClose, className = "", language, onAddPerson, onNoti
                   className={`w-47 justify-start h-9 text-sm font-normal px-3 md:px-4 lg:px-5 ${
                     location.pathname === '/settings' 
                       ? 'bg-emerald-700 text-white' 
-                      : 'bg-gray-200 text-black hover:bg-emerald-700 hover:text-white'
+                      : 'bg-transparent text-black hover:bg-emerald-700 hover:text-white'
                   }`} 
                   onClick={handleSettingsClick}
                 >

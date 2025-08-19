@@ -98,8 +98,8 @@ export function Header({ onMenuClick, onNotificationClick, onCreateType, onAddPe
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="hidden sm:flex p-1 md:p-1 bg-gray-200 text-black hover:bg-emerald-700 hover:text-white transition-colors items-center gap-0">
-                  <div className="flex flex-col space-y-0.5">
+                <Button variant="ghost" size="sm" className="hidden sm:flex p-1 md:p-1 text-black hover:bg-emerald-700 hover:text-white transition-colors items-center gap-1 w-10 min-w-[40px] justify-center">
+                  <div className="flex flex-row space-x-0.5">
                     <div className="w-1 h-1 bg-current rounded-full"></div>
                     <div className="w-1 h-1 bg-current rounded-full"></div>
                     <div className="w-1 h-1 bg-current rounded-full"></div>
